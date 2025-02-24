@@ -12,7 +12,7 @@ async def main():
         email="azzeater12345679@gmail.com",
         password="UQP7feq9tnt_tzd1huy",
         token="yfuzxSt19fygptzCYq/1oTQV4rSarr1FHYk2VFV6xKJI6mwrdxu8ov5NcA2Mdr/U",
-        chat_id="f52e3425-f095-4ec5-aaa1-232ba5949bf4",  # Optional, could be None
+        chat_id=None,
         chrome_args=None,
         verbose=False,
         headless=False,
@@ -41,33 +41,51 @@ async def main():
     r = requests.get('https://www.wayfair.ca/furniture/pdp/lark-manor-hilbert-upholstered-low-profile-platform-bed-frame-with-headboard-c011005079.html?piid=2081062955%2C2081158349', headers=headers)
     html_content = r.text
 
-    soup = BeautifulSoup(html_content, "html.parser")
+    ### NOT USING ANYMORE ###
+    # soup = BeautifulSoup(html_content, "html.parser")
 
-    # Remove script and style elements
-    for tag in soup(["script", "style", "noscript", "meta", "link", "svg"]):
-        tag.decompose()
+    # # Remove script and style elements
+    # for tag in soup(["script", "style", "noscript", "meta", "link", "svg"]):
+    #     tag.decompose()
 
-    # Extract visible text
-    text = soup.get_text(separator="\n", strip=True)
+    # # Extract visible text
+    # text = soup.get_text(separator="\n", strip=True)
 
-    # Optionally, remove excess whitespace and lines
-    cleaned_text = "\n".join([line for line in text.splitlines() if line.strip()])
+    # # Optionally, remove excess whitespace and lines
+    # cleaned_text = "\n".join([line for line in text.splitlines() if line.strip()])
 
     await api.initialize() # Necessary to initialize the class, must be called before using other methods
-    api.chat_id = "f52e3425-f095-4ec5-aaa1-232ba5949bf4" # Set the chat ID to the specified chat ID
+    
     await api.switch_chat("f52e3425-f095-4ec5-aaa1-232ba5949bf4") # Switch to the chat with the specified chat ID
-
     response = await api.send_message(
     # "I've extracted the HTML code for a furniture product page. Extract important information from the HTML code such as the product name, price, and description. The extracted information should be returned in a dictionary format, do not return anything else besides this dictionary format. Here is the HTML code: \n\n" + cleaned_text, # The message to send
     "Here is a link to a wayfair product page, do the same for this link as you did with the others: https://www.wayfair.ca/lighting/pdp/sofucor-52-flush-mount-ceiling-fan-with-led-lights-c005190766.html?piid=1801083471", # The message to send
     deepthink = False, # Whether to use the DeepThink option or not
     search = True, # Whether to use the Search option or not
-    slow_mode = True, # Whether to send the message in slow mode or not
-    slow_mode_delay = 0.20, # The delay between each character when sending the message in slow mode
+    slow_mode = False, # Whether to send the message in slow mode or not
+    slow_mode_delay = 0, # The delay between each character when sending the message in slow mode
     timeout = 120, # The time to wait for the response before timing out
     ) # Returns a Response object
-    print(response.text)
 
+    extract_info(response.text)
+
+
+def extract_info(content):
+    info_dict = {}
+    for line in content.splitlines():
+        detail, value = line.split(":", 1)
+        info_dict[detail.strip()] = value.strip()
+    
+    mac_path = '/Users/arhumshahzad/Library/CloudStorage/GoogleDrive-arhumshahzad2003@gmail.com/My Drive/selling/not posted'
+    file = 'test' + "/" #placeholder
+    f = open(mac_path + file , 'x')
+
+    for key, value in info_dict.items():
+        f.write(f"{key}: {value}\n")
+    f.close()
+    
+
+    
 # Run the asynchronous main function
 if __name__ == "__main__":
     asyncio.run(main())
