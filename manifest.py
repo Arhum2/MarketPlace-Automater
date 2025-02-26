@@ -16,7 +16,7 @@ if len(sys.argv) > 1:
     #print(file_name)
 
 # checking for manifest name on clipboard
-#m17097964
+
 
 else:
     file_name = ''.join(pyperclip.paste()) + ".csv"

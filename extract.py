@@ -4,10 +4,22 @@ import requests
 from PIL import Image
 from io import BytesIO
 from bs4 import BeautifulSoup
+import pyperclip
+import sys
+import os
+import json
 from DeeperSeek import DeepSeek
 
 
 async def main():
+
+    # ==== LINK EXTRACTION ====
+    if len(sys.argv) > 1:
+        link = ''.join(sys.argv[1:])
+    else:
+        link = ''.join(pyperclip.paste())    
+
+# ==== WEB SCRAPING ====
     api = DeepSeek(
         email="azzeater12345679@gmail.com",
         password="UQP7feq9tnt_tzd1huy",
@@ -15,7 +27,7 @@ async def main():
         chat_id=None,
         chrome_args=None,
         verbose=False,
-        headless=False,
+        headless=True,
         attempt_cf_bypass=True,
     )
 
@@ -36,52 +48,43 @@ async def main():
         'upgrade-insecure-requests': '1',
         'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36',
     }
+    await api.initialize() # Initialize the API
 
-    # Test link: grab link from clipboard
-    r = requests.get('https://www.wayfair.ca/furniture/pdp/lark-manor-hilbert-upholstered-low-profile-platform-bed-frame-with-headboard-c011005079.html?piid=2081062955%2C2081158349', headers=headers)
-    html_content = r.text
-
-    ### NOT USING ANYMORE ###
-    # soup = BeautifulSoup(html_content, "html.parser")
-
-    # # Remove script and style elements
-    # for tag in soup(["script", "style", "noscript", "meta", "link", "svg"]):
-    #     tag.decompose()
-
-    # # Extract visible text
-    # text = soup.get_text(separator="\n", strip=True)
-
-    # # Optionally, remove excess whitespace and lines
-    # cleaned_text = "\n".join([line for line in text.splitlines() if line.strip()])
-
-    await api.initialize() # Necessary to initialize the class, must be called before using other methods
-    
     await api.switch_chat("f52e3425-f095-4ec5-aaa1-232ba5949bf4") # Switch to the chat with the specified chat ID
+
     response = await api.send_message(
     # "I've extracted the HTML code for a furniture product page. Extract important information from the HTML code such as the product name, price, and description. The extracted information should be returned in a dictionary format, do not return anything else besides this dictionary format. Here is the HTML code: \n\n" + cleaned_text, # The message to send
     "Here is a link to a wayfair product page, do the same for this link as you did with the others: https://www.wayfair.ca/lighting/pdp/sofucor-52-flush-mount-ceiling-fan-with-led-lights-c005190766.html?piid=1801083471", # The message to send
     deepthink = False, # Whether to use the DeepThink option or not
     search = True, # Whether to use the Search option or not
-    slow_mode = False, # Whether to send the message in slow mode or not
-    slow_mode_delay = 0, # The delay between each character when sending the message in slow mode
-    timeout = 120, # The time to wait for the response before timing out
+    slow_mode = True, # Whether to send the message in slow mode or not
+    slow_mode_delay = 0.1, # The delay between each character when sending the message in slow mode
+    timeout = 200, # The time to wait for the response before timing out
     ) # Returns a Response object
 
+
+# ==== FILE NAVIGATING AND WRITING ====
+    # f = open('/Users/arhumshahzad/Library/CloudStorage/GoogleDrive-arhumshahzad2003@gmail.com/My Drive/selling/not posted/text.txt', 'r')
+    # content = f.read()
+    # f.close()
     extract_info(response.text)
 
-
 def extract_info(content):
-    info_dict = {}
-    for line in content.splitlines():
-        detail, value = line.split(":", 1)
-        info_dict[detail.strip()] = value.strip()
+    cleaned = []
+    lines = content.split("\\n")
+    for line in lines:
+        line = line.strip()
+        cleaned.append(line)
     
-    mac_path = '/Users/arhumshahzad/Library/CloudStorage/GoogleDrive-arhumshahzad2003@gmail.com/My Drive/selling/not posted'
-    file = 'test' + "/" #placeholder
-    f = open(mac_path + file , 'x')
+    mac_path = "/Users/arhumshahzad/Library/CloudStorage/GoogleDrive-arhumshahzad2003@gmail.com/My Drive/selling/not posted/"
+    product_name = cleaned[0].split(":")[1].strip()
+    product_path = mac_path + product_name
+    
+    os.makedirs(product_path, exist_ok=True)
+    f = open(product_path + '/', 'x')
 
-    for key, value in info_dict.items():
-        f.write(f"{key}: {value}\n")
+    for line in cleaned:
+        f.write(line)
     f.close()
     
 
