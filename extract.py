@@ -9,6 +9,12 @@ import sys
 import os
 import json
 from DeeperSeek import DeepSeek
+import dotenv
+dotenv.load_dotenv()
+
+DEEP_SEEK_EMAIL = os.getenv("DEEP_SEEK_EMAIL")
+DEEP_SEEK_PASSWORD = os.getenv("DEEP_SEEK_PASSWORD")
+DEEP_SEEK_TOKEN = os.getenv("DEEP_SEEK_TOKEN")
 
 
 async def main():
@@ -21,13 +27,13 @@ async def main():
 
 # ==== WEB SCRAPING ====
     api = DeepSeek(
-        email="azzeater12345679@gmail.com",
-        password="UQP7feq9tnt_tzd1huy",
-        token="yfuzxSt19fygptzCYq/1oTQV4rSarr1FHYk2VFV6xKJI6mwrdxu8ov5NcA2Mdr/U",
+        email= DEEP_SEEK_EMAIL,
+        password = DEEP_SEEK_PASSWORD,
+        token = DEEP_SEEK_TOKEN,
         chat_id=None,
         chrome_args=None,
         verbose=False,
-        headless=True,
+        headless=False,
         attempt_cf_bypass=True,
     )
 
@@ -76,9 +82,10 @@ def extract_info(content):
         line = line.strip()
         cleaned.append(line)
     
-    mac_path = "/Users/arhumshahzad/Library/CloudStorage/GoogleDrive-arhumshahzad2003@gmail.com/My Drive/selling/not posted/"
+    # mac_path = "/Users/arhumshahzad/Library/CloudStorage/GoogleDrive-arhumshahzad2003@gmail.com/My Drive/selling/not posted/"
+    windows_path = "G:\\My Drive\\selling\\not posted\\"
     product_name = cleaned[0].split(":")[1].strip()
-    product_path = mac_path + product_name
+    product_path = windows_path + product_name
     
     os.makedirs(product_path, exist_ok=True)
     f = open(product_path + '/', 'x')
