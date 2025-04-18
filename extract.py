@@ -1,5 +1,7 @@
 import asyncio
 import re
+from ssl import Options
+import time
 import requests
 from PIL import Image
 from io import BytesIO
@@ -11,14 +13,71 @@ import json
 from DeeperSeek import DeepSeek
 import dotenv
 dotenv.load_dotenv()
+import pandas as pd
+from bs4 import BeautifulSoup
+from selenium import webdriver
+from selenium.webdriver import ChromeOptions
+import selenium.webdriver as webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+from config import *
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 
 DEEP_SEEK_EMAIL = os.getenv("DEEP_SEEK_EMAIL")
 DEEP_SEEK_PASSWORD = os.getenv("DEEP_SEEK_PASSWORD")
 DEEP_SEEK_TOKEN = os.getenv("DEEP_SEEK_TOKEN")
 link = "https://www.wayfair.ca/outdoor/pdp/bay-isle-home-tuskegee-5-piece-sofa-seating-group-with-cushions-c011241229.html"
+product_path = 'G:\\My Drive\\selling\\not posted\\test scrap folder' #making global var, assigned in extract_info() 
+
+
+
+
+def extract_images():
+
+    chrome_options = Options()
+    chrome_options.add_argument('--user-data-dir=C:\\Users\\pokem\\AppData\\Local\\Google\\Chrome\\User Data')
+    chrome_options.add_argument('--profile-directory=Profile 3')
+
+    chrome_options.add_argument("--disable-gpu")
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument('--disable-infobars')
+
+    driver = webdriver.Chrome(
+        service=Service(ChromeDriverManager().install()),
+        options=chrome_options
+    )
+    driver.get(link)
+
+    time.sleep(5)  # Wait for JS to load images
+
+    soup = BeautifulSoup(driver.page_source, 'html.parser')
+    images = soup.find_all('img')
+
+    images = soup.find_all("img")
+    image_path = product_path + "\\photos"
+    os.makedirs(image_path, exist_ok=True)
+
+    for index, url in enumerate(images):
+        src = url.get('src') or url.get('data-src')
+
+        if src and 'h800' in src:
+            response = requests.get(link)
+            if response.status_code == 200:
+                filename = f'image_{index+1}.jpg'
+                filepath = os.path.join(image_path, filename)
+
+                with open(filepath, 'wb') as file:
+                    file.write(response.content)
+            print(f"Saved: {filepath}")
 
 
 async def main():
+
+
 
 # ==== LINK EXTRACTION ====
     # if len(sys.argv) > 1:
@@ -161,5 +220,6 @@ async def rePrompt(link):
     
 # Run the asynchronous main function
 if __name__ == "__main__":
-    asyncio.run(main())
+    # asyncio.run(main())
+    extract_images()
 
