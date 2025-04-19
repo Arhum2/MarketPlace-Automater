@@ -1,55 +1,35 @@
 import asyncio
-import re
-from ssl import Options
 import time
 import requests
-from PIL import Image
-from io import BytesIO
 from bs4 import BeautifulSoup
-import pyperclip
-import sys
 import os
-import json
 from DeeperSeek import DeepSeek
 import dotenv
 dotenv.load_dotenv()
-import pandas as pd
 from bs4 import BeautifulSoup
-from selenium import webdriver
-from selenium.webdriver import ChromeOptions
-import selenium.webdriver as webdriver
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.by import By
 from config import *
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
+import undetected_chromedriver as uc
 
 DEEP_SEEK_EMAIL = os.getenv("DEEP_SEEK_EMAIL")
 DEEP_SEEK_PASSWORD = os.getenv("DEEP_SEEK_PASSWORD")
 DEEP_SEEK_TOKEN = os.getenv("DEEP_SEEK_TOKEN")
-link = "https://www.wayfair.ca/outdoor/pdp/bay-isle-home-tuskegee-5-piece-sofa-seating-group-with-cushions-c011241229.html"
 product_path = 'G:\\My Drive\\selling\\not posted\\test scrap folder' #making global var, assigned in extract_info() 
 
 
+#  ==== EXTRACTING IMAGES ====
 
+def extract_images():    
+    options = uc.ChromeOptions()
+    options.add_argument('--user-data-dir=C:\\Users\\pokem\\AppData\\Local\\Google\\Chrome\\User Data')
+    options.add_argument('--profile-directory=Profile 3')
+    options.add_argument("--disable-gpu")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
+    options.add_argument("--disable-blink-features=AutomationControlled")
+    options.add_argument("--disable-infobars")
 
-def extract_images():
+    driver = uc.Chrome(options=options, use_subprocess=True)
 
-    chrome_options = Options()
-    chrome_options.add_argument('--user-data-dir=C:\\Users\\pokem\\AppData\\Local\\Google\\Chrome\\User Data')
-    chrome_options.add_argument('--profile-directory=Profile 3')
-
-    chrome_options.add_argument("--disable-gpu")
-    chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument("--disable-dev-shm-usage")
-    chrome_options.add_argument('--disable-infobars')
-
-    driver = webdriver.Chrome(
-        service=Service(ChromeDriverManager().install()),
-        options=chrome_options
-    )
     driver.get(link)
 
     time.sleep(5)  # Wait for JS to load images
@@ -59,42 +39,34 @@ def extract_images():
 
     images = soup.find_all("img")
     image_path = product_path + "\\photos"
-    os.makedirs(image_path, exist_ok=True)
+    if os.path.isdir(image_path):
+        return
+    else:
+        os.makedirs(image_path, exist_ok=True)
 
     for index, url in enumerate(images):
         src = url.get('src') or url.get('data-src')
-
         if src and 'h800' in src:
-            response = requests.get(link)
-            if response.status_code == 200:
-                filename = f'image_{index+1}.jpg'
-                filepath = os.path.join(image_path, filename)
+            try:
+                response = requests.get(src)
+                if response.status_code == 200:
+                    filename = f'image_{index+1}.jpg'
+                    filepath = os.path.join(image_path, filename)
 
-                with open(filepath, 'wb') as file:
-                    file.write(response.content)
-            print(f"Saved: {filepath}")
+                    with open(filepath, 'wb') as file:
+                        file.write(response.content)
+                print(f"✅ Saved: {filepath}")
+            except Exception as e:
+                print(f'❌ Failed to download {src}: {e}')
 
 
-async def main():
-
-
-
-# ==== LINK EXTRACTION ====
-    # if len(sys.argv) > 1:
-    #     link = ''.join(sys.argv[1:])
-    # else:
-    #     link = ''.join(pyperclip.paste())    
-
+async def extract_info(link):
 # ==== WEB SCRAPING ====
     api = DeepSeek(
-        email= DEEP_SEEK_EMAIL,
-        password = DEEP_SEEK_PASSWORD,
         token = DEEP_SEEK_TOKEN,
-        chat_id=None,
-        chrome_args=None,
-        verbose=False,
         headless=False,
         attempt_cf_bypass=True,
+        verbose=True
     )
 
 # ==== Starting DeepSeek query ====
@@ -111,14 +83,8 @@ async def main():
     timeout = 300, # The time to wait for the response before timing out
     ) 
 
+    content = response.text
 
-# ==== FILE NAVIGATING AND WRITING ====
-    # f = open('/Users/arhumshahzad/Library/CloudStorage/GoogleDrive-arhumshahzad2003@gmail.com/My Drive/selling/not posted/text.txt', 'r')
-    # content = f.read()
-    # f.close()
-    extract_info(response.text)
-
-def extract_info(content):
     cleaned = []
     lines = content.split("\n")
     for line in lines:
@@ -220,6 +186,13 @@ async def rePrompt(link):
     
 # Run the asynchronous main function
 if __name__ == "__main__":
-    # asyncio.run(main())
-    extract_images()
+    # input_type = sys.argv[1]
+    if True:
+        f = open("G:\\My Drive\\selling\\not posted\\links.txt", "r")
+        lines = f.readlines()
+        for index, link in enumerate(lines):
+            asyncio.run(extract_info(link))
+            extract_images()
+            print(f'✅ Done link #{index}')
+     
 
