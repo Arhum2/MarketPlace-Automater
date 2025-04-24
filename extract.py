@@ -40,7 +40,7 @@ headers = {
     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36',
 }
 
-def extract_images():    
+def extract_images(url):    
     options = uc.ChromeOptions()
     options.add_argument('--user-data-dir=C:\\Users\\pokem\\AppData\\Local\\Google\\Chrome\\User Data')
     options.add_argument('--profile-directory=Profile 3')
@@ -52,7 +52,7 @@ def extract_images():
 
     driver = uc.Chrome(options=options, use_subprocess=True)
 
-    driver.get(link)
+    driver.get(url)
 
     time.sleep(5)  # Wait for JS to load images
 
@@ -81,63 +81,45 @@ def extract_images():
             except Exception as e:
                 print(f'❌ Failed to download {src}: {e}')
 
-def extract_JSON(url):
-    """
-    Fetch `url` and return a dict of schema.org/Product fields,
-    or None if no Product JSON‑LD is found.
-    """
+def expand_all_panels(driver):
+    selectors = [
+        "#react-collapsed-toggle-\:R8qml9j7rn7mkq\:",
+        "#react-collapsed-panel-\:R4qml9j7rn7mkq\: > div._1dufoctg > button"
+    ]
 
-    resp = requests.get(url, headers={"User-Agent": "my-scrapper/1.0"})
-    html = resp.text
+    for selector in selectors:
+        try:
+            element = driver.find_element(By.CSS_SELECTOR, selector)
+            element.click()
+        except Exception as e:
+            print(f"Could not click element {selector}: {e}")
 
-    base_url = get_base_url(html, url)
-    data = extruct.extract(html, base_url, syntaxes=["json-ld"])
-
-    print(data)
-
-def extract_meta_tags(url: str):
-    """
-    Fetch url, parse <meta> tags, and return a dict with
-    title, description, price, currency (if available).
-    """
+def extract_source_code(url):
     options = uc.ChromeOptions()
-    options.add_argument("--headless")
+    options.add_argument(r'--user-data-dir=C:\Users\pokem\AppData\Local\Google\Chrome\User Data')
+    options.add_argument(r'--profile-directory=Profile 3')
     options.add_argument("--disable-gpu")
-    driver = uc.Chrome(options=options, use_subprocess=True)
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
+    options.add_argument("--disable-blink-features=AutomationControlled")
+    options.add_argument("--disable-infobars")
 
-    # 2) Load & wait for JS
-    driver.get(url)
-    time.sleep(2)  # tweak as needed for your network / site
+    driver = uc.Chrome(options=options)
 
-    soup = BeautifulSoup(driver.page_source, "html.parser")
-    driver.quit()
-
-    def mg(prop):
-        tag = (
-            soup.find("meta", {"property": prop})
-            or soup.find("meta", {"name": prop})
-        )
-        return tag and tag.get("content")
-
-    data =  {
-        "title":       mg("og:title")            or mg("twitter:title"),
-        "description": mg("og:description")      or mg("twitter:description"),
-        "price":       mg("product:price:amount"),
-        "currency":    mg("product:price:currency"),
-        "image":       mg("og:image"),
-        "link":        url
-    }
+    try:
+        driver.get(url)
+        time.sleep(5)
+        expand_all_panels(driver)
+        html = driver.page_source
+    finally:
+        driver.quit()
     
-    print(data)
+    return html
 
-def extract_info_soup(url):
+def extract_info_soup(url, html):
 
-    r = requests.get(url, headers=headers)
-    soup = BeautifulSoup(r.text, "html.parser")    
-    
-    with open("G:\\My Drive\\selling\\not posted\\test scrap folder\\output.txt", "w", encoding="utf-8") as f:
-        f.write(soup.prettify())
-
+    soup = BeautifulSoup(html, "html.parser")    
+     
     def mg(prop):
         tag = soup.find("meta", {"property": prop})
         return tag["content"] if tag else None
@@ -176,70 +158,34 @@ async def extract_info_DeepSeek(url):
     timeout = 300, # The time to wait for the response before timing out
     ) 
 
-    content = json.loads(response.text)
+    content = response.text
     
     match = re.search(r'(\{.*\})', content, flags=re.DOTALL)
     if not match:
-        print("⚠ DEEPSEEK RESPONSE: ", content)
+        print("⚠ ERROR, DEEPSEEK RESPONSE: ", content)
         raise ValueError("No JSON object found")
 
     json_str = match.group(1)
-    data = json.loads(json_str)
 
     data = json.loads(json_str)
 
-    pretty = json.dumps(data, indent=2, ensure_ascii=False)
-    print(pretty)
-
-    # windows_path = "G:\\My Drive\\selling\\not posted\\"
+    windows_path = "G:\\My Drive\\selling\\not posted\\"
     
-    # product_name = cleaned[0].split(":")[1].strip()
-    # product_path = windows_path + product_name
+    product_name = re.sub(r'[<>:"/\\|?*]', '', data["Title"])
+    product_name = product_name.encode('ascii', 'ignore').decode('ascii')
+    product_path = windows_path + product_name
     
-    # os.makedirs(product_path, exist_ok=True)
-    # os.chdir(product_path + "\\")
-    # f = open("info.txt", 'x')
+    if os.path.isdir(product_path):
+        print("⚠ ERROR: Product directory already exists")
+        return
+    
+    os.makedirs(product_path, exist_ok=True)
+    os.chdir(product_path + "\\")
+    f = open("info.txt", 'x')
+    for key in data:
+        f.write(f'{key}: {data[key]}\n')
+    f.close()
 
-    # for line in cleaned:
-    #     f.write(line + "\n")
-    # f.close()
-
-def expand_all_panels(driver):
-    toggles = driver.find_elements(
-        By.CSS_SELECTOR,
-        "#react-collapsed-toggle-\:R8qml9j7rn7mkq\:"
-        "#react-collapsed-panel-\:R4qml9j7rn7mkq\: > div._1dufoctg > button"
-    )
-    actions = ActionChains(driver)
-    for btn in toggles:
-        if btn.get_attribute("aria-hidden") == "true":
-            try:
-                actions.move_to_element(btn).click(btn)
-            except Exception as e:
-                print(f'ERROR: {e}')
-
-def extract_source_code(url):
-    options = uc.ChromeOptions()
-    options.add_argument(r'--user-data-dir=C:\Users\pokem\AppData\Local\Google\Chrome\User Data')
-    options.add_argument(r'--profile-directory=Profile 3')
-    options.add_argument("--disable-gpu")
-    options.add_argument("--no-sandbox")
-    options.add_argument("--disable-dev-shm-usage")
-    options.add_argument("--disable-blink-features=AutomationControlled")
-    options.add_argument("--disable-infobars")
-
-    driver = uc.Chrome(options=options, use_subprocess=True)
-
-    try:
-        driver.get(url)
-        time.sleep(5)
-        expand_all_panels(driver)
-        html = driver.page_source
-        with open("G:\\My Drive\\selling\\not posted\\test scrap folder\\details.txt", 'w', encoding='utf-8') as f:
-            f.write(html)
-    finally:
-        driver.quit()
-        
 
 # Run the asynchronous main function
 if __name__ == "__main__":
@@ -248,6 +194,7 @@ if __name__ == "__main__":
         f = open("G:\\My Drive\\selling\\not posted\\links.txt", "r")
         lines = f.readlines()
         #for index, link in enumerate(lines):
-        extract_source_code("https://www.wayfair.ca/lighting/pdp/wrought-studio-acea-2953-7-blade-dimmable-led-ceiling-fan-with-remote-control-and-appindoor-remote-control-ceiling-fans-with-lights-hlyi1172.html?piid=93063555")
-
-
+        url = "https://www.wayfair.ca/lighting/pdp/wrought-studio-acea-2953-7-blade-dimmable-led-ceiling-fan-with-remote-control-and-appindoor-remote-control-ceiling-fans-with-lights-hlyi1172.html?piid=93063555"
+        # html = extract_source_code(url)
+        # extract_info_soup(url, html)
+        asyncio.run(extract_info_DeepSeek(url))
