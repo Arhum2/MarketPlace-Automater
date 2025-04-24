@@ -1,6 +1,7 @@
 import asyncio
 import json
 import re
+import sys
 import time
 import requests
 from bs4 import BeautifulSoup
@@ -189,12 +190,27 @@ async def extract_info_DeepSeek(url):
 
 # Run the asynchronous main function
 if __name__ == "__main__":
-    # input_type = sys.argv[1]
-    if True:
-        f = open("G:\\My Drive\\selling\\not posted\\links.txt", "r")
-        lines = f.readlines()
-        #for index, link in enumerate(lines):
-        url = "https://www.wayfair.ca/lighting/pdp/wrought-studio-acea-2953-7-blade-dimmable-led-ceiling-fan-with-remote-control-and-appindoor-remote-control-ceiling-fans-with-lights-hlyi1172.html?piid=93063555"
-        # html = extract_source_code(url)
-        # extract_info_soup(url, html)
-        asyncio.run(extract_info_DeepSeek(url))
+    if len(sys.argv) >= 2:
+        pass
+    else:
+
+        if True:
+            f = open("G:\\My Drive\\selling\\not posted\\links.txt", "r")
+            lines = f.readlines()
+            for index, link in enumerate(lines):
+                print(f"\n🔗 Processing link #{index}\n")
+                try:
+                    asyncio.run(extract_info_DeepSeek(link))
+                except Exception as e:
+                    print(f"⚠ DeepSeek failed: {e}")
+                
+                    #Fallback
+                    try:
+                        html = extract_source_code(link)
+                        extract_info_soup(html)
+                    except Exception as e2:
+                        print(f'!! extract_info_soup also failed: {e2}')
+                try:
+                    extract_images(link)
+                except Exception as e:
+                    print(f"❌ extract_images failed: {e3}")
