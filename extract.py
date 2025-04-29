@@ -17,11 +17,12 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service
 from DeeperSeek import DeepSeek
 from selenium.webdriver import ActionChains
+from DeeperSeek.internal.exceptions import ServerDown
 
 DEEP_SEEK_EMAIL = os.getenv("DEEP_SEEK_EMAIL")
 DEEP_SEEK_PASSWORD = os.getenv("DEEP_SEEK_PASSWORD")
 DEEP_SEEK_TOKEN = os.getenv("DEEP_SEEK_TOKEN")
-product_path = 'G:\\My Drive\\selling\\not posted\\test scrap folder' #making global var, assigned in extract_info() 
+product_path = 'G:\\My Drive\\selling\\not posted' #making global var, assigned in extract_info() 
 openai.api_key = os.getenv('OPENAI_KEY')
 
 headers = {
@@ -81,6 +82,7 @@ def extract_images(url):
                 print(f"✅ Saved: {filepath}")
             except Exception as e:
                 print(f'❌ Failed to download {src}: {e}')
+    driver.quit()
 
 def expand_all_panels(driver):
     selectors = [
@@ -93,7 +95,7 @@ def expand_all_panels(driver):
             element = driver.find_element(By.CSS_SELECTOR, selector)
             element.click()
         except Exception as e:
-            print(f"Could not click element {selector}: {e}")
+            print(f"⚠️ Could not click element {selector}")
 
 def extract_source_code(url):
     options = uc.ChromeOptions()
@@ -110,7 +112,10 @@ def extract_source_code(url):
     try:
         driver.get(url)
         time.sleep(5)
-        expand_all_panels(driver)
+        try:
+            expand_all_panels(driver)
+        except:
+            pass
         html = driver.page_source
     finally:
         driver.quit()
@@ -135,6 +140,65 @@ def extract_info_soup(url, html):
         f.write(str(snippet))
 
 async def extract_info_DeepSeek(url):
+    """
+    Returns True if DeepSeek extracted & wrote the info successfully,
+    or False on any error (network, timeout, parse, filesystem…).
+    """
+    api = DeepSeek(
+        token=DEEP_SEEK_TOKEN,
+        email=DEEP_SEEK_EMAIL,
+        password=DEEP_SEEK_PASSWORD,
+        headless=True,
+        attempt_cf_bypass=True,
+        verbose=True
+    )
+
+    try:
+        await api.initialize()
+        await api.switch_chat("f52e3425-f095-4ec5-aaa1-232ba5949bf4")
+        response = await api.send_message(
+            f"Parse product page: {url}",
+            deepthink=False,
+            search=True,
+            slow_mode=True,
+            timeout=300,
+        )
+    except ServerDown as e:
+        print(f"⚠️ DeepSeek server busy, skipping: {e}")
+        return False
+    except Exception as e:
+        print(f"⚠️ [DeepSeek API error] {e}")
+        return False
+
+    content = response.text
+    
+    match = re.search(r'(\{.*\})', content, flags=re.DOTALL)
+    if not match:
+        print(f"⚠️ [DeepSeek no JSON] got:\n{content}\n")
+        raise ValueError("No JSON object found")
+
+    json_str = match.group(1)
+
+    data = json.loads(json_str)
+
+    windows_path = "G:\\My Drive\\selling\\not posted\\"
+    
+    product_name = re.sub(r'[<>:"/\\|?*]', '', data["Title"])
+    product_name = product_name.encode('ascii', 'ignore').decode('ascii')
+    product_path = windows_path + product_name
+    
+    if os.path.isdir(product_path):
+        print("⚠ ERROR: Product directory already exists")
+        return
+    
+    os.makedirs(product_path, exist_ok=True)
+    os.chdir(product_path + "\\")
+    f = open("info.txt", 'x')
+    for key in data:
+        f.write(f'{key}: {data[key]}\n')
+    f.close()
+
+async def extract_info_DeepSeek_Reprompt(html):
     # ==== WEB SCRAPING ====
     api = DeepSeek(
         token = DEEP_SEEK_TOKEN,
@@ -145,17 +209,29 @@ async def extract_info_DeepSeek(url):
         verbose=True
     )
 
+    soup = BeautifulSoup(html, "html.parser")
+
+    for tag in soup(["script", "style", "noscript", "iframe", "link", "footer", "nav", "aside"]):
+        tag.decompose()
+    for el in soup.find_all():
+        el.attrs = {}
+    clean_html = str(soup)
+    clean_html = re.sub(r"\s+", " ", clean_html).strip()
+    clean_html.replace("<", "")
+    clean_html.replace(">", "")
+    clean_html.replace("div", "")
+    clean_html.replace("//", "")
+    
+
 # ==== Starting DeepSeek query ==== 
     await api.initialize() 
-    await api.switch_chat("f52e3425-f095-4ec5-aaa1-232ba5949bf4") # Switch to the chat with the specified chat ID
 
     response = await api.send_message(
     # "I've extracted the HTML code for a furniture product page. Extract important information from the HTML code such as the product name, price, and description. The extracted information should be returned in a dictionary format, do not return anything else besides this dictionary format. Here is the HTML code: \n\n" + cleaned_text, # The message to send
-    f"......Here is a link to a wayfair product page, do the same for this link as you did with the others: {url}", # The message to send
+    f"......Here is the source code to a site with a furniture product, take the code and extract all its information in a JSON format containing Title, Description, Price, and the Link to the product. Here is the source code {clean_html}", # The message to send
     deepthink = False, 
     search = True, # Whether to use the Search option or not
     slow_mode = True, # Whether to send the message in slow mode or not
-    slow_mode_delay = 0.1, # The delay between each character when sending the message in slow mode
     timeout = 300, # The time to wait for the response before timing out
     ) 
 
@@ -202,12 +278,12 @@ if __name__ == "__main__":
                 try:
                     asyncio.run(extract_info_DeepSeek(link))
                 except Exception as e:
-                    print(f"⚠ DeepSeek failed: {e}")
+                    print(f"⚠️ DeepSeek failed: {e}")
                 
                     #Fallback
                     try:
                         html = extract_source_code(link)
-                        extract_info_soup(html)
+                        asyncio.run(extract_info_DeepSeek_Reprompt(html))
                     except Exception as e2:
                         print(f'!! extract_info_soup also failed: {e2}')
                 try:
