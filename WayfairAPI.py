@@ -1,3 +1,8 @@
+import os
+import random
+import re
+from bs4 import BeautifulSoup
+import requests
 import selenium
 headers = {
     'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
@@ -17,20 +22,39 @@ headers = {
 }
 from selenium.webdriver.common.by import By
 import undetected_chromedriver as uc
-from parser import ProductData
+from models import ProductData
+import time
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 
-options = uc.ChromeOptions()
-options.add_argument(r'--user-data-dir=C:\Users\pokem\AppData\Local\Google\Chrome\User Data')
-options.add_argument(r'--profile-directory=Profile 3')
-options.add_argument("--disable-gpu")
-options.add_argument("--no-sandbox")
-options.add_argument("--disable-dev-shm-usage")
-options.add_argument("--disable-blink-features=AutomationControlled")
-options.add_argument("--disable-infobars")
-url = "https://www.wayfair.ca/furniture/pdp/red-barrel-studio-vantrice-42-wide-rolling-kitchen-island-c003260336.html"
+def get_uc_driver():
+    from selenium.webdriver.chrome.service import Service as ChromeService
+    from webdriver_manager.chrome import ChromeDriverManager
 
+    options = uc.ChromeOptions()
+    options.add_argument(r'--user-data-dir=C:\Users\pokem\AppData\Local\Google\Chrome\User Data')
+    options.add_argument(r'--profile-directory=Profile 3')
+    options.add_argument("--disable-gpu")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
+    options.add_argument("--disable-blink-features=AutomationControlled")
+    options.add_argument("--disable-infobars")
 
-def expand_all_panels(driver):
+    return uc.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
+
+global soup, driver, product
+soup = None
+driver = get_uc_driver()
+product = None
+product_path = "G:\\My Drive\\selling\\not posted\\"
+
+### HELPERS ###
+def mg(soup, prop):
+    tag = soup.find("meta", {"property": prop})
+    return tag["content"] if tag else None
+
+def expand_all_panels(driver) -> None:
     selectors = [
         "#react-collapsed-toggle-\:R8qml9j7rn7mkq\:",
         "#react-collapsed-panel-\:R4qml9j7rn7mkq\: > div._1dufoctg > button"
@@ -43,17 +67,102 @@ def expand_all_panels(driver):
         except Exception as e:
             print(f"⚠️ Could not click element {selector}")
 
-def selenium_extract(product, url):
-    driver = uc.Chrome(options=options)
+### SCRAPING ##
+def selenium_extract(product, url) -> ProductData:
     driver.get(url)
+    time.sleep(random.uniform(2, 7))
     expand_all_panels(driver)
 
+# DESCRIPTION
     try:
         x = driver.find_element(By.CLASS_NAME, "RomanceCopy-text")
-        if x:
-            print("✅ Found Romance text")
+        if x.text:
+            print("✅ Found Romance text for description")
             product.description = x.text
+        else:
+            print("⌛ Fallback strategy starting")
+            html = driver.page_source
+            if soup is None:
+                soup = BeautifulSoup(html, "html.parser")
+            product.description = mg(soup, "og:description")
+             
+    except Exception as e:
+        print(f"⚠️ Could not locate Romance text")
+
+# TITLE
+    try:
+        x = driver.find_element(By.CLASS_NAME, "_6o3atz174 hapmhk7 hapmhkf hapmhkl")
+        if x:
+            print("✅ Found Title text")
+            product.title = x.text
+        else:
+            print("⌛ Fallback strategy starting")
+            if soup is None:
+                soup = BeautifulSoup(html, "html.parser")
+            product.title = mg(soup, "og:title")
+        product.title = re.sub(r'[<>:"/\\|?*]', '', product.title)
 
     except Exception as e:
-        print(f"⚠️ Could not located Romance text")
+            print(f"⚠️ Could not locate Title text")
 
+# Price 
+    try:
+        x = driver.find_element(By.CLASS_NAME, "_6o3atzbl _6o3atzc7  _6o3atz19j")
+        if x:
+            print("✅ Found Price text")
+            product.price = x.text
+
+    except Exception as e:
+            print(f"⚠️ Could not locate Title text")
+
+# Link
+    product.link = url
+
+# Create product folder
+    product_path = product_path + "\\" + product.title
+    
+    if os.path.isdir(product_path):
+        print("🔻 Error: Product directory already exists")
+        return
+    
+    os.makedirs(product_path, exist_ok=True)
+
+# call extract images
+    extract_images(driver, soup, url)
+    driver.quit()
+    return product
+
+def extract_images(driver=None, soup=None, url=url):    
+    if driver is None:
+        driver = get_uc_driver()
+        driver.get(url)
+
+    time.sleep(5)  # Wait for JS to load images
+
+    if soup is None:
+        soup = BeautifulSoup(driver.page_source, 'html.parser')
+    
+    images = soup.find_all("img")
+    
+    image_path = product_path + "\\photos"
+    if os.path.isdir(image_path):
+        print("🔻 Error: Photo directory already exists")
+        return
+    
+    os.makedirs(image_path, exist_ok=True)
+
+    for index, url in enumerate(images):
+        src = url.get('src') or url.get('data-src')
+        if src and 'h800' in src:
+            try:
+                response = requests.get(src)
+                if response.status_code == 200:
+                    filename = f'image_{index+1}.jpg'
+                    filepath = os.path.join(image_path, filename)
+
+                    with open(filepath, 'wb') as file:
+                        file.write(response.content)
+                print(f"✅ Saved: {filepath}")
+            except Exception as e:
+                print(f'❌ Failed to download {src}: {e}')
+    driver.quit()
