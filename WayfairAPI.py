@@ -28,25 +28,18 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 
-def get_uc_driver():
-    from selenium.webdriver.chrome.service import Service as ChromeService
-    from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.service import Service as ChromeService
+from webdriver_manager.chrome import ChromeDriverManager
 
-    options = uc.ChromeOptions()
-    options.add_argument(r'--user-data-dir=C:\Users\pokem\AppData\Local\Google\Chrome\User Data')
-    options.add_argument(r'--profile-directory=Profile 3')
-    options.add_argument("--disable-gpu")
-    options.add_argument("--no-sandbox")
-    options.add_argument("--disable-dev-shm-usage")
-    options.add_argument("--disable-blink-features=AutomationControlled")
-    options.add_argument("--disable-infobars")
+options = uc.ChromeOptions()
+# options.add_argument(r'--user-data-dir=C:\Users\pokem\AppData\Local\Google\Chrome\User Data')
+# options.add_argument(r'--profile-directory=Profile 3')
+options.add_argument("--disable-gpu")
+options.add_argument("--no-sandbox")
+options.add_argument("--disable-dev-shm-usage")
+options.add_argument("--disable-blink-features=AutomationControlled")
+options.add_argument("--disable-infobars")
 
-    return uc.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
-
-global soup, driver, product
-soup = None
-driver = get_uc_driver()
-product = None
 product_path = "G:\\My Drive\\selling\\not posted\\"
 
 ### HELPERS ###
@@ -55,21 +48,43 @@ def mg(soup, prop):
     return tag["content"] if tag else None
 
 def expand_all_panels(driver) -> None:
+    flag = False
     selectors = [
         "#react-collapsed-toggle-\:R8qml9j7rn7mkq\:",
-        "#react-collapsed-panel-\:R4qml9j7rn7mkq\: > div._1dufoctg > button"
+        "#react-collapsed-panel-\:R4qml9j7rn7mkq\: > div._1dufoctg > button",
+        "_1pmvkjd1 _1pmvkjd2 _1pmvkjd6 _1pmvkjd9 _1pmvkjdw"
     ]
 
     for selector in selectors:
         try:
             element = driver.find_element(By.CSS_SELECTOR, selector)
             element.click()
+            flag = True
+            print(f'✅ Successfully clicked {selector}')
         except Exception as e:
             print(f"⚠️ Could not click element {selector}")
 
+    if not flag:
+        selectors = [
+            "//button[.//p[text()='Specifications']]",
+            "//button[.//span[text()[contains(translate(., 'SHOW MORE', 'show more'), 'show more')]]]",
+            "//button[.//span[text()[contains(translate(., 'Specifications', 'specifications'), 'specifications')]]]",
+        ]
+
+        for selector in selectors:
+            try:
+                element = driver.find_element(By.XPATH, "//button[.//span[text()[contains(translate(., 'SHOW MORE', 'show more'), 'show more')]]]")
+                element.click()
+                print(f'✅ Successfully clicked {selector}')
+            except Exception as e:
+                print(f"⚠️ Could not click element {selector}")
+
 ### SCRAPING ##
 def selenium_extract(product, url) -> ProductData:
+    driver = uc.Chrome(options=options)
+    print("🌐 Launching browser...")
     driver.get(url)
+    print(f"➡️ Navigated to: {url}")
     time.sleep(random.uniform(2, 7))
     expand_all_panels(driver)
 
@@ -132,9 +147,9 @@ def selenium_extract(product, url) -> ProductData:
     driver.quit()
     return product
 
-def extract_images(driver=None, soup=None, url=url):    
+def extract_images(driver=None, soup=None, url=str):    
     if driver is None:
-        driver = get_uc_driver()
+        driver = uc.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
         driver.get(url)
 
     time.sleep(5)  # Wait for JS to load images
@@ -166,3 +181,6 @@ def extract_images(driver=None, soup=None, url=url):
             except Exception as e:
                 print(f'❌ Failed to download {src}: {e}')
     driver.quit()
+
+product = ProductData()
+selenium_extract(product=product, url="https://www.wayfair.ca/home-improvement/pdp/villar-home-designs-flush-wood-and-pvcvinyl-white-prefinished-flat-double-barn-door-with-installation-double-barn-hardware-kit-vdla1022.html?piid=83654807")
