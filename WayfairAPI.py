@@ -27,7 +27,9 @@ import time
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
-
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 
@@ -47,41 +49,29 @@ def mg(soup, prop):
     tag = soup.find("meta", {"property": prop})
     return tag["content"] if tag else None
 
-def expand_all_panels(driver) -> None:
-    flag = False
+def expand_all_panels(driver, timeout=10) -> None:
     selectors = [
-        "#react-collapsed-toggle-\:R8qml9j7rn7mkq\:",
-        "#react-collapsed-panel-\:R4qml9j7rn7mkq\: > div._1dufoctg > button",
-        "_1pmvkjd1 _1pmvkjd2 _1pmvkjd6 _1pmvkjd9 _1pmvkjdw"
+        (By.CSS_SELECTOR, "#react-collapsed-toggle-\\:R8qml9j7rn7mkq\\:"),
+        (By.CSS_SELECTOR, "#react-collapsed-panel-\\:R4qml9j7rn7mkq\\: > div._1dufoctg > button"),
+        (By.CSS_SELECTOR, "_1pmvkjd1 _1pmvkjd2 _1pmvkjd6 _1pmvkjd9 _1pmvkjdw"),
+        (By.XPATH, "//button[.//p[text()='Specifications']]"),
+        # (By.XPATH, "//*[@id=\"react-collapsed-toggle-:Rhiqkmcvesumkq:\"]"),
+        (By.XPATH, "//button[.//span[text()[contains(translate(., 'SHOW MORE', 'show more'), 'show more')]]]"),
+        # (By.XPATH, "//button[.//span[text()[contains(translate(., 'Specifications', 'specifications'), 'specifications')]]]"),
     ]
 
-    for selector in selectors:
+    for by, selector in selectors:
         try:
-            element = driver.find_element(By.CSS_SELECTOR, selector)
-            element.click()
-            flag = True
+            btn = WebDriverWait(driver, timeout).until(
+                EC.element_to_be_clickable((by, selector))
+            )
+            btn.click()
             print(f'✅ Successfully clicked {selector}')
         except Exception as e:
             print(f"⚠️ Could not click element {selector}")
 
-    if not flag:
-        selectors = [
-            "//button[.//p[text()='Specifications']]",
-            "//button[.//span[text()[contains(translate(., 'SHOW MORE', 'show more'), 'show more')]]]",
-            "//button[.//span[text()[contains(translate(., 'Specifications', 'specifications'), 'specifications')]]]",
-        ]
-
-        for selector in selectors:
-            try:
-                element = driver.find_element(By.XPATH, "//button[.//span[text()[contains(translate(., 'SHOW MORE', 'show more'), 'show more')]]]")
-                element.click()
-                print(f'✅ Successfully clicked {selector}')
-            except Exception as e:
-                print(f"⚠️ Could not click element {selector}")
-
 ### SCRAPING ##
-def selenium_extract(product, url) -> ProductData:
-    driver = uc.Chrome(options=options)
+def selenium_extract(product, url, driver) -> ProductData:
     print("🌐 Launching browser...")
     driver.get(url)
     print(f"➡️ Navigated to: {url}")
@@ -90,11 +80,22 @@ def selenium_extract(product, url) -> ProductData:
 
 # DESCRIPTION
     try:
-        x = driver.find_element(By.CLASS_NAME, "RomanceCopy-text")
-        if x.text:
-            print("✅ Found Romance text for description")
-            product.description = x.text
-        else:
+        selectors = [
+            "_1dufoct2",
+            "RomanceCopy-text"
+        ]
+
+        for selector in selectors:
+            try:
+                description = driver.find_element(By.CLASS_NAME, selector)
+                if description.text:
+                    print("✅ Found Description text")
+                    product.description = description.text
+                    break
+            except Exception as e:
+                print(f"⚠️ Could not locate element {selector}")
+
+        if not description.text:
             print("⌛ Fallback strategy starting")
             html = driver.page_source
             if soup is None:
@@ -106,26 +107,36 @@ def selenium_extract(product, url) -> ProductData:
 
 # TITLE
     try:
-        x = driver.find_element(By.CLASS_NAME, "_6o3atz174 hapmhk7 hapmhkf hapmhkl")
-        if x:
+        title = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((
+                By.CSS_SELECTOR,
+                "._6o3atz174.hapmhk7.hapmhkf.hapmhkl"
+            ))
+        )
+        if title:
             print("✅ Found Title text")
-            product.title = x.text
-        else:
-            print("⌛ Fallback strategy starting")
-            if soup is None:
-                soup = BeautifulSoup(html, "html.parser")
-            product.title = mg(soup, "og:title")
-        product.title = re.sub(r'[<>:"/\\|?*]', '', product.title)
-
+            product.title = title.text
     except Exception as e:
             print(f"⚠️ Could not locate Title text")
 
+    if not title.text:
+        print("⌛ Fallback strategy starting")
+        if soup is None:
+            soup = BeautifulSoup(html, "html.parser")
+        product.title = mg(soup, "og:title")
+        product.title = re.sub(r'[<>:"/\\|?*]', '', product.title)
+
 # Price 
     try:
-        x = driver.find_element(By.CLASS_NAME, "_6o3atzbl _6o3atzc7  _6o3atz19j")
-        if x:
+        price = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((
+                By.CSS_SELECTOR,
+                "._6o3atzbl._6o3atzc7._6o3atz19j"
+            ))
+        )
+        if price:
             print("✅ Found Price text")
-            product.price = x.text
+            product.price = price.text
 
     except Exception as e:
             print(f"⚠️ Could not locate Title text")
@@ -134,7 +145,7 @@ def selenium_extract(product, url) -> ProductData:
     product.link = url
 
 # Create product folder
-    product_path = product_path + "\\" + product.title
+    product_path = product_path + product.title
     
     if os.path.isdir(product_path):
         print("🔻 Error: Product directory already exists")
