@@ -72,18 +72,25 @@ def expand_all_panels(driver, timeout=10) -> None:
 
 ### SCRAPING ##
 def selenium_extract(product, url, driver) -> ProductData:
-    print("🌐 Launching browser...")
-    driver.get(url)
-    print(f"➡️ Navigated to: {url}")
+    print(f"🌐 [START] selenium_extract for URL: {url}")
+    try:
+        driver.get(url)
+        print(f"➡️ Navigated to: {url}")
+    except Exception as e:
+        print(f"❌ Failed to navigate to {url}: {e}")
+        return None
+    
     time.sleep(random.uniform(2, 7))
     expand_all_panels(driver)
 
 # DESCRIPTION
+    print("ℹ️ Extracting description...")
     try:
         selectors = [
             "_1dufoct2",
             "RomanceCopy-text"
         ]
+        description = None
 
         for selector in selectors:
             try:
@@ -95,17 +102,20 @@ def selenium_extract(product, url, driver) -> ProductData:
             except Exception as e:
                 print(f"⚠️ Could not locate element {selector}")
 
-        if not description.text:
+        if description is None:
             print("⌛ Fallback strategy starting")
             html = driver.page_source
-            if soup is None:
-                soup = BeautifulSoup(html, "html.parser")
+            soup = BeautifulSoup(html, "html.parser")
             product.description = mg(soup, "og:description")
-             
+            if product.description:
+                print("✅ Fallback meta description found")
+            else:
+                print("❌ No description found")         
     except Exception as e:
-        print(f"⚠️ Could not locate Romance text")
+        print(f"❌ Exception during description extraction: {e}")
 
 # TITLE
+    print("ℹ️ Extracting title...")
     try:
         title = WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((
@@ -118,15 +128,17 @@ def selenium_extract(product, url, driver) -> ProductData:
             product.title = title.text
     except Exception as e:
             print(f"⚠️ Could not locate Title text")
-
-    if not title.text:
-        print("⌛ Fallback strategy starting")
-        if soup is None:
+            print("⌛ Fallback strategy starting")
+            html = driver.page_source
             soup = BeautifulSoup(html, "html.parser")
-        product.title = mg(soup, "og:title")
-        product.title = re.sub(r'[<>:"/\\|?*]', '', product.title)
-
+            product.title = mg(soup, "og:title")
+            if product.title:
+                print("✅ Fallback meta title found")
+                product.title = re.sub(r'[<>:\"/\\|?*]', '', product.title)
+            else:
+                print("❌ No title found")
 # Price 
+    print("ℹ️ Extracting price...")
     try:
         price = WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((
@@ -143,23 +155,34 @@ def selenium_extract(product, url, driver) -> ProductData:
 
 # Link
     product.link = url
+    print(f"ℹ️ Set product link: {product.link}")
 
 # Create product folder
-    product_path = product_path + product.title
+    product_path = os.path.join("G:\\My Drive\\selling\\not posted\\", product.title)
     
     if os.path.isdir(product_path):
         print("🔻 Error: Product directory already exists")
         return
     
-    os.makedirs(product_path, exist_ok=True)
-
+    try:
+        os.makedirs(product_path, exist_ok=True)
+        print(f"✅ Created product directory: {product_path}")
+    except Exception as e:
+        print(f"❌ Failed to create product directory: {e}")
+        return None
+    
 # call extract images
-    extract_images(driver, soup, url)
+    print("ℹ️ Extracting images...")
+    extract_images(driver, soup, url, product_dir)
+    print("✅ Image extraction complete")
     driver.quit()
+    print("🌐 [END] selenium_extract")
     return product
 
 def extract_images(driver=None, soup=None, url=str):    
+    print("🌐 [START] extract_images")
     if driver is None:
+        print("ℹ️ Launching new Chrome driver for image extraction")
         driver = uc.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
         driver.get(url)
 
@@ -169,13 +192,13 @@ def extract_images(driver=None, soup=None, url=str):
         soup = BeautifulSoup(driver.page_source, 'html.parser')
     
     images = soup.find_all("img")
-    
-    image_path = product_path + "\\photos"
+    image_path = os.path.join(product_path, "photos")
     if os.path.isdir(image_path):
         print("🔻 Error: Photo directory already exists")
         return
     
     os.makedirs(image_path, exist_ok=True)
+    print(f"✅ Created image directory: {image_path}")
 
     for index, url in enumerate(images):
         src = url.get('src') or url.get('data-src')
@@ -192,7 +215,8 @@ def extract_images(driver=None, soup=None, url=str):
             except Exception as e:
                 print(f'❌ Failed to download {src}: {e}')
     driver.quit()
-
+    print("🌐 [END] extract_images")
+    
 # === Debuging code === #
 # product = ProductData()
 # #remove later, driver object should come from router

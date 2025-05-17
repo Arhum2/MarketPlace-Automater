@@ -1,7 +1,7 @@
 import os
 import time
 import undetected_chromedriver as uc
-from WayfairAPI import selenium_extract
+from WayfairAPI import selenium_extract, extract_images
 from dataclasses import dataclass
 from models import ProductData
 product_path = "G:\\My Drive\\selling\\not posted\\"
@@ -19,7 +19,7 @@ class BaseParser():
 class WayfairParser(BaseParser):
 
     def __init__(self):
-        driver = uc.Chrome(options=options)
+        self.driver = uc.Chrome(options=options)
 
     def write_product_data(self, product:ProductData):
         product_path = product_path + product.title
@@ -49,16 +49,17 @@ class WayfairParser(BaseParser):
         else:
             print("⚠️ Failed to scrape product data") 
     
-    def extract_images(self, product:ProductData):
-
+    def parse_images(self, product:ProductData):
+        extract_images(driver=self.driver, url=product.link)
+        print("✅ Successfully extracted images")
 
         
 if __name__ == "__main__":
     url = "https://www.wayfair.ca/home-improvement/pdp/villar-home-designs-flush-wood-and-pvcvinyl-white-prefinished-flat-double-barn-door-with-installation-double-barn-hardware-kit-vdla1022.html?piid=83654807"
-    
+    current_item = ProductData()  
     if "wayfair" in url:
 
         parser = WayfairParser()
         product_data = parser.parse_data(url)
         parser.write_product_data(product_data)
-        parser.extract_images(product_data)
+        parser.parse_images(product_data)
