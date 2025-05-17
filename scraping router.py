@@ -4,7 +4,6 @@ import undetected_chromedriver as uc
 from WayfairAPI import selenium_extract, extract_images
 from dataclasses import dataclass
 from models import ProductData
-product_path = "G:\\My Drive\\selling\\not posted\\"
 options = uc.ChromeOptions()
 options.add_argument("--disable-gpu")
 options.add_argument("--no-sandbox")
@@ -20,9 +19,11 @@ class WayfairParser(BaseParser):
 
     def __init__(self):
         self.driver = uc.Chrome(options=options)
+        self.product_path = "G:\\My Drive\\selling\\not posted\\"
+
 
     def write_product_data(self, product:ProductData):
-        product_path = product_path + product.title
+        product_path = self.product_path + product.title
 
         if os.path.isdir(product_path):
             print("🔻 Error: Product directory already exists")

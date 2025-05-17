@@ -75,6 +75,8 @@ def selenium_extract(product, url, driver) -> ProductData:
     print(f"🌐 [START] selenium_extract for URL: {url}")
     try:
         driver.get(url)
+        html = driver.page_source
+        soup = BeautifulSoup(html, "html.parser")
         print(f"➡️ Navigated to: {url}")
     except Exception as e:
         print(f"❌ Failed to navigate to {url}: {e}")
@@ -104,8 +106,6 @@ def selenium_extract(product, url, driver) -> ProductData:
 
         if description is None:
             print("⌛ Fallback strategy starting")
-            html = driver.page_source
-            soup = BeautifulSoup(html, "html.parser")
             product.description = mg(soup, "og:description")
             if product.description:
                 print("✅ Fallback meta description found")
@@ -126,11 +126,10 @@ def selenium_extract(product, url, driver) -> ProductData:
         if title:
             print("✅ Found Title text")
             product.title = title.text
+            product.title = re.sub(r'[<>:\"/\\|?*]', '', product.title)
     except Exception as e:
             print(f"⚠️ Could not locate Title text")
             print("⌛ Fallback strategy starting")
-            html = driver.page_source
-            soup = BeautifulSoup(html, "html.parser")
             product.title = mg(soup, "og:title")
             if product.title:
                 print("✅ Fallback meta title found")
@@ -171,11 +170,7 @@ def selenium_extract(product, url, driver) -> ProductData:
         print(f"❌ Failed to create product directory: {e}")
         return None
     
-# call extract images
-    print("ℹ️ Extracting images...")
-    extract_images(driver, soup, url, product_dir)
-    print("✅ Image extraction complete")
-    driver.quit()
+
     print("🌐 [END] selenium_extract")
     return product
 
@@ -188,8 +183,7 @@ def extract_images(driver=None, soup=None, url=str):
 
     time.sleep(5)  # Wait for JS to load images
 
-    if soup is None:
-        soup = BeautifulSoup(driver.page_source, 'html.parser')
+    soup = BeautifulSoup(driver.page_source, "html.parser")
     
     images = soup.find_all("img")
     image_path = os.path.join(product_path, "photos")
@@ -216,7 +210,7 @@ def extract_images(driver=None, soup=None, url=str):
                 print(f'❌ Failed to download {src}: {e}')
     driver.quit()
     print("🌐 [END] extract_images")
-    
+
 # === Debuging code === #
 # product = ProductData()
 # #remove later, driver object should come from router
