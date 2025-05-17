@@ -193,5 +193,15 @@ def extract_images(driver=None, soup=None, url=str):
                 print(f'❌ Failed to download {src}: {e}')
     driver.quit()
 
-product = ProductData()
-selenium_extract(product=product, url="https://www.wayfair.ca/home-improvement/pdp/villar-home-designs-flush-wood-and-pvcvinyl-white-prefinished-flat-double-barn-door-with-installation-double-barn-hardware-kit-vdla1022.html?piid=83654807")
+# === Debuging code === #
+# product = ProductData()
+# #remove later, driver object should come from router
+# options = uc.ChromeOptions()
+# options.add_argument("--disable-gpu")
+# options.add_argument("--no-sandbox")
+# options.add_argument("--disable-dev-shm-usage")
+# options.add_argument("--disable-blink-features=AutomationControlled")
+# options.add_argument("--disable-infobars")
+# driver = uc.Chrome(options=options)
+
+# selenium_extract(product=product, url="https://www.wayfair.ca/home-improvement/pdp/villar-home-designs-flush-wood-and-pvcvinyl-white-prefinished-flat-double-barn-door-with-installation-double-barn-hardware-kit-vdla1022.html?piid=83654807",driver=driver)
