@@ -17,8 +17,18 @@ class BaseParser():
 
 class WayfairParser(BaseParser):
 
-    def __init__(self, url:str):
-        self.driver = uc.Chrome(options=options)
+    def __init__(self, url=None):
+        # --- make a fresh options object every time ---
+        opts = uc.ChromeOptions()
+        opts.add_argument("--disable-gpu")
+        opts.add_argument("--no-sandbox")
+        opts.add_argument("--disable-dev-shm-usage")
+        opts.add_argument("--disable-blink-features=AutomationControlled")
+        opts.add_argument("--disable-infobars")
+
+        # now build the driver with _this_ new options
+        self.driver = uc.Chrome(options=opts)
+
         self.product_path = "G:\\My Drive\\selling\\not posted\\"
         self.url = url
         self.images = []
@@ -63,11 +73,16 @@ class WayfairParser(BaseParser):
         print("✅ Successfully extracted images")
         
 if __name__ == "__main__":
-    url = "https://www.wayfair.ca/furniture/pdp/union-rustic-kira-solid-wood-platform-bed-c001463350.html?piid=1018097458%2C994815929"
-    current_item = ProductData()  
-    if "wayfair" in url:
-
-        Wayfair_product = WayfairParser(url)
-        product_data = Wayfair_product.parse_data()
-        Wayfair_product.parse_images()
-        Wayfair_product.write_product_data(product_data)
+    urls = [
+        "https://www.wayfair.ca/furniture/pdp/union-rustic-kira-solid-wood-platform-bed-c001463350.html?piid=1018097458%2C994815929",
+        "https://www.wayfair.ca/furniture/pdp/allmodern-kody-vegan-leather-bar-counter-stool-c004455950.html?piid=1955951732%2C1930731817",
+        "https://www.wayfair.ca/home-improvement/pdp/ark-design-84-manufactured-wood-bookshelf-barn-door-primed-with-mounting-hardware-kitsoft-close-inclued-akde1481.html?piid=103256421",
+        "https://www.wayfair.ca/dining/pdp/gibson-home-4-piece-61-inch-melamine-cereal-bowl-set-in-blue-gbsn2484.html?piid=86834257"
+    ]
+    for url in urls:
+        if "wayfair" in url:
+            Wayfair_product = WayfairParser(url)
+            product_data = Wayfair_product.parse_data()
+            Wayfair_product.parse_images()
+            Wayfair_product.write_product_data(product_data)
+            Wayfair_product.driver.quit()

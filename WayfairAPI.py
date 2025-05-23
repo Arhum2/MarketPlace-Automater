@@ -33,8 +33,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 options = uc.ChromeOptions()
-# options.add_argument(r'--user-data-dir=C:\Users\pokem\AppData\Local\Google\Chrome\User Data')
-# options.add_argument(r'--profile-directory=Profile 3')
 options.add_argument("--disable-gpu")
 options.add_argument("--no-sandbox")
 options.add_argument("--disable-dev-shm-usage")
@@ -50,11 +48,10 @@ def expand_all_panels(driver, timeout=5) -> None:
     selectors = [
         (By.CSS_SELECTOR, "#react-collapsed-toggle-\\:R8qml9j7rn7mkq\\:"),
         (By.CSS_SELECTOR, "#react-collapsed-panel-\\:R4qml9j7rn7mkq\\: > div._1dufoctg > button"),
-        (By.CSS_SELECTOR, "_1pmvkjd1 _1pmvkjd2 _1pmvkjd6 _1pmvkjd9 _1pmvkjdw"),
+        (By.CSS_SELECTOR, "._1pmvkjd1._1pmvkjd2._1pmvkjd6._1pmvkjd9._1pmvkjdw"),
+        (By.CSS_SELECTOR, "cjp55yd"),
         (By.XPATH, "//button[.//p[text()='Specifications']]"),
-        # (By.XPATH, "//*[@id=\"react-collapsed-toggle-:Rhiqkmcvesumkq:\"]"),
         (By.XPATH, "//button[.//span[text()[contains(translate(., 'SHOW MORE', 'show more'), 'show more')]]]"),
-        # (By.XPATH, "//button[.//span[text()[contains(translate(., 'Specifications', 'specifications'), 'specifications')]]]"),
     ]
 
     for by, selector in selectors:
@@ -138,24 +135,19 @@ def selenium_extract(product, parser) -> ProductData:
     try:
         selectors = [
             "._6o3atzbl._6o3atzc7._6o3atz19j",
-            "#bd > div._1fat8tg4v._1fat8tg5h.djy8qp0.djy8qp1 > div.PdpLayoutResponsive-top > div > div._1fat8tg1n._1fat8tg1t._1fat8tg2v._1fat8tg31._1fat8tg11._1fat8tg17._1fat8tg174._1fat8tg12s._1fat8tglz._1fat8tge1.nj24ew3o.nj24ew1t.nj24ew25.nj24ew2h.nj24ew2t.nj24ew35.nj24ew3h.nj24ewb.nj24ew3p > div > div.StyledBox-uxtkoo-0.BoxV2___StyledStyledBox-sc-1fl8vwd-0.hVqCHm > div:nth-child(2) > div._1fat8tg12s._1fat8tg19j > div > div > span"
+            "._1fat8tg5h._1fat8tg2f._1fat8tg13e._1fat8tg174._1fat8tgbl"
         ]
+        
         for selector in selectors:
             try:
-                price = parser.driver.find_element(By.CSS_SELECTOR, selector)
-                if price.text:
-                    print("✅ Found Price text")
-                    product.price = price.text
+                price_el = parser.driver.find_element(By.CSS_SELECTOR, selector)
+                text = price_el.text.strip()
+                if text:
+                    print(f"✅ Found price via `{selector}` → {text}")
+                    product.price = text
                     break
-            except Exception as e:
-                print(f"⚠️ Could not locate element {selector}")
-
-        if price is None:
-            print("✅ Found Price text")
-            product.price = price.text
-        else:
-            product.price = mg(soup, "og:price:amount")
-            print("✅ Found Price text")
+            except Exception:
+                print(f"⚠️ Could not locate element `{selector}`")
 
     except Exception as e:
             print(f"⚠️ Could not locate Title text")
@@ -193,18 +185,4 @@ def extract_images(parser):
 
         if is_h800 or is_initial:
             parser.images.append(src)
-    parser.driver.quit()
     print("🌐 [END] extract_images")
-
-# === Debuging code === #
-# product = ProductData()
-# #remove later, driver object should come from router
-# options = uc.ChromeOptions()
-# options.add_argument("--disable-gpu")
-# options.add_argument("--no-sandbox")
-# options.add_argument("--disable-dev-shm-usage")
-# options.add_argument("--disable-blink-features=AutomationControlled")
-# options.add_argument("--disable-infobars")
-# driver = uc.Chrome(options=options)
-
-# selenium_extract(product=product, url="https://www.wayfair.ca/home-improvement/pdp/villar-home-designs-flush-wood-and-pvcvinyl-white-prefinished-flat-double-barn-door-with-installation-double-barn-hardware-kit-vdla1022.html?piid=83654807",driver=driver)
