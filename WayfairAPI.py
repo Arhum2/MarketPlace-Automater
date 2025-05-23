@@ -32,7 +32,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
-
 options = uc.ChromeOptions()
 # options.add_argument(r'--user-data-dir=C:\Users\pokem\AppData\Local\Google\Chrome\User Data')
 # options.add_argument(r'--profile-directory=Profile 3')
@@ -42,14 +41,12 @@ options.add_argument("--disable-dev-shm-usage")
 options.add_argument("--disable-blink-features=AutomationControlled")
 options.add_argument("--disable-infobars")
 
-product_path = "G:\\My Drive\\selling\\not posted\\"
-
 ### HELPERS ###
 def mg(soup, prop):
     tag = soup.find("meta", {"property": prop})
     return tag["content"] if tag else None
 
-def expand_all_panels(driver, timeout=10) -> None:
+def expand_all_panels(driver, timeout=5) -> None:
     selectors = [
         (By.CSS_SELECTOR, "#react-collapsed-toggle-\\:R8qml9j7rn7mkq\\:"),
         (By.CSS_SELECTOR, "#react-collapsed-panel-\\:R4qml9j7rn7mkq\\: > div._1dufoctg > button"),
@@ -71,19 +68,19 @@ def expand_all_panels(driver, timeout=10) -> None:
             print(f"⚠️ Could not click element {selector}")
 
 ### SCRAPING ##
-def selenium_extract(product, url, driver) -> ProductData:
-    print(f"🌐 [START] selenium_extract for URL: {url}")
+def selenium_extract(product, parser) -> ProductData:
+    print(f"🌐 [START] selenium_extract for URL: {parser.url}")
     try:
-        driver.get(url)
-        html = driver.page_source
+        parser.driver.get(parser.url)
+        html = parser.driver.page_source
         soup = BeautifulSoup(html, "html.parser")
-        print(f"➡️ Navigated to: {url}")
+        print(f"➡️ Navigated to: {parser.url}")
     except Exception as e:
-        print(f"❌ Failed to navigate to {url}: {e}")
+        print(f"❌ Failed to navigate to {parser.url}: {e}")
         return None
     
     time.sleep(random.uniform(2, 7))
-    expand_all_panels(driver)
+    expand_all_panels(parser.driver)
 
 # DESCRIPTION
     print("ℹ️ Extracting description...")
@@ -96,7 +93,7 @@ def selenium_extract(product, url, driver) -> ProductData:
 
         for selector in selectors:
             try:
-                description = driver.find_element(By.CLASS_NAME, selector)
+                description = parser.driver.find_element(By.CLASS_NAME, selector)
                 if description.text:
                     print("✅ Found Description text")
                     product.description = description.text
@@ -117,7 +114,7 @@ def selenium_extract(product, url, driver) -> ProductData:
 # TITLE
     print("ℹ️ Extracting title...")
     try:
-        title = WebDriverWait(driver, 10).until(
+        title = WebDriverWait(parser.driver, 5).until(
             EC.presence_of_element_located((
                 By.CSS_SELECTOR,
                 "._6o3atz174.hapmhk7.hapmhkf.hapmhkl"
@@ -139,76 +136,64 @@ def selenium_extract(product, url, driver) -> ProductData:
 # Price 
     print("ℹ️ Extracting price...")
     try:
-        price = WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((
-                By.CSS_SELECTOR,
-                "._6o3atzbl._6o3atzc7._6o3atz19j"
-            ))
-        )
-        if price:
+        selectors = [
+            "._6o3atzbl._6o3atzc7._6o3atz19j",
+            "#bd > div._1fat8tg4v._1fat8tg5h.djy8qp0.djy8qp1 > div.PdpLayoutResponsive-top > div > div._1fat8tg1n._1fat8tg1t._1fat8tg2v._1fat8tg31._1fat8tg11._1fat8tg17._1fat8tg174._1fat8tg12s._1fat8tglz._1fat8tge1.nj24ew3o.nj24ew1t.nj24ew25.nj24ew2h.nj24ew2t.nj24ew35.nj24ew3h.nj24ewb.nj24ew3p > div > div.StyledBox-uxtkoo-0.BoxV2___StyledStyledBox-sc-1fl8vwd-0.hVqCHm > div:nth-child(2) > div._1fat8tg12s._1fat8tg19j > div > div > span"
+        ]
+        for selector in selectors:
+            try:
+                price = parser.driver.find_element(By.CSS_SELECTOR, selector)
+                if price.text:
+                    print("✅ Found Price text")
+                    product.price = price.text
+                    break
+            except Exception as e:
+                print(f"⚠️ Could not locate element {selector}")
+
+        if price is None:
             print("✅ Found Price text")
             product.price = price.text
+        else:
+            product.price = mg(soup, "og:price:amount")
+            print("✅ Found Price text")
 
     except Exception as e:
             print(f"⚠️ Could not locate Title text")
 
 # Link
-    product.link = url
-    print(f"ℹ️ Set product link: {product.link}")
+    product.link = parser.url
+    print(f"✅ Set product link: {product.link}")
 
 # Create product folder
-    product_path = os.path.join("G:\\My Drive\\selling\\not posted\\", product.title)
+    parser.product_path = os.path.join("G:\\My Drive\\selling\\not posted\\", product.title)
     
-    if os.path.isdir(product_path):
+    if os.path.isdir(parser.product_path):
         print("🔻 Error: Product directory already exists")
         return
-    
-    try:
-        os.makedirs(product_path, exist_ok=True)
-        print(f"✅ Created product directory: {product_path}")
-    except Exception as e:
-        print(f"❌ Failed to create product directory: {e}")
-        return None
-    
-
+        
     print("🌐 [END] selenium_extract")
     return product
 
-def extract_images(driver=None, soup=None, url=str):    
+def extract_images(parser):    
     print("🌐 [START] extract_images")
-    if driver is None:
+    if parser.driver is None:
         print("ℹ️ Launching new Chrome driver for image extraction")
-        driver = uc.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
-        driver.get(url)
+        parser.driver = uc.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
+        parser.driver.get(url)
 
-    time.sleep(5)  # Wait for JS to load images
-
-    soup = BeautifulSoup(driver.page_source, "html.parser")
-    
+    soup = BeautifulSoup(parser.driver.page_source, "html.parser")
     images = soup.find_all("img")
-    image_path = os.path.join(product_path, "photos")
-    if os.path.isdir(image_path):
-        print("🔻 Error: Photo directory already exists")
-        return
-    
-    os.makedirs(image_path, exist_ok=True)
-    print(f"✅ Created image directory: {image_path}")
 
-    for index, url in enumerate(images):
-        src = url.get('src') or url.get('data-src')
-        if src and 'h800' in src:
-            try:
-                response = requests.get(src)
-                if response.status_code == 200:
-                    filename = f'image_{index+1}.jpg'
-                    filepath = os.path.join(image_path, filename)
+    for img in images:
+        src = img.get("src") or img.get("data-src")
+        if not src:
+            continue
+        is_h800 = "h800" in src
+        is_initial = img.get("data-enzyme-id") == "InitialImage"
 
-                    with open(filepath, 'wb') as file:
-                        file.write(response.content)
-                print(f"✅ Saved: {filepath}")
-            except Exception as e:
-                print(f'❌ Failed to download {src}: {e}')
-    driver.quit()
+        if is_h800 or is_initial:
+            parser.images.append(src)
+    parser.driver.quit()
     print("🌐 [END] extract_images")
 
 # === Debuging code === #
