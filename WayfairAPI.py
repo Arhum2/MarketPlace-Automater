@@ -2,8 +2,6 @@ import os
 import random
 import re
 from bs4 import BeautifulSoup
-import requests
-import selenium
 headers = {
     'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
     'accept-language': 'en-CA,en;q=0.9',
@@ -24,20 +22,12 @@ from selenium.webdriver.common.by import By
 import undetected_chromedriver as uc
 from models import ProductData
 import time
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
-options = uc.ChromeOptions()
-options.add_argument("--disable-gpu")
-options.add_argument("--no-sandbox")
-options.add_argument("--disable-dev-shm-usage")
-options.add_argument("--disable-blink-features=AutomationControlled")
-options.add_argument("--disable-infobars")
 
 ### HELPERS ###
 def mg(soup, prop):
@@ -63,7 +53,6 @@ def expand_all_panels(driver, timeout=5) -> None:
             print(f'✅ Successfully clicked {selector}')
         except Exception as e:
             print(f"⚠️ Could not click element {selector}")
-
 ### SCRAPING ##
 def selenium_extract(product, parser) -> ProductData:
     print(f"🌐 [START] selenium_extract for URL: {parser.url}")

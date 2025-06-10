@@ -2,14 +2,11 @@ import os
 import time
 import requests
 import undetected_chromedriver as uc
+from AmazonAPI import Amazon_extract
 from WayfairAPI import selenium_extract, extract_images
 from models import ProductData
-options = uc.ChromeOptions()
-options.add_argument("--disable-gpu")
-options.add_argument("--no-sandbox")
-options.add_argument("--disable-dev-shm-usage")
-options.add_argument("--disable-blink-features=AutomationControlled")
-options.add_argument("--disable-infobars")
+from fake_useragent import UserAgent
+
 
 class BaseParser():
     def __init__(self, url=None):
@@ -113,23 +110,41 @@ class WayfairParser(BaseParser):
         print("✅ Successfully extracted images")
     
 class AmazonParser(BaseParser):
-    def parse_data():
-        #TODO
-        pass
+    def __init__(self, url=None):
+        # --- make a fresh options object every time ---
+        opts = uc.ChromeOptions()
+        opts.add_argument("--disable-gpu")
+        opts.add_argument("--no-sandbox")
+        opts.add_argument("--disable-dev-shm-usage")
+        opts.add_argument("--disable-blink-features=AutomationControlled")
+        opts.add_argument("--disable-infobars")
+        ua = UserAgent()
+        user_agent = ua.random
+        opts.add_argument(f'--user-agent={user_agent}')
 
-    def parse_images():
+        # now build the driver with _this_ new options
+        self.driver = uc.Chrome(options=opts)
+        self.product_path = "G:\\My Drive\\selling\\not posted\\"
+        self.url = url
+        self.images = []
+
+    def parse_data(self):
+        product = ProductData()
+        scrapped_product = Amazon_extract(product, self)
+        if scrapped_product:
+            print(f"✅ Successfully scraped product data for {product.title}")
+            return product
+        else:
+            print("⚠️ Failed to scrape product data") 
+
+    def parse_images(self):
         #TODO 
         pass
 
 if __name__ == "__main__":
-    urls = [
-        "https://www.wayfair.ca/furniture/pdp/union-rustic-kira-solid-wood-platform-bed-c001463350.html?piid=1018097458%2C994815929",
-        "https://www.wayfair.ca/furniture/pdp/allmodern-kody-vegan-leather-bar-counter-stool-c004455950.html?piid=1955951732%2C1930731817",
-        "https://www.wayfair.ca/home-improvement/pdp/ark-design-84-manufactured-wood-bookshelf-barn-door-primed-with-mounting-hardware-kitsoft-close-inclued-akde1481.html?piid=103256421",
-        "https://www.wayfair.ca/dining/pdp/gibson-home-4-piece-61-inch-melamine-cereal-bowl-set-in-blue-gbsn2484.html?piid=86834257"
-    ]
+    urls = ["https://www.amazon.ca/Coffee-Nightstand-Industrial-Storage-Furniture/dp/B08Y57XHLS?th=1"]
     for url in urls:
-        if "wayfair" in url:
+        if "wafyair" in url:
             Wayfair_product = WayfairParser(url)
             product_data = Wayfair_product.parse_data()
             Wayfair_product.parse_images()
@@ -137,4 +152,5 @@ if __name__ == "__main__":
             Wayfair_product.driver.quit()
         
         if "amazon" in url:
-            Amazon_product = Amazon_product(url)
+            Amazon_product = AmazonParser(url)
+            product_data = Amazon_product.parse_data()
