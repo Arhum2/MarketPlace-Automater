@@ -18,6 +18,7 @@ headers = {
     'upgrade-insecure-requests': '1',
     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36',
 }
+import requests
 from selenium.webdriver.common.by import By
 import undetected_chromedriver as uc
 from models import ProductData
@@ -34,11 +35,77 @@ def Amazon_extract(product, parser):
         parser.driver.maximize_window()
         driver = parser.driver.get(parser.url)
         print(f"➡️ Navigated to: {parser.url}")
+        time.sleep(2)  # Allow time for the page to load
+        print("✅ Page loaded successfully")
     except Exception as e:
         print(f"❌ Failed to navigate to {parser.url}: {e}")
         return None
 
     #Title
+    try:
+        title = WebDriverWait(parser.driver, 10).until(
+            EC.presence_of_element_located((By.ID, "title"))
 
-    protitle = driver.find_element(By.ID, "productTitle")
+        )
+        if title:
+            product.title = title.text
+            product.title = re.sub(r'[<>:\"/\\|?*]', '', product.title)
+            print(f"✅ Found product title: {product.title}")
+    except Exception as e:
+        print(f"❌ Failed to find product title: {e}")
+        return None
     
+    #Price
+    try:
+        price_whole = WebDriverWait(parser.driver, 10).until(
+            EC.presence_of_element_located((By.CLASS_NAME, "a-price-whole"))
+        )
+        price_fraction = WebDriverWait(parser.driver, 10).until(
+            EC.presence_of_element_located((By.CLASS_NAME, "a-price-fraction"))
+        )
+        if price_fraction and price_whole:
+            price = f"{price_whole.text}.{price_fraction.text}"
+            product.price = price
+            print(f"✅ Found product price: {product.price}")
+    except Exception as e:
+        print(f"❌ Failed to find product price: {e}")
+        return None
+
+    #Description
+    try:
+        try:
+            description = parser.driver.find_element(By.ID, "featureBulletsAndDescription_hoc_feature_div")
+        except not description:
+            description = parser.driver.find_element(By.ID, "feature-bullets")
+
+        if description:
+            product.description = description.text
+            print(f"✅ Found product description: {product.description}")
+        else:
+            print(f"✅ Found product description: {product.description}")
+    except Exception as e:
+        print(f"❌ Failed to find product description: {e}")
+        return None
+    
+#Images
+def Amazon_extract_images(parser):    
+    print("🌐 [START] extract_images")
+
+    soup = BeautifulSoup(parser.driver.page_source, "html.parser")
+    images = soup.find_all("img")
+
+    counter = 1
+    for img in images:
+        counter += 1
+        if not img.has_attr('src'):
+            continue
+        else:
+            response = requests.get(img.get('src'), headers=headers)
+        if response.status_code == 200:
+            filename = f"image_{counter}.jpg"
+            filepath = os.path.join(parser.product_path, "Photos", filename)
+            with open(filepath, 'wb') as file:
+                file.write(response.content)
+            print(f"✅ Saved: {filepath}")
+
+    print("🌐 [END] extract_images")

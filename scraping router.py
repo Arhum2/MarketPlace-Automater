@@ -2,7 +2,7 @@ import os
 import time
 import requests
 import undetected_chromedriver as uc
-from AmazonAPI import Amazon_extract
+from AmazonAPI import Amazon_extract, Amazon_extract_images
 from WayfairAPI import selenium_extract, extract_images
 from models import ProductData
 from fake_useragent import UserAgent
@@ -137,9 +137,8 @@ class AmazonParser(BaseParser):
         else:
             print("⚠️ Failed to scrape product data") 
 
-    def parse_images(self):
-        #TODO 
-        pass
+    def Amazon_parse_images(self):
+        Amazon_extract_images(self)
 
 if __name__ == "__main__":
     urls = ["https://www.amazon.ca/Coffee-Nightstand-Industrial-Storage-Furniture/dp/B08Y57XHLS?th=1"]
@@ -154,3 +153,4 @@ if __name__ == "__main__":
         if "amazon" in url:
             Amazon_product = AmazonParser(url)
             product_data = Amazon_product.parse_data()
+            Amazon_product.Amazon_parse_images()
