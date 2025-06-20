@@ -33,14 +33,15 @@ from webdriver_manager.chrome import ChromeDriverManager
 def Amazon_extract(product, parser):
     try:
         parser.driver.maximize_window()
-        driver = parser.driver.get(parser.url)
+        parser.driver.get(parser.url)
         print(f"➡️ Navigated to: {parser.url}")
-        time.sleep(2)  # Allow time for the page to load
+        time.sleep(5)  # Allow time for the page to load
         print("✅ Page loaded successfully")
     except Exception as e:
         print(f"❌ Failed to navigate to {parser.url}: {e}")
         return None
 
+    time.sleep(random.randint(2, 5))  # Random sleep to mimic human behavior
     #Title
     try:
         title = WebDriverWait(parser.driver, 10).until(
@@ -55,6 +56,7 @@ def Amazon_extract(product, parser):
         print(f"❌ Failed to find product title: {e}")
         return None
     
+    time.sleep(random.randint(2, 5))  # Random sleep to mimic human behavior
     #Price
     try:
         price_whole = WebDriverWait(parser.driver, 10).until(
@@ -87,6 +89,11 @@ def Amazon_extract(product, parser):
         print(f"❌ Failed to find product description: {e}")
         return None
     
+    product.link = parser.url
+
+    return product
+
+
 #Images
 def Amazon_extract_images(parser):    
     print("🌐 [START] extract_images")
@@ -94,18 +101,19 @@ def Amazon_extract_images(parser):
     soup = BeautifulSoup(parser.driver.page_source, "html.parser")
     images = soup.find_all("img")
 
-    counter = 1
     for img in images:
-        counter += 1
-        if not img.has_attr('src'):
+        src = img.get("src") or img.get("data-src")
+        if not src:
             continue
-        else:
-            response = requests.get(img.get('src'), headers=headers)
-        if response.status_code == 200:
-            filename = f"image_{counter}.jpg"
-            filepath = os.path.join(parser.product_path, "Photos", filename)
-            with open(filepath, 'wb') as file:
-                file.write(response.content)
-            print(f"✅ Saved: {filepath}")
+        is_main = img.get("id") == 'main-image'
+        is_alt = img.get("data-a-image-name") == 'altImage'
+
+        if is_main or is_alt or src.endswith(('.jpg', '.jpeg', '.png')):
+            parser.images.append(src)
+        
+        if len(parser.images) >= 20:
+            print("✅ Found enough images, stopping extraction")
+            break
+
 
     print("🌐 [END] extract_images")

@@ -1,4 +1,5 @@
 import os
+import re
 import time
 import requests
 import undetected_chromedriver as uc
@@ -26,6 +27,17 @@ class BaseParser():
         self.images = []
 
     def write_product_data(self, product:ProductData):
+
+        #create product directory
+        product.title = re.sub(r'[<>:\"/\\|?*]', '', product.title)
+        self.product_path = os.path.join(self.product_path, product.title)
+        if os.path.isdir(self.product_path):
+            print("🔻 Error: Product directory already exists")
+            return
+        os.makedirs(self.product_path, exist_ok=True)
+        print(f"✅ Created product directory: {self.product_path}")
+        
+        #create photos directory
         photos_dir = os.path.join(self.product_path, "Photos")
         os.makedirs(photos_dir, exist_ok=True)
         print(f"✅ Created image directory: {photos_dir}") 
@@ -69,32 +81,6 @@ class WayfairParser(BaseParser):
         self.url = url
         self.images = []
         #REMOVE THIS, BASE PARSER HAS THE SAME INIT
-
-    def write_product_data(self, product:ProductData):
-        photos_dir = os.path.join(self.product_path, "Photos")
-        os.makedirs(photos_dir, exist_ok=True)
-        print(f"✅ Created image directory: {photos_dir}") 
-
-        os.chdir(self.product_path)
-        f = open("info.txt", "w")
-        f.write(f"Title: {product.title}\n")
-        f.write(f"Price: {product.price}\n")
-        f.write(f"Description: {product.description.strip()}\n")
-        f.write(f"Link: {product.link}\n")
-        f.close()
-        print("✅ Product data written to file")
-
-        for index, image in enumerate(self.images):
-            try:
-                response = requests.get(image)
-                if response.status_code == 200:
-                    filename = f'image_{index+1}.jpg'
-                    filepath = os.path.join(self.product_path+"\\Photos", filename)
-                    with open(filepath, 'wb') as file:
-                        file.write(response.content)
-                print(f"✅ Saved: {filepath}")
-            except Exception as e:
-                print(f'❌ Failed to download {image}: {e}')
 
     def parse_data(self):
         product = ProductData()
@@ -141,9 +127,15 @@ class AmazonParser(BaseParser):
         Amazon_extract_images(self)
 
 if __name__ == "__main__":
-    urls = ["https://www.amazon.ca/Coffee-Nightstand-Industrial-Storage-Furniture/dp/B08Y57XHLS?th=1"]
+    #Open and read the file containing URLs
+    with open("G:\\My Drive\\selling\\not posted\\links.txt", "r") as file:
+        urls = [line.strip() for line in file if line.strip()]
+    
+    # urls = ["https://www.amazon.com/Y-Decor-NBCL1001-11LED-Ceiling-Brushed-Nickel/dp/B07MC55CDM"]
+
     for url in urls:
-        if "wafyair" in url:
+        time.sleep(2)  # Sleep to avoid overwhelming the server
+        if "wayfair" in url:
             Wayfair_product = WayfairParser(url)
             product_data = Wayfair_product.parse_data()
             Wayfair_product.parse_images()
@@ -154,3 +146,10 @@ if __name__ == "__main__":
             Amazon_product = AmazonParser(url)
             product_data = Amazon_product.parse_data()
             Amazon_product.Amazon_parse_images()
+            Amazon_product.write_product_data(product_data)
+            Amazon_product.driver.quit()
+        
+        else:
+            print(f'❌ Unsupported URL: {url}')
+    
+    print("✅ All products processed successfully.")

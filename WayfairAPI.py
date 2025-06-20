@@ -145,15 +145,9 @@ def selenium_extract(product, parser) -> ProductData:
     product.link = parser.url
     print(f"✅ Set product link: {product.link}")
 
-# Create product folder
-    parser.product_path = os.path.join("G:\\My Drive\\selling\\not posted\\", product.title)
-    
-    if os.path.isdir(parser.product_path):
-        print("🔻 Error: Product directory already exists")
-        return
-        
-    print("🌐 [END] selenium_extract")
     return product
+
+
 
 def extract_images(parser):    
     print("🌐 [START] extract_images")
