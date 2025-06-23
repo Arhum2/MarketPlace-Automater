@@ -134,15 +134,15 @@ if __name__ == "__main__":
     # urls = ["https://www.amazon.com/Y-Decor-NBCL1001-11LED-Ceiling-Brushed-Nickel/dp/B07MC55CDM"]
 
     for url in urls:
-        time.sleep(2)  # Sleep to avoid overwhelming the server
-        if "wayfair" in url:
+        time.sleep(5)  # Sleep to avoid overwhelming the server
+        if "wayfair" in url.lower():
             Wayfair_product = WayfairParser(url)
             product_data = Wayfair_product.parse_data()
             Wayfair_product.parse_images()
             Wayfair_product.write_product_data(product_data)
             Wayfair_product.driver.quit()
         
-        if "amazon" in url:
+        if "amazon" in url.lower():
             Amazon_product = AmazonParser(url)
             product_data = Amazon_product.parse_data()
             Amazon_product.Amazon_parse_images()

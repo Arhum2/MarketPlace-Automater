@@ -41,17 +41,24 @@ def Amazon_extract(product, parser):
         print(f"❌ Failed to navigate to {parser.url}: {e}")
         return None
 
-    time.sleep(random.randint(2, 5))  # Random sleep to mimic human behavior
     #Title
+    print("ℹ️ Extracting title...")
     try:
-        title = WebDriverWait(parser.driver, 10).until(
-            EC.presence_of_element_located((By.ID, "title"))
+        selectors = [
+            "productTitle",
+            "title",
+        ]
 
-        )
-        if title:
-            product.title = title.text
-            product.title = re.sub(r'[<>:\"/\\|?*]', '', product.title)
-            print(f"✅ Found product title: {product.title}")
+        for selector in selectors:
+            try:
+                title = parser.driver.find_element(By.ID, selector)
+                if title.text:
+                    product.title = re.sub(r'[<>:\"/\\|?*]', '', title.text)
+                    print(f"✅ Found product title: {product.title}")
+                break
+            except Exception as e:
+                print(f"❌ Failed to find product title using selector {selector}: {e}")
+           
     except Exception as e:
         print(f"❌ Failed to find product title: {e}")
         return None
@@ -75,16 +82,21 @@ def Amazon_extract(product, parser):
 
     #Description
     try:
-        try:
-            description = parser.driver.find_element(By.ID, "featureBulletsAndDescription_hoc_feature_div")
-        except not description:
-            description = parser.driver.find_element(By.ID, "feature-bullets")
+        selectors = [
+            "featureBulletsAndDescription_hoc_feature_div",
+            "feature-bullets",
+        ]
+        
+        for selector in selectors:
+            try:
+                description = parser.driver.find_element(By.ID, selector)
+                if description.text:
+                    product.description = description.text
+                    print(f"✅ Found product description: {product.description}")
+                break
+            except Exception as e:
+                print(f"❌ Failed to find product description using selector {selector}: {e}")
 
-        if description:
-            product.description = description.text
-            print(f"✅ Found product description: {product.description}")
-        else:
-            print(f"✅ Found product description: {product.description}")
     except Exception as e:
         print(f"❌ Failed to find product description: {e}")
         return None
