@@ -15,18 +15,19 @@ from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 
 #make chrome service using package that downloads the latest chromedriver
-service = Service(ChromeDriverManager().install())
+chrome_driver_path = "C:\\Program Files (x86)\\chromedriver.exe"
+service = Service(executable_path=chrome_driver_path)
 
 
 opts = Options()
 opts.add_argument("--disable-gpu")
-opts.add_argument("--no-sandbox")
-opts.add_argument("--disable-dev-shm-usage")
 opts.add_argument("--disable-blink-features=AutomationControlled")
 opts.add_argument("--disable-infobars")
 opts.add_argument("--disable-extensions")
-opts.add_argument('--user-data-dir=C:\\Users\\pokem\\AppData\\Local\\Google\\Chrome\\User Data')
-opts.add_argument('--profile-directory=Profile 3')
+opts.add_argument('--user-data-dir=C:\\ChromeProfiles\\FBProfile')
+opts.add_experimental_option("excludeSwitches", ["enable-automation"])
+opts.add_experimental_option("useAutomationExtension", False)
+
 
 #Navigating to selling folder
 os.chdir(SELLING_FOLDER)
@@ -63,6 +64,7 @@ class Automate_add_post:
 
         #Setting up browser, File paths, etc
         self.browser = webdriver.Chrome(service=service, options=opts)
+        sleep(2)
         self.abs_path = NOT_POSTED_FOLDER
         self.post = 'https://www.facebook.com/marketplace/create/item'
         self.file_dir = c_file
@@ -75,29 +77,22 @@ class Automate_add_post:
     def get_info(self) -> dict:
 
         x = self.abs_path + self.file_dir.strip('.') + '\\info.txt'
-        temp = []
         result = {}
+        keys = ["title", "price", "description", "link"]
 
-        with open(x, 'r', encoding='utf-8') as txt:
-            info = txt.readlines()
-
-            for line in info:
-                temp.append(line)
-
-        #{Tags: [list of tags]}
-        for line in temp:
-            curr_line = line.split(':')
-            if curr_line[0] == 'Tags':
-                result[curr_line[0]] = None
-                x = curr_line[1].split(',')
-                for item in x:
-                    if result[curr_line[0]] is not None:
-                        result[curr_line[0]].append(item.strip())
-                    else:
-                        result[curr_line[0]] = []
-                        result[curr_line[0]].append(item.strip())
-            else:
-                result[curr_line[0]] = curr_line[1].strip()
+        with open(x, 'r', encoding='utf-8', errors="replace") as txt:
+            lines = txt.readlines()
+                
+        key = None
+        for line in lines:
+            line = line.strip()
+            if not line:
+                continue
+            if ":" in line and line.split(":", 1)[0].isalpha() and line.split(":", 1)[0].lower() in keys:
+                key, value = line.split(":", 1)
+                result[key.strip()] = value.strip()
+            elif key:
+                result[key.strip()] += ' ' + line.strip()
         
         return result
     
@@ -109,47 +104,52 @@ class Automate_add_post:
         info = self.get_info()
 
     # === TITLE ===
-        pyautogui.moveTo(50, 750)
+        pyautogui.moveTo(50, 700)
         pyautogui.click()
         pyautogui.write(info['Title'])
+        sleep(2)
 
     # === PRICE ===
-        pyautogui.moveTo(50, 860)
+        pyautogui.moveTo(50, 810)
         pyautogui.click()
         pyautogui.write(info['Price'])
+        sleep(2)
 
     # === CATEGORY & CONDITION ===
-
-        pyautogui.moveTo(50, 930)
+        pyautogui.moveTo(50, 900)
         pyautogui.click()
         sleep(2)
-        pyautogui.moveTo(50, 1100)
+        pyautogui.moveTo(50, 1050)
         sleep(2)
         pyautogui.click()
         pyautogui.moveTo(50, 1000)
         sleep(2)
         pyautogui.click()
         sleep(2)
-        pyautogui.moveTo(50, 1060)
+        pyautogui.moveTo(50, 1030)
         pyautogui.click()
+        sleep(2)
       
     # === DESCRIPTION ===
         pyautogui.moveTo(50, 1100)
         pyautogui.click()
         pyautogui.write(info['Description'])
+        pyautogui.press('enter')
+        pyautogui.write(info['Link'])
 
         sleep(15)
 
         # === PHOTOS ===
         photo_directory = self.file_dir.strip('.')
-        photo_directory = photo_directory + '\\photo'               
+        photo_directory = photo_directory + '\\Photos'               
         #Filling photo field
         try:
             self.photo_button = self.browser.find_element(By.XPATH, (self.photo_button))
             self.photo_button.click()        
 
         except:
-            pyautogui.moveTo(120, 500)
+            pyautogui.moveTo(120, 300)
+            sleep(2)
             pyautogui.click()
                 
                 
@@ -186,7 +186,7 @@ for i in range(number_of_adds):
     curr_file = ads[i]
     a = Automate_add_post(f'{os.curdir}{curr_file}')
     a.automate()
-    print(f'POSTED {curr_file}')
+    print(f'✅ POSTED {curr_file}')
     sleep(1)
     shutil.move('G:\\My Drive\\selling\\not posted\\' + curr_file, 'G:\\My Drive\\selling\\instagram not posted\\')
     i += 1

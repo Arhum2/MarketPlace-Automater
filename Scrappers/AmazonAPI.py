@@ -69,11 +69,8 @@ def Amazon_extract(product, parser):
         price_whole = WebDriverWait(parser.driver, 10).until(
             EC.presence_of_element_located((By.CLASS_NAME, "a-price-whole"))
         )
-        price_fraction = WebDriverWait(parser.driver, 10).until(
-            EC.presence_of_element_located((By.CLASS_NAME, "a-price-fraction"))
-        )
-        if price_fraction and price_whole:
-            price = f"{price_whole.text}.{price_fraction.text}"
+        if price_whole:
+            price = f"{price_whole.text}"
             product.price = price
             print(f"✅ Found product price: {product.price}")
     except Exception as e:

@@ -54,7 +54,7 @@ def expand_all_panels(driver, timeout=5) -> None:
         except Exception as e:
             print(f"⚠️ Could not click element {selector}")
 ### SCRAPING ##
-def selenium_extract(product, parser) -> ProductData:
+def Wayfair_extract(product, parser) -> ProductData:
     print(f"🌐 [START] selenium_extract for URL: {parser.url}")
     try:
         parser.driver.get(parser.url)
@@ -154,7 +154,7 @@ def extract_images(parser):
     if parser.driver is None:
         print("ℹ️ Launching new Chrome driver for image extraction")
         parser.driver = uc.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
-        parser.driver.get(url)
+        parser.driver.get(parser.url)
 
     soup = BeautifulSoup(parser.driver.page_source, "html.parser")
     images = soup.find_all("img")
