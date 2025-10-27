@@ -153,7 +153,24 @@ def extract_images(parser):
     print("🌐 [START] extract_images")
     if parser.driver is None:
         print("ℹ️ Launching new Chrome driver for image extraction")
-        parser.driver = uc.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
+        
+        # Create anti-detection Chrome options
+        options = uc.ChromeOptions()
+        options.add_argument("--disable-blink-features=AutomationControlled")
+        options.add_argument("--disable-dev-shm-usage")
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-gpu")
+        options.add_argument("--disable-infobars")
+        options.add_argument("--disable-extensions")
+        options.add_experimental_option("excludeSwitches", ["enable-automation"])
+        options.add_experimental_option('useAutomationExtension', False)
+        
+        # Use undetected chrome without specifying service (let it auto-manage)
+        parser.driver = uc.Chrome(options=options)
+        
+        # Remove webdriver property
+        parser.driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
+        
         parser.driver.get(parser.url)
 
     soup = BeautifulSoup(parser.driver.page_source, "html.parser")

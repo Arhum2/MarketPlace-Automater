@@ -1,9 +1,39 @@
 """
 Main orchestrator for the scraping process.
+
+CLI USAGE:
+    python scraping_orchestrator.py --input urls.txt [OPTIONS]
+
+QUICK START:
+    1. Create a text file with URLs (one per line):
+       https://www.amazon.com/your-product-url
+       https://www.wayfair.com/another-product-url
+    
+    2. Run the scraper:
+       python scraping_orchestrator.py -i your_urls.txt
+    
+    3. Check the output directory for scraped data and images
+
+OPTIONS:
+    -i, --input     Text file with URLs (REQUIRED)
+    -o, --output    Custom output directory
+    -d, --delay     Seconds between requests (default: 5)
+    --max-images    Max images per product (default: 20)
+
+EXAMPLES:
+    python scraping_orchestrator.py -i links.txt
+    python scraping_orchestrator.py -i links.txt -o "C:/Output" -d 3
+    python scraping_orchestrator.py -i links.txt --max-images 10
 """
 import time
+import sys
+import io
 from typing import List, Optional
 from pathlib import Path
+
+# Fix Windows console encoding for emojis
+if sys.platform == 'win32':
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 from base_scraper import ScraperConfig, ScrapingResult
 from scraper_factory import ScraperFactory
@@ -15,6 +45,18 @@ class ScrapingOrchestrator:
     def __init__(self, config: Optional[ScraperConfig] = None):
         self.config = config or ScraperConfig()
         self.results = []
+        self.unsupported_urls = []
+    
+    def _progress_countdown(self, duration: int, message: str = "Waiting"):
+        """Display a countdown timer for delays."""
+        print(f"⏳ {message} ({duration}s)", end="", flush=True)
+        
+        for remaining in range(duration, 0, -1):
+            print(f"\r⏳ {message} ({remaining}s)" + "." * (duration - remaining + 1), end="", flush=True)
+            time.sleep(1)
+        
+        print(f"\r✅ {message} completed!" + " " * 20)  # Clear the line
+        print()  # New line for next output
     
     def scrape_urls(self, urls: List[str], delay_between_requests: int = 5) -> List[ScrapingResult]:
         """Scrape multiple URLs with delay between requests."""
@@ -34,6 +76,7 @@ class ScrapingOrchestrator:
             if not scraper:
                 error_msg = f"No scraper available for URL: {url}"
                 print(f"❌ {error_msg}")
+                self.unsupported_urls.append(url)  # Track unsupported URL
                 results.append(ScrapingResult(success=False, error=error_msg))
                 continue
             
@@ -43,8 +86,7 @@ class ScrapingOrchestrator:
             
             # Add delay between requests (except for last URL)
             if i < len(urls):
-                print(f"⏳ Waiting {delay_between_requests} seconds before next request...")
-                time.sleep(delay_between_requests)
+                self._progress_countdown(delay_between_requests, f"Cooling down before next request ({i+1}/{len(urls)})")
         
         # Print summary
         self._print_summary(results)
@@ -90,19 +132,99 @@ class ScrapingOrchestrator:
                 if not result.success:
                     print(f"   • Error: {result.error}")
         
+        # Print unsupported URLs at the end
+        if self.unsupported_urls:
+            print(f"\n🚫 UNSUPPORTED URLs ({len(self.unsupported_urls)}):")
+            for url in self.unsupported_urls:
+                print(f"   • {url}")
+            
+            # Show supported domains
+            from scraper_factory import ScraperFactory
+            supported_domains = ScraperFactory.get_supported_domains()
+            print(f"\nℹ️  Supported domains: {', '.join(supported_domains)}")
+        
         print(f"{'='*60}")
 
 
 # CLI interface
 def main():
-    """Main entry point for CLI usage."""
+    """
+    Main entry point for CLI usage.
+    
+    USAGE EXAMPLES:
+    
+    Basic usage with URL file:
+        python scraping_orchestrator.py --input urls.txt
+        python scraping_orchestrator.py -i urls.txt
+    
+    With custom output directory:
+        python scraping_orchestrator.py -i urls.txt -o "C:/MyOutput"
+        python scraping_orchestrator.py -i urls.txt --output "D:/ScrapedData"
+    
+    With custom delay between requests:
+        python scraping_orchestrator.py -i urls.txt -d 3
+        python scraping_orchestrator.py -i urls.txt --delay 10
+    
+    With custom maximum images per product:
+        python scraping_orchestrator.py -i urls.txt --max-images 15
+    
+    Full example with all options:
+        python scraping_orchestrator.py -i "C:/urls.txt" -o "D:/Output" -d 7 --max-images 25
+    
+    SUPPORTED DOMAINS:
+        - Amazon: amazon.com, amazon.ca, amazon.co.uk
+        - Wayfair: wayfair.com, wayfair.ca
+    
+    INPUT FILE FORMAT:
+        Create a text file with one URL per line:
+        https://www.amazon.com/product1
+        https://www.amazon.ca/product2
+        https://www.wayfair.com/product3
+        
+    NOTES:
+        - Unsupported URLs will be listed at the end of scraping
+        - Each product gets its own folder with images and data
+        - Default delay is 5 seconds between requests (be respectful!)
+        - Default output: "G:/My Drive/selling/not posted/"
+    """
     import argparse
     
-    parser = argparse.ArgumentParser(description="Web scraper for product data")
-    parser.add_argument("--input", "-i", required=True, help="Input file containing URLs")
-    parser.add_argument("--output", "-o", help="Output directory path")
-    parser.add_argument("--delay", "-d", type=int, default=5, help="Delay between requests (seconds)")
-    parser.add_argument("--max-images", type=int, default=20, help="Maximum images to download per product")
+    parser = argparse.ArgumentParser(
+        description="Web scraper for product data from Amazon and Wayfair",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+EXAMPLES:
+  %(prog)s -i urls.txt
+  %(prog)s -i urls.txt -o "C:/MyOutput" -d 3 --max-images 15
+  %(prog)s --input "C:/my_urls.txt" --output "D:/ScrapedData" --delay 10
+
+SUPPORTED SITES:
+  Amazon (amazon.com, amazon.ca, amazon.co.uk)
+  Wayfair (wayfair.com, wayfair.ca)
+        """
+    )
+    
+    parser.add_argument(
+        "--input", "-i", 
+        required=True, 
+        help="Path to text file containing URLs (one per line)"
+    )
+    parser.add_argument(
+        "--output", "-o", 
+        help="Output directory path (default: G:/My Drive/selling/not posted/)"
+    )
+    parser.add_argument(
+        "--delay", "-d", 
+        type=int, 
+        default=5, 
+        help="Delay between requests in seconds (default: 5, min recommended: 2)"
+    )
+    parser.add_argument(
+        "--max-images", 
+        type=int, 
+        default=20, 
+        help="Maximum images to download per product (default: 20)"
+    )
     
     args = parser.parse_args()
     

@@ -8,7 +8,6 @@ import os
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-
 from typing import Optional, List
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -16,6 +15,9 @@ from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
 
 from base_scraper import BaseScraper
+current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.dirname(current_dir)
+sys.path.insert(0, parent_dir)
 from models import ProductData
 
 
@@ -74,17 +76,15 @@ class AmazonScraper(BaseScraper):
         """Extract product data from Amazon product page."""
         try:
             self.driver.maximize_window()
-            self.driver.get(self.url)
-            print(f"➡️ Navigated to: {self.url}")
             
-            # Wait for page to load
-            time.sleep(random.uniform(*self.config.request_delay))
+            # Wait for page to load - give Amazon more time
+            time.sleep(5)
             
             product = ProductData()
             
             # Extract title
             print("ℹ️ Extracting title...")
-            title = self._find_element_by_selectors(self.TITLE_SELECTORS)
+            title = self._find_element_by_selectors(self.TITLE_SELECTORS, timeout=15)
             if title:
                 product.title = self._sanitize_filename(title)
                 print(f"✅ Found title: {product.title}")
@@ -94,7 +94,7 @@ class AmazonScraper(BaseScraper):
             
             # Extract price
             print("ℹ️ Extracting price...")
-            price = self._find_element_by_selectors(self.PRICE_SELECTORS)
+            price = self._find_element_by_selectors(self.PRICE_SELECTORS, timeout=15)
             if price:
                 product.price = price
                 print(f"✅ Found price: {product.price}")
@@ -103,7 +103,7 @@ class AmazonScraper(BaseScraper):
             
             # Extract description
             print("ℹ️ Extracting description...")
-            description = self._find_element_by_selectors(self.DESCRIPTION_SELECTORS)
+            description = self._find_element_by_selectors(self.DESCRIPTION_SELECTORS, timeout=15)
             if description:
                 product.description = description
                 print(f"✅ Found description: {product.description[:100]}...")

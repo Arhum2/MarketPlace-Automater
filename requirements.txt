@@ -1,0 +1,19 @@
+# Web scraping dependencies
+selenium>=4.15.0
+undetected-chromedriver>=3.5.4
+beautifulsoup4>=4.12.2
+requests>=2.31.0
+webdriver-manager>=4.0.1
+
+# User agent randomization
+fake-useragent>=1.4.0
+
+# Data handling and utilities
+lxml>=4.9.3
+
+# Python 3.12+ compatibility
+setuptools>=68.0.0
+
+# Optional: For better performance and compatibility
+urllib3>=2.0.0
+certifi>=2023.7.22

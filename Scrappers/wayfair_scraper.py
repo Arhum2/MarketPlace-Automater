@@ -8,7 +8,6 @@ import os
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-
 from typing import Optional, List
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -16,6 +15,9 @@ from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
 
 from base_scraper import BaseScraper
+current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.dirname(current_dir)
+sys.path.insert(0, parent_dir)
 from models import ProductData
 
 
@@ -31,8 +33,12 @@ class WayfairScraper(BaseScraper):
     ]
     
     PRICE_SELECTORS = [
+        {"type": "css", "value": "[data-test-id='product-price']"},
         {"type": "css", "value": "._6o3atzbl._6o3atzc7._6o3atz19j"},
         {"type": "css", "value": "._1fat8tg5h._1fat8tg2f._1fat8tg13e._1fat8tg174._1fat8tgbl"},
+        {"type": "xpath", "value": "//span[contains(@class, 'price') or contains(text(), '$')]"},
+        {"type": "css", "value": ".ProductDetailInfoV2-module__price"},
+        {"type": "css", "value": "[class*='price']"},
     ]
     
     DESCRIPTION_SELECTORS = [
@@ -108,23 +114,44 @@ class WayfairScraper(BaseScraper):
     def extract_product_data(self) -> Optional[ProductData]:
         """Extract product data from Wayfair product page."""
         try:
-            self.driver.get(self.url)
-            print(f"➡️ Navigated to: {self.url}")
+            # Enhanced stealth behavior for Wayfair
+            print("🛡️ Applying Wayfair stealth techniques...")
             
-            # Wait for page to load
-            time.sleep(random.uniform(*self.config.request_delay))
+            # Simulate human-like behavior - random mouse movements and scrolling
+            try:
+                print("🤖 Simulating human browsing behavior...")
+                # Random scroll to simulate reading
+                self.driver.execute_script("window.scrollTo(0, Math.floor(Math.random() * 500));")
+                self._progress_sleep(random.uniform(1, 3), "Reading page content")
+                
+                # Scroll to middle of page
+                self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight/2);")
+                self._progress_sleep(random.uniform(1, 2), "Scrolling through page")
+                
+                # Scroll back up a bit
+                self.driver.execute_script("window.scrollTo(0, Math.floor(Math.random() * 300));")
+                self._progress_sleep(random.uniform(1, 2), "Final page positioning")
+            except:
+                pass
+            
+            # Extended wait for Wayfair page to fully load
+            wait_time = random.uniform(5, 8)
+            self._progress_sleep(wait_time, "Waiting for Wayfair page to fully load")
             
             # Expand all panels for better data extraction
             self._expand_panels()
+            
+            # Additional wait after expanding panels
+            self._progress_sleep(random.uniform(2, 4), "Processing expanded panels")
             
             # Get page source for fallback meta tag extraction
             soup = BeautifulSoup(self.driver.page_source, "html.parser")
             
             product = ProductData()
             
-            # Extract title
+            # Extract title with longer timeout
             print("ℹ️ Extracting title...")
-            title = self._find_element_by_selectors(self.TITLE_SELECTORS)
+            title = self._find_element_by_selectors(self.TITLE_SELECTORS, timeout=15)
             if not title:
                 # Fallback to meta tags
                 title = self._get_meta_property(soup, "og:title")
@@ -136,18 +163,18 @@ class WayfairScraper(BaseScraper):
                 print("❌ Failed to find product title")
                 return None
             
-            # Extract price
+            # Extract price with shorter timeout to avoid hanging
             print("ℹ️ Extracting price...")
-            price = self._find_element_by_selectors(self.PRICE_SELECTORS)
+            price = self._find_element_by_selectors(self.PRICE_SELECTORS, timeout=5)
             if price:
                 product.price = price
                 print(f"✅ Found price: {product.price}")
             else:
                 print("⚠️ Price not found")
             
-            # Extract description
+            # Extract description with shorter timeout  
             print("ℹ️ Extracting description...")
-            description = self._find_element_by_selectors(self.DESCRIPTION_SELECTORS)
+            description = self._find_element_by_selectors(self.DESCRIPTION_SELECTORS, timeout=5)
             if not description:
                 # Fallback to meta tags
                 description = self._get_meta_property(soup, "og:description")
