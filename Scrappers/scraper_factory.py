@@ -7,15 +7,17 @@ from urllib.parse import urlparse
 from base_scraper import BaseScraper, ScraperConfig
 from amazon_scraper import AmazonScraper
 from wayfair_scraper import WayfairScraper
+from generic_scraper import GenericScraper
 
 
 class ScraperFactory:
     """Factory class for creating appropriate scrapers."""
     
-    # Registry of available scrapers
+    # Registry of available scrapers (order matters - specific scrapers first)
     SCRAPERS = [
         AmazonScraper,
         WayfairScraper,
+        GenericScraper,  # Fallback for any URL
     ]
     
     @classmethod

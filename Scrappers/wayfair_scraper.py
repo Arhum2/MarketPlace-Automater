@@ -39,6 +39,7 @@ class WayfairScraper(BaseScraper):
         {"type": "xpath", "value": "//span[contains(@class, 'price') or contains(text(), '$')]"},
         {"type": "css", "value": ".ProductDetailInfoV2-module__price"},
         {"type": "css", "value": "[class*='price']"},
+        {"type": "xpath", "value": "/html/body/div[2]/div[2]/div[1]/div[2]/div/div[2]/div[2]/div/div/div/div[1]/div/span/span/span/span/span"}
     ]
     
     DESCRIPTION_SELECTORS = [
@@ -63,6 +64,237 @@ class WayfairScraper(BaseScraper):
         tag = soup.find("meta", {"property": prop})
         return tag["content"] if tag else None
     
+    def scrape(self):
+        """Override scrape method with aggressive anti-detection for Wayfair."""
+        try:
+            # Create driver with anti-detection
+            self.driver = self._create_driver()
+            
+            # Apply AGGRESSIVE stealth BEFORE navigation
+            print("🛡️ Applying pre-navigation stealth techniques...")
+            self._apply_stealth_scripts_before_nav()
+            
+            # NOW navigate
+            print(f"🌐 Navigating to {self.url}...")
+            self.driver.get(self.url)
+            print(f"✅ Successfully loaded: {self.url}")
+            
+            # Immediately grab initial HTML (BEFORE CAPTCHA JavaScript runs)
+            print("📄 Grabbing initial page HTML immediately...")
+            initial_html = self.driver.page_source
+            soup = BeautifulSoup(initial_html, "html.parser")
+            print(f"✅ Captured {len(initial_html)} bytes of initial page source")
+            
+            # Try to extract product data from INITIAL HTML (before CAPTCHA takes over)
+            print("📊 Attempting quick extraction from initial HTML...")
+            product = self._extract_from_initial_html(soup)
+            
+            if product and product.title:
+                print(f"✅ Successfully extracted from initial HTML: {product.title}")
+                
+                # Get images and save
+                self.images = self.extract_images()
+                product_path = self._create_product_directory(product)
+                self._save_product_info(product, product_path)
+                downloaded_files = self._download_images(product_path)
+                
+                print(f"✅ Successfully scraped product: {product.title}")
+                print(f"✅ Downloaded {len(downloaded_files)} images")
+                
+                from base_scraper import ScrapingResult
+                return ScrapingResult(
+                    success=True,
+                    product=product,
+                    images=downloaded_files
+                )
+            else:
+                print("⚠️ Could not extract from initial HTML, trying with full extraction...")
+            
+            # If initial extraction failed, check for CAPTCHA
+            print("🔍 Checking for bot detection...")
+            if self._check_for_captcha():
+                error_msg = f"CAPTCHA/Bot detection encountered for {self.url}. Trying aggressive bypass..."
+                print(f"⚠️ {error_msg}")
+                
+                # Try aggressive bypass
+                print("🔥 Applying AGGRESSIVE bypass techniques...")
+                self._apply_aggressive_wayfair_bypass()
+                
+                # Re-check after bypass
+                time.sleep(3)
+                if self._check_for_captcha():
+                    print("❌ Bypass failed, giving up on this URL")
+                    from base_scraper import ScrapingResult
+                    return ScrapingResult(
+                        success=False,
+                        error="CAPTCHA detection could not be bypassed for " + self.url
+                    )
+            
+            print("✅ No bot detection (or bypassed), proceeding with full extraction...")
+            
+            # Extract product data with full methods
+            product = self.extract_product_data()
+            if not product:
+                from base_scraper import ScrapingResult
+                return ScrapingResult(success=False, error="Failed to extract product data")
+            
+            # Get images
+            self.images = self.extract_images()
+            
+            # Save data
+            product_path = self._create_product_directory(product)
+            self._save_product_info(product, product_path)
+            downloaded_files = self._download_images(product_path)
+            
+            print(f"✅ Successfully scraped product: {product.title}")
+            print(f"✅ Downloaded {len(downloaded_files)} images")
+            
+            from base_scraper import ScrapingResult
+            return ScrapingResult(
+                success=True,
+                product=product,
+                images=downloaded_files
+            )
+            
+        except Exception as e:
+            error_msg = f"Scraping failed for {self.url}: {str(e)}"
+            print(f"❌ {error_msg}")
+            from base_scraper import ScrapingResult
+            return ScrapingResult(success=False, error=error_msg)
+            
+        finally:
+            if self.driver:
+                self.driver.quit()
+    
+    def _extract_from_initial_html(self, soup: BeautifulSoup) -> Optional[ProductData]:
+        """Quick extraction from initial HTML using meta tags and basic selectors."""
+        print("  🏃 Using fast meta tag extraction...")
+        product = ProductData()
+        
+        # Try meta tags first (fastest)
+        title = self._get_meta_property(soup, "og:title")
+        if not title:
+            title = self._get_meta_property(soup, "product:title")
+        if not title:
+            # Try basic H1
+            h1 = soup.find("h1")
+            if h1:
+                title = h1.get_text(strip=True)
+        
+        if not title:
+            print("  ❌ No title found in initial HTML")
+            return None
+        
+        product.title = self._sanitize_filename(title)
+        print(f"  ✅ Title: {product.title[:60]}...")
+        
+        # Get price from meta
+        price = self._get_meta_property(soup, "product:price:amount")
+        if not price:
+            price = self._get_meta_property(soup, "og:price")
+        if price:
+            product.price = price
+            print(f"  ✅ Price: {product.price}")
+        
+        # Get description from meta
+        description = self._get_meta_property(soup, "og:description")
+        if description:
+            product.description = description
+            print(f"  ✅ Description: {description[:50]}...")
+        
+        product.link = self.url
+        return product
+    
+    def _apply_stealth_scripts_before_nav(self) -> None:
+        """Apply stealth scripts BEFORE navigating to Wayfair."""
+        # Apply network masking first
+        try:
+            self.driver.execute_cdp_cmd('Network.setUserAgentOverride', {
+                "userAgent": 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                "platform": "Win32",
+                "userAgentMetadata": {
+                    "platformVersion": "10.0.0",
+                    "fullVersion": "120.0.0.0",
+                }
+            })
+        except:
+            pass
+        
+        # Block tracking/detection signals
+        try:
+            self.driver.execute_cdp_cmd('Network.setBlockedURLs', {
+                'urls': ['*://*analytics*', '*://*tracking*', '*://*detect*bot*']
+            })
+        except:
+            pass
+        
+        stealth_scripts = [
+            # Override navigator.webdriver
+            "Object.defineProperty(navigator, 'webdriver', {get: () => undefined})",
+            
+            # Override chrome property
+            "window.chrome = {runtime: {}}",
+            
+            # Override plugins with realistic content
+            "Object.defineProperty(navigator, 'plugins', {get: () => [1,2,3,4,5]})",
+            "Object.defineProperty(navigator, 'languages', {get: () => ['en-US', 'en']})",
+            
+            # Override permissions
+            "const originalQuery = window.navigator.permissions.query; window.navigator.permissions.query = (parameters) => (parameters.name === 'notifications' ? Promise.resolve({state: Notification.permission}) : originalQuery(parameters));",
+            
+            # Remove headless indicator
+            "Object.defineProperty(navigator, 'headless', {get: () => false})",
+            
+            # Hide undetected-chromedriver markers
+            "delete navigator.__proto__.webdriver;",
+            "Object.defineProperty(navigator, 'maxTouchPoints', {get: () => 10});",
+        ]
+        
+        for script in stealth_scripts:
+            try:
+                self.driver.execute_script(script)
+            except:
+                pass
+    
+    def _apply_aggressive_wayfair_bypass(self) -> None:
+        """Apply aggressive techniques to bypass Wayfair CAPTCHA."""
+        try:
+            # Add more human-like behavior
+            print("  🤖 Simulating human behavior...")
+            import random
+            
+            # Random scrolling
+            for _ in range(3):
+                scroll_height = random.randint(100, 500)
+                self.driver.execute_script(f"window.scrollBy(0, {scroll_height})")
+                time.sleep(random.uniform(1, 3))
+            
+            # Random mouse movements via JavaScript
+            self.driver.execute_script("""
+                const event = new MouseEvent('mousemove', {
+                    view: window,
+                    bubbles: true,
+                    cancelable: true,
+                    clientX: Math.random() * window.innerWidth,
+                    clientY: Math.random() * window.innerHeight
+                });
+                document.dispatchEvent(event);
+            """)
+            
+            # Wait with random delay
+            time.sleep(random.uniform(2, 4))
+            
+            # Attempt to focus on page elements
+            try:
+                self.driver.execute_script("document.querySelector('body').click()")
+            except:
+                pass
+                
+            time.sleep(random.uniform(1, 2))
+            
+        except Exception as e:
+            print(f"  ⚠️ Bypass technique failed: {e}")
+
     def _expand_panels(self) -> None:
         """Expand all collapsible panels on the page."""
         print("🔧 Expanding panels...")
@@ -203,15 +435,23 @@ class WayfairScraper(BaseScraper):
             images = soup.find_all("img")
             image_urls = []
             
-            for img in images:
+            # DEBUG: Show what we found
+            print(f"🔍 [DEBUG] Total <img> tags found: {len(images)}")
+            
+            for idx, img in enumerate(images):
                 src = img.get("src") or img.get("data-src")
                 if not src:
                     continue
+                
+                # DEBUG: Show all image sources
+                print(f"  📸 Image {idx}: {src[:80]}...")
                 
                 # Wayfair-specific image identification
                 is_h800 = "h800" in src
                 is_initial = img.get("data-enzyme-id") == "InitialImage"
                 is_product_image = any(indicator in src for indicator in ['.jpg', '.jpeg', '.png', '.webp'])
+                
+                print(f"     ├─ h800={is_h800}, initial={is_initial}, product_img={is_product_image}")
                 
                 if is_h800 or is_initial or is_product_image:
                     # Convert to higher resolution if possible
@@ -219,11 +459,13 @@ class WayfairScraper(BaseScraper):
                         src = src.replace('resize=h800', 'resize=h1200')
                     
                     image_urls.append(src)
+                    print(f"     └─ ✅ ADDED (count: {len(image_urls)})")
                     
                 if len(image_urls) >= self.config.max_images:
+                    print(f"🛑 Reached max_images limit: {self.config.max_images}")
                     break
             
-            print(f"✅ Found {len(image_urls)} images")
+            print(f"✅ Found {len(image_urls)} images (max allowed: {self.config.max_images})")
             print("🌐 [END] extract_images")
             return image_urls
             
