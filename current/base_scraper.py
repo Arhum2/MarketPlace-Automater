@@ -20,6 +20,26 @@ parent_dir = os.path.dirname(current_dir)
 sys.path.insert(0, parent_dir)
 from models import ProductData
 
+# Load proxy list for rotation
+def _load_proxies():
+    """Load valid proxies from valid_proxies.txt"""
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    proxy_file = os.path.join(script_dir, "valid_proxies.txt")
+    
+    proxies = []
+    try:
+        if os.path.exists(proxy_file):
+            with open(proxy_file, "r") as f:
+                proxies = [p.strip() for p in f.readlines() if p.strip()]
+    except Exception as e:
+        print(f"⚠️ Failed to load proxies: {e}")
+    
+    return proxies
+
+PROXY_LIST = _load_proxies()
+PROXY_INDEX = 0
+USE_PROXIES = False  # Set to False to test without proxies, True to enable
+
 
 class ScraperConfig:
     """Configuration class for scraper settings."""
@@ -54,9 +74,25 @@ class BaseScraper(ABC):
         self.config = config or ScraperConfig()
         self.driver = None
         self.images = []
+    
+    def _get_next_proxy(self) -> Optional[Dict[str, str]]:
+        """Get next proxy from the rotation list."""
+        global PROXY_INDEX
         
-    def _get_chrome_options(self) -> uc.ChromeOptions:
-        """Create Chrome options with anti-detection measures."""
+        if not USE_PROXIES or not PROXY_LIST:
+            return None
+        
+        proxy = PROXY_LIST[PROXY_INDEX % len(PROXY_LIST)]
+        PROXY_INDEX += 1
+        
+        # Format proxy with http:// if not already included
+        if not proxy.startswith('http'):
+            proxy = f'http://{proxy}'
+        
+        return {"http": proxy, "https": proxy}
+        
+    def _get_chrome_options(self, proxy: Optional[str] = None) -> uc.ChromeOptions:
+        """Create Chrome options with anti-detection measures and optional proxy."""
         opts = uc.ChromeOptions()
         opts.add_argument("--disable-gpu")
         opts.add_argument("--no-sandbox")
@@ -69,14 +105,21 @@ class BaseScraper(ABC):
         # User agent
         opts.add_argument("--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36")
         
+        # Add proxy if provided
+        if proxy:
+            opts.add_argument(f"--proxy-server={proxy}")
+            print(f"🌐 Using proxy: {proxy}")
+        
         return opts
     
     def _create_driver(self) -> uc.Chrome:
-        """Create and configure Chrome driver with enhanced anti-detection."""
+        """Create and configure Chrome driver with enhanced anti-detection and proxy rotation."""
         try:
             # Try to create Chrome driver
             print("🔧 Initializing Chrome driver...")
-            opts = self._get_chrome_options()
+            proxy = self._get_next_proxy()
+            proxy_str = proxy["http"] if proxy else None
+            opts = self._get_chrome_options(proxy=proxy_str)
             driver = uc.Chrome(options=opts, version_main=None, use_subprocess=True)
             
             # Additional anti-detection JavaScript
@@ -93,7 +136,9 @@ class BaseScraper(ABC):
             
             try:
                 # Fallback: Try without version specification
-                opts = self._get_chrome_options()
+                proxy = self._get_next_proxy()
+                proxy_str = proxy["http"] if proxy else None
+                opts = self._get_chrome_options(proxy=proxy_str)
                 driver = uc.Chrome(options=opts, use_subprocess=True)
                 driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
                 print("✅ Alternative Chrome driver initialized successfully")
@@ -152,7 +197,8 @@ class BaseScraper(ABC):
         
         for index, image_url in enumerate(self.images[:self.config.max_images]):
             try:
-                response = requests.get(image_url, timeout=30)
+                proxy = self._get_next_proxy()
+                response = requests.get(image_url, timeout=30, proxies=proxy)
                 if response.status_code == 200:
                     filename = f'image_{index+1}.jpg'
                     filepath = os.path.join(photos_dir, filename)
