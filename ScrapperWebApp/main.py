@@ -1,11 +1,21 @@
 from fastapi import FastAPI, HTTPException, status, BackgroundTasks
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from jobs import create_job, get_progress, get_results_job_id, get_results
-from models import CreateProductRequest
+from models import CreateProductRequest, UpdateProductRequest
 from scrapper_service import scrape_url
 from database import get_db
 
 app = FastAPI()
+
+# CORS for frontend
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 def scrape_and_update(job_id: str, product_id: str, url: str):
@@ -68,7 +78,7 @@ def scrape_and_update(job_id: str, product_id: str, url: str):
         db.update_product(product_id=product_id, status="failed")
 
 
-@app.post("/scrape")
+@app.post("/api/scrape")
 async def root(url: str, background_tasks: BackgroundTasks):
     db = get_db()
 
@@ -89,20 +99,84 @@ async def root(url: str, background_tasks: BackgroundTasks):
         "message": "Scraping started in background"
     }
 
-@app.get("/progress/{job_id}")
+@app.get("/api/progress/{job_id}")
 async def check_progress(job_id: str):
     job_progress = get_progress(job_id)
     return {"progress": job_progress}
 
-@app.get("/results_job/{job_id}")
+@app.get("/api/results_job/{job_id}")
 async def check_result(job_id: str):
     job_result = get_results_job_id(job_id)
     return {"result": job_result}
 
-@app.get("/results_jobs")
+@app.get("/api/results_jobs")
 async def check_results():
     job_results = get_results()
     return {"results": job_results}
+
+
+@app.get("/api/products")
+async def list_products():
+    """Get all products."""
+    db = get_db()
+    products = db.list_products()
+    return products
+
+
+@app.get("/api/products/{product_id}")
+async def get_product(product_id: str):
+    """Get a single product by ID."""
+    db = get_db()
+    product = db.get_product(product_id)
+    if not product:
+        raise HTTPException(status_code=404, detail="Product not found")
+    return product
+
+
+@app.patch("/api/products/{product_id}")
+async def update_product(product_id: str, request: UpdateProductRequest):
+    """Update a product's fields."""
+    db = get_db()
+    product = db.get_product(product_id)
+    if not product:
+        raise HTTPException(status_code=404, detail="Product not found")
+
+    # Build update data from non-None fields
+    update_data = {k: v for k, v in request.model_dump().items() if v is not None}
+
+    if not update_data:
+        return product  # Nothing to update
+
+    updated = db.update_product(product_id, **update_data)
+    return updated
+
+
+@app.delete("/api/products/{product_id}")
+async def delete_product(product_id: str):
+    """Delete a product by ID."""
+    db = get_db()
+    product = db.get_product(product_id)
+    if not product:
+        raise HTTPException(status_code=404, detail="Product not found")
+
+    db.delete_product(product_id)
+    return {"message": "Product deleted successfully"}
+
+
+@app.get("/api/products/{product_id}/images")
+async def get_product_images(product_id: str):
+    """Get all images for a product."""
+    db = get_db()
+    images = db.get_product_images(product_id)
+    return images
+
+
+@app.delete("/api/products/{product_id}/images/{image_id}")
+async def delete_product_image(product_id: str, image_id: str):
+    """Delete a specific image from a product."""
+    db = get_db()
+    db.delete_product_image(image_id)
+    return {"message": "Image deleted successfully"}
 
 
 @app.post("/api/products")
@@ -112,7 +186,7 @@ async def create_product(request: CreateProductRequest):
     if existing_product:
         # Return existing product with 200 OK
         return JSONResponse(content=existing_product, status_code=status.HTTP_200_OK)
-    
+
     # Create product
     try:
         product_data = db.create_product(request.url)

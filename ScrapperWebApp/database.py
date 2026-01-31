@@ -77,7 +77,28 @@ class Database:
     def update_product_status(self, product_id: str, status: str) -> Dict[str, Any]:
         """Update product status."""
         return self.update_product(product_id, status=status)
-    
+
+    def delete_product(self, product_id: str) -> bool:
+        """Delete a product and its associated data."""
+        try:
+            # Delete from storage first (images)
+            images = self.get_product_images(product_id)
+            for img in images:
+                # Extract path from URL and delete from storage
+                if img.get('file_path'):
+                    try:
+                        path = img['file_path'].split('/product-images/')[-1]
+                        self.client.storage.from_("product-images").remove([path])
+                    except:
+                        pass  # Ignore storage errors
+
+            # Delete product (cascade will delete jobs, images, etc.)
+            self.client.table("products").delete().eq("id", product_id).execute()
+            return True
+        except Exception as e:
+            print(f"Failed to delete product: {e}")
+            return False
+
     # ========== JOB OPERATIONS ==========
     
     def create_job(self, product_id: str, job_type: str, **kwargs) -> Dict[str, Any]:
@@ -131,7 +152,29 @@ class Database:
         """Get all images for a product."""
         result = self.client.table("product_images").select("*").eq("product_id", product_id).order("image_order").execute()
         return result.data if result.data else []
-    
+
+    def delete_product_image(self, image_id: str) -> bool:
+        """Delete a product image from storage and database."""
+        try:
+            # Get image first to get the file path
+            result = self.client.table("product_images").select("*").eq("id", image_id).execute()
+            if result.data:
+                file_path = result.data[0].get('file_path', '')
+                # Try to delete from storage
+                if file_path and 'product-images' in file_path:
+                    try:
+                        path = file_path.split('/product-images/')[-1]
+                        self.client.storage.from_("product-images").remove([path])
+                    except:
+                        pass
+
+            # Delete from database
+            self.client.table("product_images").delete().eq("id", image_id).execute()
+            return True
+        except Exception as e:
+            print(f"Failed to delete image: {e}")
+            return False
+
     # ========== STORAGE OPERATIONS ==========
 
     def upload_image(self, product_id: str, image_path: str, image_order: int = 0) -> Optional[str]:
