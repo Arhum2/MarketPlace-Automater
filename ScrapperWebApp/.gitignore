@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Temp files
+temp_products/
+*.tmp
+nul
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# WebDriver cache
+.wdm/
+
+# Test outputs
+Scraping/tests/*.tmp
