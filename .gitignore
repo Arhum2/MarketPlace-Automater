@@ -1,3 +1,12 @@
 env
 .env
 config.py
+venv
+ScrapperWebApp/__pycache__/__init__.cpython-312.pyc
+ScrapperWebApp/__pycache__/jobs.cpython-312.pyc
+ScrapperWebApp/__pycache__/main.cpython-312.pyc
+current/__pycache__/amazon_scraper.cpython-312.pyc
+current/__pycache__/base_scraper.cpython-312.pyc
+current/__pycache__/generic_scraper.cpython-312.pyc
+current/__pycache__/wayfair_scraper.cpython-312.pyc
+current/__pycache__/scraper_factory.cpython-312.pyc
