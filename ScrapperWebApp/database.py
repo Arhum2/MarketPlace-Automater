@@ -83,21 +83,28 @@ class Database:
         try:
             # Delete from storage first (images)
             images = self.get_product_images(product_id)
+            print(f"Deleting {len(images)} images for product {product_id}")
             for img in images:
                 # Extract path from URL and delete from storage
                 if img.get('file_path'):
                     try:
                         path = img['file_path'].split('/product-images/')[-1]
+                        print(f"Deleting from storage: {path}")
                         self.client.storage.from_("product-images").remove([path])
-                    except:
-                        pass  # Ignore storage errors
+                    except Exception as storage_err:
+                        print(f"Storage deletion failed (continuing): {storage_err}")
 
-            # Delete product (cascade will delete jobs, images, etc.)
+            # Delete product images from database first
+            print(f"Deleting product_images records for product {product_id}")
+            self.client.table("product_images").delete().eq("product_id", product_id).execute()
+
+            # Delete product (cascade will delete jobs, etc.)
+            print(f"Deleting product record {product_id}")
             self.client.table("products").delete().eq("id", product_id).execute()
             return True
         except Exception as e:
             print(f"Failed to delete product: {e}")
-            return False
+            raise  # Re-raise to surface the error
 
     # ========== JOB OPERATIONS ==========
     
@@ -164,16 +171,20 @@ class Database:
                 if file_path and 'product-images' in file_path:
                     try:
                         path = file_path.split('/product-images/')[-1]
-                        self.client.storage.from_("product-images").remove([path])
-                    except:
-                        pass
+                        print(f"Attempting to delete from storage bucket 'product-images': {path}")
+                        result = self.client.storage.from_("product-images").remove([path])
+                        print(f"Storage deletion result: {result}")
+                    except Exception as storage_err:
+                        print(f"Storage deletion failed: {storage_err}")
+                        print(f"Error type: {type(storage_err).__name__}")
 
-            # Delete from database
+            # Delete from database (always attempt even if storage fails)
+            print(f"Deleting image record from database: {image_id}")
             self.client.table("product_images").delete().eq("id", image_id).execute()
             return True
         except Exception as e:
-            print(f"Failed to delete image: {e}")
-            return False
+            print(f"Failed to delete image from database: {e}")
+            raise  # Re-raise to surface the error
 
     # ========== STORAGE OPERATIONS ==========
 

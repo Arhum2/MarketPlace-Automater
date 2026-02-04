@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nComplete backend refactor with Supabase integration\n\n- Add Supabase database for persistent job/product storage\n- Add background task processing \\(non-blocking scraping\\)\n- Add image upload to Supabase Storage\n- Add scraping module with Amazon, Wayfair, Generic scrapers\n- Add webdriver-manager for automatic ChromeDriver download\n- Add test script for debugging \\(test_scrape.py\\)\n- Add comprehensive README documentation\n- Remove deprecated files and clean up structure\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(npm create:*)",
+      "Bash(npm install)",
+      "Bash(npm install:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nAdd React frontend with product management dashboard\n\n- Create React + Vite + Tailwind CSS frontend\n- Add ScrapeForm component with progress tracking\n- Add ProductList with view/delete actions\n- Add ProductCard with edit, image management, and delete\n- Add CORS middleware to FastAPI backend\n- Add /api/ prefix to all endpoints for consistency\n- Add PATCH /api/products/{id} for editing product fields\n- Add GET/DELETE endpoints for product images\n- Add UpdateProductRequest model\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")"
+    ],
+    "includeCoAuthoredBy": false
+  }
+}

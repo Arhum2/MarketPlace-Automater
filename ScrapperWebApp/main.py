@@ -5,6 +5,7 @@ from jobs import create_job, get_progress, get_results_job_id, get_results
 from models import CreateProductRequest, UpdateProductRequest
 from scrapper_service import scrape_url
 from database import get_db
+from facebook_poster import post_to_facebook
 
 app = FastAPI()
 
@@ -120,6 +121,12 @@ async def list_products():
     """Get all products."""
     db = get_db()
     products = db.list_products()
+
+    # Add first image thumbnail to each product
+    for product in products:
+        images = db.get_product_images(product['id'])
+        product['thumbnail'] = images[0]['file_path'] if images else None
+
     return products
 
 
@@ -147,7 +154,26 @@ async def update_product(product_id: str, request: UpdateProductRequest):
     if not update_data:
         return product  # Nothing to update
 
+    # Apply the update first
     updated = db.update_product(product_id, **update_data)
+
+    # Check if all required fields are now complete
+    images = db.get_product_images(product_id)
+    missing_fields = []
+    if not updated.get('title'):
+        missing_fields.append('title')
+    if not updated.get('price'):
+        missing_fields.append('price')
+    if not updated.get('description'):
+        missing_fields.append('description')
+    if not images:
+        missing_fields.append('images')
+
+    # Auto-update status based on completeness
+    new_status = "ready_to_post" if not missing_fields else "collected"
+    if updated.get('status') != new_status:
+        updated = db.update_product(product_id, status=new_status, missing_fields=missing_fields)
+
     return updated
 
 
@@ -177,6 +203,32 @@ async def delete_product_image(product_id: str, image_id: str):
     db = get_db()
     db.delete_product_image(image_id)
     return {"message": "Image deleted successfully"}
+
+
+@app.post("/api/products/{product_id}/post")
+async def post_product_to_facebook(product_id: str):
+    """Post a product to Facebook Marketplace."""
+    db = get_db()
+    product = db.get_product(product_id)
+    if not product:
+        raise HTTPException(status_code=404, detail="Product not found")
+
+    # Check if product has required fields
+    if not product.get('title') or not product.get('price'):
+        raise HTTPException(status_code=400, detail="Product missing title or price")
+
+    # Check if product has images
+    images = db.get_product_images(product_id)
+    if not images:
+        raise HTTPException(status_code=400, detail="Product has no images")
+
+    # Post to Facebook (this will open browser and run automation)
+    result = post_to_facebook(product_id)
+
+    if result.get('success'):
+        return {"message": result.get('message', 'Posted successfully')}
+    else:
+        raise HTTPException(status_code=500, detail=result.get('error', 'Posting failed'))
 
 
 @app.post("/api/products")

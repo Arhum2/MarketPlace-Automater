@@ -6,8 +6,40 @@ function ProductCard({ product, onUpdate, onDelete }) {
   const [editedProduct, setEditedProduct] = useState(product)
   const [images, setImages] = useState(product.images || [])
   const [isManagingImages, setIsManagingImages] = useState(false)
+  const [isPosting, setIsPosting] = useState(false)
+  const [postingStatus, setPostingStatus] = useState('')
 
   const missingFields = product.missing_fields || []
+
+  const handlePost = async () => {
+    if (!confirm('Post this product to Facebook Marketplace?')) return
+
+    setIsPosting(true)
+    setPostingStatus('Opening browser and posting...')
+
+    try {
+      const response = await fetch(`/api/products/${product.id}/post`, {
+        method: 'POST'
+      })
+
+      if (response.ok) {
+        const result = await response.json()
+        setPostingStatus('Posted successfully!')
+        // Update local state to reflect posted status
+        if (onUpdate) onUpdate({ ...product, status: 'posted' })
+      } else {
+        const error = await response.json()
+        setPostingStatus(`Failed: ${error.detail}`)
+      }
+    } catch (err) {
+      console.error('Posting failed:', err)
+      setPostingStatus('Failed to post')
+    } finally {
+      setIsPosting(false)
+      // Clear status after 5 seconds
+      setTimeout(() => setPostingStatus(''), 5000)
+    }
+  }
 
   const handleSave = async () => {
     try {
@@ -149,7 +181,7 @@ function ProductCard({ product, onUpdate, onDelete }) {
           {/* Status Badge */}
           <div className="flex items-center gap-2 mb-4">
             <span className={`px-3 py-1 rounded-full text-sm font-medium ${statusColors[product.status] || 'bg-gray-100'}`}>
-              {product.status?.replace('_', ' ')}
+              {product.status?.replaceAll('_', ' ')}
             </span>
             {missingFields.length > 0 && (
               <span className="text-sm text-red-600">
@@ -160,14 +192,29 @@ function ProductCard({ product, onUpdate, onDelete }) {
 
           {/* Title */}
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-500 mb-1">Title</label>
+            <div className="flex items-center justify-between mb-1">
+              <label className="block text-sm font-medium text-gray-500">Title</label>
+              {isEditing && (
+                <span className={`text-sm ${(editedProduct.title?.length || 0) > 99 ? 'text-red-600 font-semibold' : 'text-gray-500'}`}>
+                  {editedProduct.title?.length || 0}/99
+                </span>
+              )}
+            </div>
             {isEditing ? (
-              <input
-                type="text"
-                value={editedProduct.title || ''}
-                onChange={(e) => setEditedProduct({ ...editedProduct, title: e.target.value })}
-                className="w-full px-3 py-2 border rounded-lg"
-              />
+              <>
+                <input
+                  type="text"
+                  value={editedProduct.title || ''}
+                  onChange={(e) => setEditedProduct({ ...editedProduct, title: e.target.value })}
+                  maxLength={150}
+                  className={`w-full px-3 py-2 border rounded-lg ${
+                    (editedProduct.title?.length || 0) > 99 ? 'border-red-500' : 'border-gray-300'
+                  }`}
+                />
+                {(editedProduct.title?.length || 0) > 99 && (
+                  <p className="text-sm text-red-600 mt-1">⚠️ Facebook limits titles to 99 characters. Title will be truncated when posting.</p>
+                )}
+              </>
             ) : (
               <p className={`text-lg font-semibold ${!product.title ? 'text-red-500 italic' : ''}`}>
                 {product.title || 'Missing title'}
@@ -229,6 +276,13 @@ function ProductCard({ product, onUpdate, onDelete }) {
             </a>
           </div>
 
+          {/* Posting Status Message */}
+          {postingStatus && (
+            <div className={`mb-3 px-4 py-2 rounded-lg ${postingStatus.includes('Failed') ? 'bg-red-50 text-red-700' : 'bg-green-50 text-green-700'}`}>
+              {postingStatus}
+            </div>
+          )}
+
           {/* Actions */}
           <div className="flex gap-3 mt-6">
             {isEditing ? (
@@ -258,10 +312,11 @@ function ProductCard({ product, onUpdate, onDelete }) {
                   Edit
                 </button>
                 <button
+                  onClick={handlePost}
                   className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400 cursor-pointer disabled:cursor-not-allowed"
-                  disabled={missingFields.length > 0}
+                  disabled={missingFields.length > 0 || isPosting}
                 >
-                  Post to Facebook
+                  {isPosting ? 'Posting...' : 'Post to Facebook'}
                 </button>
                 {onDelete && (
                   <button
