@@ -93,6 +93,7 @@ class BaseScraper(ABC):
     def _get_chrome_options(self, proxy: Optional[str] = None) -> uc.ChromeOptions:
         """Create Chrome options with anti-detection measures and optional proxy."""
         opts = uc.ChromeOptions()
+        opts.add_argument("--headless=new")
         opts.add_argument("--disable-gpu")
         opts.add_argument("--no-sandbox")
         opts.add_argument("--disable-dev-shm-usage")
