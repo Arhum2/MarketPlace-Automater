@@ -382,7 +382,7 @@ function ProductCard({ product, onUpdate, onDelete }) {
                 <button
                   onClick={handlePost}
                   className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400 cursor-pointer disabled:cursor-not-allowed"
-                  disabled={missingFields.length > 0 || isPosting}
+                  disabled={missingFields.length > 0 || isPosting || product.status == 'failed'}
                 >
                   {isPosting ? 'Posting...' : 'Post to Facebook'}
                 </button>
