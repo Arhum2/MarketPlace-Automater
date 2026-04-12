@@ -93,19 +93,18 @@ def cleanup_temp_images(product_id: str) -> bool:
 def setup_browser() -> webdriver.Chrome:
     """
     Set up Chrome browser with persistent profile for Facebook login.
+    Uses undetected-chromedriver to avoid detection issues.
     """
-    service = Service(ChromeDriverManager().install())
+    import undetected_chromedriver as uc
 
-    opts = Options()
+    opts = uc.ChromeOptions()
     opts.add_argument("--disable-gpu")
     opts.add_argument("--disable-blink-features=AutomationControlled")
     opts.add_argument("--disable-infobars")
     opts.add_argument("--disable-extensions")
     opts.add_argument(f"--user-data-dir={CHROME_PROFILE}")
-    opts.add_experimental_option("excludeSwitches", ["enable-automation"])
-    opts.add_experimental_option("useAutomationExtension", False)
 
-    browser = webdriver.Chrome(service=service, options=opts)
+    browser = uc.Chrome(options=opts, use_subprocess=True)
     return browser
 
 

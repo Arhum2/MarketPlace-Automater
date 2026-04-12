@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, status, BackgroundTasks
+from fastapi import FastAPI, HTTPException, status, BackgroundTasks, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from jobs import create_job, get_progress, get_results_job_id, get_results
@@ -6,6 +6,7 @@ from models import CreateProductRequest, UpdateProductRequest
 from scrapper_service import scrape_url
 from database import get_db
 from facebook_poster import post_to_facebook
+from typing import List
 
 app = FastAPI()
 
@@ -195,6 +196,48 @@ async def get_product_images(product_id: str):
     db = get_db()
     images = db.get_product_images(product_id)
     return images
+
+
+@app.post("/api/products/{product_id}/images")
+async def upload_product_images(product_id: str, files: List[UploadFile] = File(...)):
+    """Upload one or more images to a product."""
+    db = get_db()
+    product = db.get_product(product_id)
+    if not product:
+        raise HTTPException(status_code=404, detail="Product not found")
+
+    existing_images = db.get_product_images(product_id)
+    next_order = len(existing_images)
+
+    uploaded = []
+    for i, file in enumerate(files):
+        if not file.content_type or not file.content_type.startswith("image/"):
+            continue
+        data = await file.read()
+        url = db.upload_image_bytes(product_id, data, file.filename, file.content_type, image_order=next_order + i)
+        if url:
+            uploaded.append(url)
+
+    if not uploaded:
+        raise HTTPException(status_code=400, detail="No valid images uploaded")
+
+    # Re-check missing fields to update status
+    images = db.get_product_images(product_id)
+    missing_fields = []
+    if not product.get('title'):
+        missing_fields.append('title')
+    if not product.get('price'):
+        missing_fields.append('price')
+    if not product.get('description'):
+        missing_fields.append('description')
+    if not images:
+        missing_fields.append('images')
+
+    new_status = "ready_to_post" if not missing_fields else "collected"
+    if product.get('status') != new_status:
+        db.update_product(product_id, status=new_status, missing_fields=missing_fields)
+
+    return {"uploaded": len(uploaded), "urls": uploaded}
 
 
 @app.delete("/api/products/{product_id}/images/{image_id}")

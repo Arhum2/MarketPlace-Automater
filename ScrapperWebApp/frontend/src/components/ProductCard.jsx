@@ -8,6 +8,7 @@ function ProductCard({ product, onUpdate, onDelete }) {
   const [isManagingImages, setIsManagingImages] = useState(false)
   const [isPosting, setIsPosting] = useState(false)
   const [postingStatus, setPostingStatus] = useState('')
+  const [isUploading, setIsUploading] = useState(false)
 
   const missingFields = product.missing_fields || []
 
@@ -86,6 +87,49 @@ function ProductCard({ product, onUpdate, onDelete }) {
     }
   }
 
+  const handleUploadImages = async (e) => {
+    const files = e.target.files
+    if (!files || files.length === 0) return
+
+    setIsUploading(true)
+    const formData = new FormData()
+    for (const file of files) {
+      formData.append('files', file)
+    }
+
+    try {
+      const response = await fetch(`/api/products/${product.id}/images`, {
+        method: 'POST',
+        body: formData
+      })
+
+      if (response.ok) {
+        // Refresh images
+        const imgResponse = await fetch(`/api/products/${product.id}/images`)
+        if (imgResponse.ok) {
+          const newImages = await imgResponse.json()
+          setImages(newImages)
+          setSelectedImage(newImages.length - 1)
+        }
+        // Refresh product to get updated status
+        const prodResponse = await fetch(`/api/products/${product.id}`)
+        if (prodResponse.ok) {
+          const updated = await prodResponse.json()
+          if (onUpdate) onUpdate(updated)
+        }
+      } else {
+        const error = await response.json()
+        alert(`Upload failed: ${error.detail}`)
+      }
+    } catch (err) {
+      console.error('Upload failed:', err)
+      alert('Failed to upload images')
+    } finally {
+      setIsUploading(false)
+      e.target.value = ''
+    }
+  }
+
   const statusColors = {
     pending: 'bg-yellow-100 text-yellow-800',
     collected: 'bg-blue-100 text-blue-800',
@@ -153,25 +197,49 @@ function ProductCard({ product, onUpdate, onDelete }) {
                 </div>
               )}
 
-              {/* Image Management Toggle */}
-              <button
-                onClick={() => setIsManagingImages(!isManagingImages)}
-                className={`mt-2 px-3 py-1.5 text-sm rounded-lg cursor-pointer ${
-                  isManagingImages
-                    ? 'bg-red-100 text-red-700 hover:bg-red-200'
-                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                }`}
-              >
-                {isManagingImages ? 'Done' : 'Manage Images'}
-              </button>
+              {/* Image Management Toggle + Upload */}
+              <div className="flex gap-2 mt-2">
+                <button
+                  onClick={() => setIsManagingImages(!isManagingImages)}
+                  className={`px-3 py-1.5 text-sm rounded-lg cursor-pointer ${
+                    isManagingImages
+                      ? 'bg-red-100 text-red-700 hover:bg-red-200'
+                      : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                  }`}
+                >
+                  {isManagingImages ? 'Done' : 'Manage Images'}
+                </button>
+                <label className="px-3 py-1.5 text-sm rounded-lg cursor-pointer bg-blue-100 text-blue-700 hover:bg-blue-200 inline-flex items-center gap-1">
+                  {isUploading ? 'Uploading...' : 'Upload Photos'}
+                  <input
+                    type="file"
+                    multiple
+                    accept="image/*"
+                    onChange={handleUploadImages}
+                    disabled={isUploading}
+                    className="hidden"
+                  />
+                </label>
+              </div>
 
               <p className="text-sm text-gray-500 mt-1">
                 {images.length} image{images.length !== 1 ? 's' : ''}
               </p>
             </div>
           ) : (
-            <div className="aspect-square bg-gray-100 rounded-lg flex items-center justify-center text-gray-400">
-              No images
+            <div className="aspect-square bg-gray-100 rounded-lg flex flex-col items-center justify-center text-gray-400 gap-3">
+              <span>No images</span>
+              <label className="px-4 py-2 text-sm rounded-lg cursor-pointer bg-blue-100 text-blue-700 hover:bg-blue-200 inline-flex items-center gap-1">
+                {isUploading ? 'Uploading...' : 'Upload Photos'}
+                <input
+                  type="file"
+                  multiple
+                  accept="image/*"
+                  onChange={handleUploadImages}
+                  disabled={isUploading}
+                  className="hidden"
+                />
+              </label>
             </div>
           )}
         </div>

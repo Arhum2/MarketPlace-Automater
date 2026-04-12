@@ -227,6 +227,31 @@ class Database:
             print(f"Failed to upload image: {e}")
             return None
 
+    def upload_image_bytes(self, product_id: str, file_data: bytes, filename: str, content_type: str = "image/jpeg", image_order: int = 0) -> Optional[str]:
+        """
+        Upload image bytes directly to Supabase Storage.
+        Returns the public URL of the uploaded image.
+        """
+        import uuid as _uuid
+        # Sanitize filename and make unique
+        ext = os.path.splitext(filename)[1] or ".jpg"
+        safe_name = f"upload_{_uuid.uuid4().hex[:8]}{ext}"
+        storage_path = f"{product_id}/{safe_name}"
+
+        try:
+            self.client.storage.from_("product-images").upload(
+                path=storage_path,
+                file=file_data,
+                file_options={"content-type": content_type}
+            )
+
+            public_url = self.client.storage.from_("product-images").get_public_url(storage_path)
+            self.add_product_image(product_id, public_url, image_order)
+            return public_url
+        except Exception as e:
+            print(f"Failed to upload image bytes: {e}")
+            return None
+
     def upload_product_images(self, product_id: str, image_paths: List[str]) -> List[str]:
         """Upload multiple images for a product. Returns list of public URLs."""
         urls = []
