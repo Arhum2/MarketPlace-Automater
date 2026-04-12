@@ -1,11 +1,23 @@
-from fastapi import FastAPI, HTTPException, status, BackgroundTasks
+from fastapi import FastAPI, HTTPException, status, BackgroundTasks, UploadFile, File
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from jobs import create_job, get_progress, get_results_job_id, get_results
-from models import CreateProductRequest
+from models import CreateProductRequest, UpdateProductRequest
 from scrapper_service import scrape_url
 from database import get_db
+from facebook_poster import post_to_facebook
+from typing import List
 
 app = FastAPI()
+
+# CORS for frontend
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 def scrape_and_update(job_id: str, product_id: str, url: str):
@@ -68,7 +80,7 @@ def scrape_and_update(job_id: str, product_id: str, url: str):
         db.update_product(product_id=product_id, status="failed")
 
 
-@app.post("/scrape")
+@app.post("/api/scrape")
 async def root(url: str, background_tasks: BackgroundTasks):
     db = get_db()
 
@@ -89,20 +101,177 @@ async def root(url: str, background_tasks: BackgroundTasks):
         "message": "Scraping started in background"
     }
 
-@app.get("/progress/{job_id}")
+@app.get("/api/progress/{job_id}")
 async def check_progress(job_id: str):
     job_progress = get_progress(job_id)
     return {"progress": job_progress}
 
-@app.get("/results_job/{job_id}")
+@app.get("/api/results_job/{job_id}")
 async def check_result(job_id: str):
     job_result = get_results_job_id(job_id)
     return {"result": job_result}
 
-@app.get("/results_jobs")
+@app.get("/api/results_jobs")
 async def check_results():
     job_results = get_results()
     return {"results": job_results}
+
+
+@app.get("/api/products")
+async def list_products():
+    """Get all products."""
+    db = get_db()
+    products = db.list_products()
+
+    # Add first image thumbnail to each product
+    for product in products:
+        images = db.get_product_images(product['id'])
+        product['thumbnail'] = images[0]['file_path'] if images else None
+
+    return products
+
+
+@app.get("/api/products/{product_id}")
+async def get_product(product_id: str):
+    """Get a single product by ID."""
+    db = get_db()
+    product = db.get_product(product_id)
+    if not product:
+        raise HTTPException(status_code=404, detail="Product not found")
+    return product
+
+
+@app.patch("/api/products/{product_id}")
+async def update_product(product_id: str, request: UpdateProductRequest):
+    """Update a product's fields."""
+    db = get_db()
+    product = db.get_product(product_id)
+    if not product:
+        raise HTTPException(status_code=404, detail="Product not found")
+
+    # Build update data from non-None fields
+    update_data = {k: v for k, v in request.model_dump().items() if v is not None}
+
+    if not update_data:
+        return product  # Nothing to update
+
+    # Apply the update first
+    updated = db.update_product(product_id, **update_data)
+
+    # Check if all required fields are now complete
+    images = db.get_product_images(product_id)
+    missing_fields = []
+    if not updated.get('title'):
+        missing_fields.append('title')
+    if not updated.get('price'):
+        missing_fields.append('price')
+    if not updated.get('description'):
+        missing_fields.append('description')
+    if not images:
+        missing_fields.append('images')
+
+    # Auto-update status based on completeness
+    new_status = "ready_to_post" if not missing_fields else "collected"
+    if updated.get('status') != new_status:
+        updated = db.update_product(product_id, status=new_status, missing_fields=missing_fields)
+
+    return updated
+
+
+@app.delete("/api/products/{product_id}")
+async def delete_product(product_id: str):
+    """Delete a product by ID."""
+    db = get_db()
+    product = db.get_product(product_id)
+    if not product:
+        raise HTTPException(status_code=404, detail="Product not found")
+
+    db.delete_product(product_id)
+    return {"message": "Product deleted successfully"}
+
+
+@app.get("/api/products/{product_id}/images")
+async def get_product_images(product_id: str):
+    """Get all images for a product."""
+    db = get_db()
+    images = db.get_product_images(product_id)
+    return images
+
+
+@app.post("/api/products/{product_id}/images")
+async def upload_product_images(product_id: str, files: List[UploadFile] = File(...)):
+    """Upload one or more images to a product."""
+    db = get_db()
+    product = db.get_product(product_id)
+    if not product:
+        raise HTTPException(status_code=404, detail="Product not found")
+
+    existing_images = db.get_product_images(product_id)
+    next_order = len(existing_images)
+
+    uploaded = []
+    for i, file in enumerate(files):
+        if not file.content_type or not file.content_type.startswith("image/"):
+            continue
+        data = await file.read()
+        url = db.upload_image_bytes(product_id, data, file.filename, file.content_type, image_order=next_order + i)
+        if url:
+            uploaded.append(url)
+
+    if not uploaded:
+        raise HTTPException(status_code=400, detail="No valid images uploaded")
+
+    # Re-check missing fields to update status
+    images = db.get_product_images(product_id)
+    missing_fields = []
+    if not product.get('title'):
+        missing_fields.append('title')
+    if not product.get('price'):
+        missing_fields.append('price')
+    if not product.get('description'):
+        missing_fields.append('description')
+    if not images:
+        missing_fields.append('images')
+
+    new_status = "ready_to_post" if not missing_fields else "collected"
+    if product.get('status') != new_status:
+        db.update_product(product_id, status=new_status, missing_fields=missing_fields)
+
+    return {"uploaded": len(uploaded), "urls": uploaded}
+
+
+@app.delete("/api/products/{product_id}/images/{image_id}")
+async def delete_product_image(product_id: str, image_id: str):
+    """Delete a specific image from a product."""
+    db = get_db()
+    db.delete_product_image(image_id)
+    return {"message": "Image deleted successfully"}
+
+
+@app.post("/api/products/{product_id}/post")
+async def post_product_to_facebook(product_id: str):
+    """Post a product to Facebook Marketplace."""
+    db = get_db()
+    product = db.get_product(product_id)
+    if not product:
+        raise HTTPException(status_code=404, detail="Product not found")
+
+    # Check if product has required fields
+    if not product.get('title') or not product.get('price'):
+        raise HTTPException(status_code=400, detail="Product missing title or price")
+
+    # Check if product has images
+    images = db.get_product_images(product_id)
+    if not images:
+        raise HTTPException(status_code=400, detail="Product has no images")
+
+    # Post to Facebook (this will open browser and run automation)
+    result = post_to_facebook(product_id)
+
+    if result.get('success'):
+        return {"message": result.get('message', 'Posted successfully')}
+    else:
+        raise HTTPException(status_code=500, detail=result.get('error', 'Posting failed'))
 
 
 @app.post("/api/products")
@@ -112,7 +281,7 @@ async def create_product(request: CreateProductRequest):
     if existing_product:
         # Return existing product with 200 OK
         return JSONResponse(content=existing_product, status_code=status.HTTP_200_OK)
-    
+
     # Create product
     try:
         product_data = db.create_product(request.url)

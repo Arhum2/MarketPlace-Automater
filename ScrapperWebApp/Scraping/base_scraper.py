@@ -93,6 +93,7 @@ class BaseScraper(ABC):
     def _get_chrome_options(self, proxy: Optional[str] = None) -> uc.ChromeOptions:
         """Create Chrome options with anti-detection measures and optional proxy."""
         opts = uc.ChromeOptions()
+        opts.add_argument("--headless=new")
         opts.add_argument("--disable-gpu")
         opts.add_argument("--no-sandbox")
         opts.add_argument("--disable-dev-shm-usage")
@@ -124,7 +125,7 @@ class BaseScraper(ABC):
             opts = self._get_chrome_options(proxy=proxy_str)
 
             # Use the driver path from webdriver-manager
-            driver = uc.Chrome(options=opts, driver_executable_path=driver_path, use_subprocess=True)
+            driver = uc.Chrome(options=opts, use_subprocess=True)
 
             # Additional anti-detection JavaScript
             driver.execute_cdp_cmd('Network.setUserAgentOverride', {
@@ -143,7 +144,7 @@ class BaseScraper(ABC):
                 proxy = self._get_next_proxy()
                 proxy_str = proxy["http"] if proxy else None
                 opts = self._get_chrome_options(proxy=proxy_str)
-                driver = uc.Chrome(options=opts, version_main=None, use_subprocess=True)
+                driver = uc.Chrome(options=opts, use_subprocess=True)
                 driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
                 print("✅ Alternative Chrome driver initialized successfully")
                 return driver

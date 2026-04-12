@@ -15,8 +15,7 @@ from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 
 #make chrome service using package that downloads the latest chromedriver
-chrome_driver_path = "C:\\Program Files (x86)\\chromedriver.exe"
-service = Service(executable_path=chrome_driver_path)
+service = Service(ChromeDriverManager().install())
 
 
 opts = Options()
@@ -148,7 +147,7 @@ class Automate_add_post:
             self.photo_button.click()        
 
         except:
-            pyautogui.moveTo(120, 300)
+            pyautogui.moveTo(120, 450)
             sleep(2)
             pyautogui.click()
                 
@@ -174,7 +173,7 @@ class Automate_add_post:
         sleep(2)
             
 
-        sleep(7)
+        sleep(15)
         self.done = self.browser.find_element(By.XPATH, (self.done))
         self.done.click()
 
@@ -188,7 +187,7 @@ for i in range(number_of_adds):
     a.automate()
     print(f'✅ POSTED {curr_file}')
     sleep(1)
-    shutil.move('G:\\My Drive\\selling\\not posted\\' + curr_file, 'G:\\My Drive\\selling\\instagram not posted\\')
+    shutil.move('G:\\My Drive\\selling\\not posted\\' + curr_file, 'G:\\My Drive\\selling\\posted\\')
     i += 1
 
 print("TASK COMPLETED")

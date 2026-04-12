@@ -77,7 +77,35 @@ class Database:
     def update_product_status(self, product_id: str, status: str) -> Dict[str, Any]:
         """Update product status."""
         return self.update_product(product_id, status=status)
-    
+
+    def delete_product(self, product_id: str) -> bool:
+        """Delete a product and its associated data."""
+        try:
+            # Delete from storage first (images)
+            images = self.get_product_images(product_id)
+            print(f"Deleting {len(images)} images for product {product_id}")
+            for img in images:
+                # Extract path from URL and delete from storage
+                if img.get('file_path'):
+                    try:
+                        path = img['file_path'].split('/product-images/')[-1]
+                        print(f"Deleting from storage: {path}")
+                        self.client.storage.from_("product-images").remove([path])
+                    except Exception as storage_err:
+                        print(f"Storage deletion failed (continuing): {storage_err}")
+
+            # Delete product images from database first
+            print(f"Deleting product_images records for product {product_id}")
+            self.client.table("product_images").delete().eq("product_id", product_id).execute()
+
+            # Delete product (cascade will delete jobs, etc.)
+            print(f"Deleting product record {product_id}")
+            self.client.table("products").delete().eq("id", product_id).execute()
+            return True
+        except Exception as e:
+            print(f"Failed to delete product: {e}")
+            raise  # Re-raise to surface the error
+
     # ========== JOB OPERATIONS ==========
     
     def create_job(self, product_id: str, job_type: str, **kwargs) -> Dict[str, Any]:
@@ -131,7 +159,33 @@ class Database:
         """Get all images for a product."""
         result = self.client.table("product_images").select("*").eq("product_id", product_id).order("image_order").execute()
         return result.data if result.data else []
-    
+
+    def delete_product_image(self, image_id: str) -> bool:
+        """Delete a product image from storage and database."""
+        try:
+            # Get image first to get the file path
+            result = self.client.table("product_images").select("*").eq("id", image_id).execute()
+            if result.data:
+                file_path = result.data[0].get('file_path', '')
+                # Try to delete from storage
+                if file_path and 'product-images' in file_path:
+                    try:
+                        path = file_path.split('/product-images/')[-1]
+                        print(f"Attempting to delete from storage bucket 'product-images': {path}")
+                        result = self.client.storage.from_("product-images").remove([path])
+                        print(f"Storage deletion result: {result}")
+                    except Exception as storage_err:
+                        print(f"Storage deletion failed: {storage_err}")
+                        print(f"Error type: {type(storage_err).__name__}")
+
+            # Delete from database (always attempt even if storage fails)
+            print(f"Deleting image record from database: {image_id}")
+            self.client.table("product_images").delete().eq("id", image_id).execute()
+            return True
+        except Exception as e:
+            print(f"Failed to delete image from database: {e}")
+            raise  # Re-raise to surface the error
+
     # ========== STORAGE OPERATIONS ==========
 
     def upload_image(self, product_id: str, image_path: str, image_order: int = 0) -> Optional[str]:
@@ -171,6 +225,31 @@ class Database:
 
         except Exception as e:
             print(f"Failed to upload image: {e}")
+            return None
+
+    def upload_image_bytes(self, product_id: str, file_data: bytes, filename: str, content_type: str = "image/jpeg", image_order: int = 0) -> Optional[str]:
+        """
+        Upload image bytes directly to Supabase Storage.
+        Returns the public URL of the uploaded image.
+        """
+        import uuid as _uuid
+        # Sanitize filename and make unique
+        ext = os.path.splitext(filename)[1] or ".jpg"
+        safe_name = f"upload_{_uuid.uuid4().hex[:8]}{ext}"
+        storage_path = f"{product_id}/{safe_name}"
+
+        try:
+            self.client.storage.from_("product-images").upload(
+                path=storage_path,
+                file=file_data,
+                file_options={"content-type": content_type}
+            )
+
+            public_url = self.client.storage.from_("product-images").get_public_url(storage_path)
+            self.add_product_image(product_id, public_url, image_order)
+            return public_url
+        except Exception as e:
+            print(f"Failed to upload image bytes: {e}")
             return None
 
     def upload_product_images(self, product_id: str, image_paths: List[str]) -> List[str]:

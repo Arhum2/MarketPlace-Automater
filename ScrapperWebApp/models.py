@@ -57,3 +57,10 @@ class Product(BaseModel):
 # Create Product Request
 class CreateProductRequest(BaseModel):
     url: str
+
+# Update Product Request
+class UpdateProductRequest(BaseModel):
+    title: Optional[str] = None
+    price: Optional[str] = None
+    description: Optional[str] = None
+    status: Optional[str] = None
