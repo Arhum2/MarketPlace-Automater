@@ -18,6 +18,9 @@ webdriver-manager>=4.0.1
 fake-useragent>=1.4.0
 lxml>=4.9.3
 
+# Local LLM (Ollama)
+ollama>=0.3.0
+
 # Python 3.12+ compatibility
 setuptools>=68.0.0
 urllib3>=2.0.0

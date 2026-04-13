@@ -5,9 +5,12 @@ from abc import ABC, abstractmethod
 import os
 import re
 import time
+import json
+from bs4 import BeautifulSoup
 import requests
 import undetected_chromedriver as uc
 import sys
+import ollama
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from typing import Optional, List, Dict, Any
@@ -73,6 +76,7 @@ class BaseScraper(ABC):
         self.config = config or ScraperConfig()
         self.driver = None
         self.images = []
+        self.HTML = None
     
     def _get_next_proxy(self) -> Optional[Dict[str, str]]:
         """Get next proxy from the rotation list."""
@@ -259,6 +263,45 @@ class BaseScraper(ABC):
         except:
             return False
     
+    def extract_product_data_LLM(self, HTML: str) -> Optional[ProductData]:
+
+        #Clean HTML
+        soup = BeautifulSoup(HTML, 'html.parser')
+        for tag in soup(['script', 'style']):
+            tag.decompose()
+        clean_HTML = soup.get_text(separator=' ', strip=True)
+
+        response = ollama.chat(model='mistral', messages=[
+            {
+                'role': 'user',
+                'content': """You are a product data extractor. Given raw HTML from a product page, extract the product details and return ONLY a JSON object with these exact
+                fields:                                                                                       
+                {
+                    "title": "",
+                    "price": "",
+                    "description": "",
+                    "color": "",
+                    "brand": "",
+                    "tags": "",
+                    "link": ""
+                }
+
+                Rules:
+                - Return ONLY the JSON object, no explanation, no markdown, no code blocks
+                - If a field cannot be found, leave it as an empty string
+                - price should include the currency symbol
+                - tags should be a comma-separated string of relevant keywords"""
+            },
+            {
+                'role':'user',
+                'content': clean_HTML
+            }
+        ])
+        data = json.loads(response['message']['content'])
+        product = ProductData(**data)
+
+        return product     
+
     def scrape(self) -> ScrapingResult:
         """Main scraping method that orchestrates the entire process."""
         try:
@@ -269,6 +312,9 @@ class BaseScraper(ABC):
             self.driver.get(self.url)
             print(f"➡️ Navigated to: {self.url}")
             
+            # Save HTML 
+            self.HTML = self.driver.page_source
+
             # Check for CAPTCHA
             if self._check_for_captcha():
                 error_msg = f"CAPTCHA/Bot detection encountered for {self.url}. Skipping."
@@ -280,6 +326,10 @@ class BaseScraper(ABC):
             
             # Extract product data
             product = self.extract_product_data()
+
+            # Retry with LLM
+            product = self.extract_product_data_LLM(self.HTML)
+
             if not product:
                 return ScrapingResult(success=False, error="Failed to extract product data")
             
