@@ -7,6 +7,8 @@ import re
 import time
 import json
 from bs4 import BeautifulSoup
+from PIL import Image
+import io
 import requests
 import undetected_chromedriver as uc
 import sys
@@ -116,52 +118,54 @@ class BaseScraper(ABC):
         
         return opts
     
+    def _get_chrome_major_version(self) -> Optional[int]:
+        """Detect the installed Chrome major version from the Windows registry."""
+        try:
+            import subprocess
+            output = subprocess.check_output(
+                r'reg query "HKEY_CURRENT_USER\Software\Google\Chrome\BLBeacon" /v version',
+                shell=True, stderr=subprocess.DEVNULL
+            ).decode()
+            match = re.search(r'(\d+)\.\d+\.\d+\.\d+', output)
+            if match:
+                return int(match.group(1))
+        except Exception:
+            pass
+        return None
+
     def _create_driver(self) -> uc.Chrome:
         """Create and configure Chrome driver with enhanced anti-detection and proxy rotation."""
+        chrome_version = self._get_chrome_major_version()
+        if chrome_version:
+            print(f"🔍 Detected Chrome version: {chrome_version}")
+        else:
+            print("⚠️ Could not detect Chrome version, letting uc auto-detect")
+
+        proxy = self._get_next_proxy()
+        proxy_str = proxy["http"] if proxy else None
+        opts = self._get_chrome_options(proxy=proxy_str)
+
+        kwargs = {"options": opts, "use_subprocess": True}
+        if chrome_version:
+            kwargs["version_main"] = chrome_version
+
         try:
-            # Use webdriver-manager to auto-download matching ChromeDriver
-            print("🔧 Initializing Chrome driver with webdriver-manager...")
-            driver_path = ChromeDriverManager().install()
-            print(f"✅ ChromeDriver installed at: {driver_path}")
-
-            proxy = self._get_next_proxy()
-            proxy_str = proxy["http"] if proxy else None
-            opts = self._get_chrome_options(proxy=proxy_str)
-
-            # Use the driver path from webdriver-manager
-            driver = uc.Chrome(options=opts, use_subprocess=True)
-
-            # Additional anti-detection JavaScript
+            print("🔧 Initializing Chrome driver...")
+            driver = uc.Chrome(**kwargs)
             driver.execute_cdp_cmd('Network.setUserAgentOverride', {
                 "userAgent": 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36'
             })
             driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
-
             print("✅ Chrome driver initialized successfully")
             return driver
         except Exception as e:
-            print(f"⚠️ Primary driver creation failed: {e}")
-            print("🔄 Trying alternative driver initialization without webdriver-manager...")
-
-            try:
-                # Fallback: Try undetected-chromedriver's built-in auto-download
-                proxy = self._get_next_proxy()
-                proxy_str = proxy["http"] if proxy else None
-                opts = self._get_chrome_options(proxy=proxy_str)
-                driver = uc.Chrome(options=opts, use_subprocess=True)
-                driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
-                print("✅ Alternative Chrome driver initialized successfully")
-                return driver
-            except Exception as e2:
-                print(f"⚠️ Alternative initialization failed: {e2}")
-                print("\n💡 TROUBLESHOOTING TIPS:")
-                print("   1. Update Chrome browser to the latest version")
-                print("   2. Clear Chrome driver cache:")
-                print("      - Delete folder: C:\\Users\\{username}\\.cache\\undetected_chromedriver\\")
-                print("      - Delete folder: C:\\Users\\{username}\\.wdm\\ (webdriver-manager cache)")
-                print("   3. Restart your computer")
-                print("   4. Try running: pip install --upgrade undetected-chromedriver webdriver-manager")
-                raise e2
+            print(f"⚠️ Driver initialization failed: {e}")
+            print("\n💡 TROUBLESHOOTING TIPS:")
+            print("   1. Update Chrome browser to the latest version")
+            print("   2. Clear Chrome driver cache:")
+            print("      - Delete folder: C:\\Users\\{username}\\.cache\\undetected_chromedriver\\")
+            print("   3. Try running: pip install --upgrade undetected-chromedriver")
+            raise e
     
     def _sanitize_filename(self, filename: str) -> str:
         """Remove invalid characters from filename."""
@@ -210,12 +214,21 @@ class BaseScraper(ABC):
                 proxy = self._get_next_proxy()
                 response = requests.get(image_url, timeout=30, proxies=proxy)
                 if response.status_code == 200:
+                    # try:
+                    #     image = Image.open(io.BytesIO(response.content))
+                    #     if image.width < 300 or image.height < 300:
+                    #         print(f"⏭️ Skipping small image ({image.width}x{image.height}): {image_url[:60]}")
+                    #         continue
+                    # except Exception:
+                    #     print(f"⏭️ Skipping unreadable image: {image_url[:60]}")
+                    #     continue
+
                     filename = f'image_{index+1}.jpg'
                     filepath = os.path.join(photos_dir, filename)
-                    
+
                     with open(filepath, 'wb') as file:
                         file.write(response.content)
-                    
+
                     downloaded_files.append(filepath)
                     print(f"✅ Saved: {filepath}")
                 else:
@@ -263,19 +276,17 @@ class BaseScraper(ABC):
         except:
             return False
     
-    def extract_product_data_LLM(self, HTML: str) -> Optional[ProductData]:
-
-        #Clean HTML
+    def extract_product_data_LLM(self, HTML: str):
+        """Raw LLM extraction — returns the ollama response object. Used for testing."""
         soup = BeautifulSoup(HTML, 'html.parser')
         for tag in soup(['script', 'style']):
             tag.decompose()
         clean_HTML = soup.get_text(separator=' ', strip=True)
 
-        response = ollama.chat(model='mistral', messages=[
+        return ollama.chat(model='mistral', messages=[
             {
                 'role': 'user',
-                'content': """You are a product data extractor. Given raw HTML from a product page, extract the product details and return ONLY a JSON object with these exact
-                fields:                                                                                       
+                'content': """You are a product data extractor. Given raw HTML from a product page, extract the product details and return ONLY a JSON object with these exact fields:
                 {
                     "title": "",
                     "price": "",
@@ -293,26 +304,98 @@ class BaseScraper(ABC):
                 - tags should be a comma-separated string of relevant keywords"""
             },
             {
-                'role':'user',
+                'role': 'user',
                 'content': clean_HTML
             }
         ])
-        data = json.loads(response['message']['content'])
-        product = ProductData(**data)
 
-        return product     
+    def _fill_missing_with_llm(self, product: ProductData, html: str) -> ProductData:
+        """Check for empty fields and use LLM to fill only what's missing."""
+        fields = ['title', 'price', 'color', 'brand', 'tags', 'link']
+        missing = [f for f in fields if not getattr(product, f)]
+
+        # Always let LLM write the description — scrapers rarely get a good one
+        missing.append('description')
+
+        if not missing:
+            print("✅ All fields present, skipping LLM fallback")
+            return product
+
+        print(f"🤖 LLM fallback — filling missing fields: {missing}")
+
+        soup = BeautifulSoup(html, 'html.parser')
+        for tag in soup(['script', 'style']):
+            tag.decompose()
+        clean_html = soup.get_text(separator=' ', strip=True)[:8000]
+
+        template = {f: "" for f in missing}
+
+        try:
+            response = ollama.chat(model='mistral', messages=[
+                {
+                    'role': 'user',
+                    'content': f"""You are a product data extractor. Extract ONLY the following fields from the product page text and return ONLY a JSON object with these exact keys:
+{json.dumps(template, indent=2)}
+
+Rules:
+- Return ONLY the JSON object, no explanation, no markdown, no code blocks
+- If a field cannot be found, leave it as an empty string
+- price should include the currency symbol
+- tags should be a comma-separated string of relevant keywords"""
+                },
+                {
+                    'role': 'user',
+                    'content': clean_html
+                }
+            ])
+
+            raw = response['message']['content']
+            print(f"🤖 LLM raw response:\n{raw}\n")
+
+            # Strip markdown code fences if the LLM includes them
+            cleaned = raw.strip()
+            if cleaned.startswith("```"):
+                cleaned = cleaned.split("```")[1]
+                if cleaned.startswith("json"):
+                    cleaned = cleaned[4:]
+
+            llm_data = json.loads(cleaned)
+
+            for field in missing:
+                value = llm_data.get(field, "")
+                if not value:
+                    continue
+
+                if field == 'description':
+                    scraper_desc = product.description or ""
+                    if len(value) >= len(scraper_desc):
+                        product.description = value
+                        print(f"  ✅ LLM description chosen ({len(value)} chars vs scraper's {len(scraper_desc)} chars)")
+                    else:
+                        print(f"  ✅ Scraper description kept ({len(scraper_desc)} chars vs LLM's {len(value)} chars)")
+                else:
+                    setattr(product, field, value)
+                    print(f"  ✅ LLM filled '{field}': {str(value)[:80]}")
+
+        except json.JSONDecodeError as e:
+            print(f"⚠️ LLM fallback — failed to parse JSON: {e}")
+            print(f"   Raw response was: {raw}")
+        except Exception as e:
+            print(f"⚠️ LLM fallback failed: {e}")
+
+        return product
 
     def scrape(self) -> ScrapingResult:
         """Main scraping method that orchestrates the entire process."""
         try:
             # Initialize driver
             self.driver = self._create_driver()
-            
+
             # Navigate to URL
             self.driver.get(self.url)
             print(f"➡️ Navigated to: {self.url}")
-            
-            # Save HTML 
+
+            # Save HTML
             self.HTML = self.driver.page_source
 
             # Check for CAPTCHA
@@ -320,15 +403,14 @@ class BaseScraper(ABC):
                 error_msg = f"CAPTCHA/Bot detection encountered for {self.url}. Skipping."
                 print(f"⚠️ {error_msg}")
                 return ScrapingResult(
-                    success=False, 
+                    success=False,
                     error=error_msg
                 )
-            
-            # Extract product data
-            product = self.extract_product_data()
 
-            # Retry with LLM
-            product = self.extract_product_data_LLM(self.HTML)
+            # Extract product data, then fill any missing fields with LLM
+            product = self.extract_product_data()
+            if product:
+                product = self._fill_missing_with_llm(product, self.HTML)
 
             if not product:
                 return ScrapingResult(success=False, error="Failed to extract product data")

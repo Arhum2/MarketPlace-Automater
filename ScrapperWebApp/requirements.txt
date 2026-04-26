@@ -9,6 +9,9 @@ python-dotenv>=1.0.0
 # Data validation
 pydantic>=2.0.0
 
+# Image processing
+Pillow>=10.0.0
+
 # Web scraping dependencies (from Scraping folder)
 selenium>=4.15.0
 undetected-chromedriver>=3.5.4

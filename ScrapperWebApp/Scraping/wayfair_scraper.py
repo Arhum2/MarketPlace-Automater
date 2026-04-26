@@ -82,10 +82,11 @@ class WayfairScraper(BaseScraper):
             # Try to extract product data from INITIAL HTML (before CAPTCHA takes over)
             print("📊 Attempting quick extraction from initial HTML...")
             product = self._extract_from_initial_html(soup)
-            
+
             if product and product.title:
                 print(f"✅ Successfully extracted from initial HTML: {product.title}")
-                
+                product = self._fill_missing_with_llm(product, initial_html)
+
                 # Get images and save
                 self.images = self.extract_images()
                 product_path = self._create_product_directory(product)
@@ -126,6 +127,8 @@ class WayfairScraper(BaseScraper):
             
             # Extract product data with full methods
             product = self.extract_product_data()
+            if product:
+                product = self._fill_missing_with_llm(product, self.driver.page_source)
             if not product:
                 return ScrapingResult(success=False, error="Failed to extract product data")
             
@@ -415,46 +418,55 @@ class WayfairScraper(BaseScraper):
             print(f"❌ Failed to extract product data: {e}")
             return None
     
+    def _best_url_from_srcset(self, srcset: str) -> Optional[str]:
+        """Parse a srcset string and return the URL with the highest width descriptor."""
+        best_url = None
+        best_width = 0
+        for entry in srcset.split(","):
+            parts = entry.strip().split()
+            if len(parts) == 2 and parts[1].endswith("w"):
+                try:
+                    width = int(parts[1][:-1])
+                    if width > best_width:
+                        best_width = width
+                        best_url = parts[0]
+                except ValueError:
+                    continue
+        return best_url, best_width
+
     def extract_images(self) -> List[str]:
-        """Extract image URLs from Wayfair product page."""
+        """Extract highest-resolution product image URLs from Wayfair product page."""
         print("🌐 [START] extract_images")
-        
+
         try:
             soup = BeautifulSoup(self.driver.page_source, "html.parser")
             images = soup.find_all("img")
             image_urls = []
-            
-            # DEBUG: Show what we found
-            print(f"🔍 [DEBUG] Total <img> tags found: {len(images)}")
-            
-            for idx, img in enumerate(images):
-                src = img.get("src") or img.get("data-src")
-                if not src:
+            seen = set()
+
+            print(f"🔍 Total <img> tags found: {len(images)}")
+
+            for img in images:
+                srcset = img.get("srcset", "")
+                best_url, best_width = self._best_url_from_srcset(srcset)
+
+                # Only keep images that have real width descriptors (not 1x/2x thumbnails)
+                # and are large enough to be product images
+                if not best_url or best_width < 600:
                     continue
-                
-                # DEBUG: Show all image sources
-                print(f"  📸 Image {idx}: {src[:80]}...")
-                
-                # Wayfair-specific image identification
-                is_h800 = "h800" in src
-                is_initial = img.get("data-enzyme-id") == "InitialImage"
-                is_product_image = any(indicator in src for indicator in ['.jpg', '.jpeg', '.png', '.webp'])
-                
-                print(f"     ├─ h800={is_h800}, initial={is_initial}, product_img={is_product_image}")
-                
-                if is_h800 or is_initial or is_product_image:
-                    # Convert to higher resolution if possible
-                    if 'resize=h800' in src:
-                        src = src.replace('resize=h800', 'resize=h1200')
-                    
-                    image_urls.append(src)
-                    print(f"     └─ ✅ ADDED (count: {len(image_urls)})")
-                    
+
+                if best_url in seen:
+                    continue
+                seen.add(best_url)
+
+                image_urls.append(best_url)
+                print(f"  ✅ Added {best_width}w image: {best_url[:80]}...")
+
                 if len(image_urls) >= self.config.max_images:
                     print(f"🛑 Reached max_images limit: {self.config.max_images}")
                     break
-            
-            print(f"✅ Found {len(image_urls)} images (max allowed: {self.config.max_images})")
+
+            print(f"✅ Found {len(image_urls)} product images")
             print("🌐 [END] extract_images")
             return image_urls
             

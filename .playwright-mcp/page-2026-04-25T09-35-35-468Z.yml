@@ -1,0 +1,2307 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - log
+    - log [ref=e3]:
+      - generic [ref=e4]: Items 1 through 3 of 4
+      - generic [ref=e5]: Items 1 through 5 of 5
+  - generic [ref=e6]:
+    - generic [ref=e8]:
+      - link "Skip to Main Content" [ref=e9] [cursor=pointer]:
+        - /url: "#bd"
+      - banner [ref=e10]:
+        - generic [ref=e11]:
+          - generic [ref=e14]:
+            - link "Wayfair.ca" [ref=e18] [cursor=pointer]:
+              - /url: https://www.wayfair.ca/
+              - img "Wayfair.ca" [ref=e19]
+            - search [ref=e35]:
+              - generic [ref=e39]:
+                - combobox "Search" [ref=e40]
+                - button "Search" [ref=e41] [cursor=pointer]:
+                  - generic:
+                    - img "Search"
+                - generic [ref=e42]:
+                  - generic:
+                    - generic:
+                      - generic: Search
+            - generic [ref=e44]:
+              - button "Français" [ref=e45] [cursor=pointer]:
+                - generic [ref=e46]:
+                  - img [ref=e48]
+                  - generic [ref=e51]: Français
+              - link "Inspiration" [ref=e52] [cursor=pointer]:
+                - /url: https://www.wayfair.ca/discover
+                - generic [ref=e53]:
+                  - img [ref=e55]
+                  - generic [ref=e58]: Inspiration
+              - generic [ref=e61]:
+                - link "Sign In" [ref=e62] [cursor=pointer]:
+                  - /url: /v/account/authentication/login?url=https%3A%2F%2Fwww.wayfair.ca%2Ffurniture%2Fpdp%2Faugust-grove-classic-iron-platform-bed-with-high-headboard-and-footboard-c004936862.html%3Fpiid%3D901025119%252C848028358&context=header_wayfair_my_account_menu
+                  - generic [ref=e63]:
+                    - img [ref=e65]
+                    - generic [ref=e67]: Sign In
+                - button "Open Account Dropdown" [ref=e69] [cursor=pointer]:
+                  - generic: Open Account Dropdown
+              - button "Cart" [ref=e70] [cursor=pointer]:
+                - generic [ref=e71]:
+                  - img [ref=e73]
+                  - generic [ref=e75]: Cart
+          - navigation [ref=e76]:
+            - list "Department Navigation" [ref=e79]:
+              - listitem [ref=e80]:
+                - link "Furniture" [ref=e81] [cursor=pointer]:
+                  - /url: https://www.wayfair.ca/furniture/cat/furniture-c45974.html
+                  - generic [ref=e82]: Furniture
+                - button "Open Furniture Menu Dropdown" [ref=e84] [cursor=pointer]:
+                  - generic: Open Furniture Menu Dropdown
+              - listitem [ref=e85]:
+                - link "Outdoor" [ref=e86] [cursor=pointer]:
+                  - /url: https://www.wayfair.ca/outdoor/cat/outdoor-c32334.html
+                  - generic [ref=e87]: Outdoor
+                - button "Open Outdoor Menu Dropdown" [ref=e89] [cursor=pointer]:
+                  - generic: Open Outdoor Menu Dropdown
+              - listitem [ref=e90]:
+                - link "Bedding & Bath" [ref=e91] [cursor=pointer]:
+                  - /url: https://www.wayfair.ca/bed-bath/cat/bed-bath-c215329.html
+                  - generic [ref=e92]: Bedding & Bath
+                - button "Open Bedding & Bath Menu Dropdown" [ref=e94] [cursor=pointer]:
+                  - generic: Open Bedding & Bath Menu Dropdown
+              - listitem [ref=e95]:
+                - link "Rugs" [ref=e96] [cursor=pointer]:
+                  - /url: https://www.wayfair.ca/rugs/cat/rugs-c215385.html
+                  - generic [ref=e97]: Rugs
+                - button "Open Rugs Menu Dropdown" [ref=e99] [cursor=pointer]:
+                  - generic: Open Rugs Menu Dropdown
+              - listitem [ref=e100]:
+                - link "Decor & Pillows" [ref=e101] [cursor=pointer]:
+                  - /url: https://www.wayfair.ca/decor-pillows/cat/decor-pillows-c45752.html
+                  - generic [ref=e102]: Decor & Pillows
+                - button "Open Decor & Pillows Menu Dropdown" [ref=e104] [cursor=pointer]:
+                  - generic: Open Decor & Pillows Menu Dropdown
+              - listitem [ref=e105]:
+                - link "Lighting" [ref=e106] [cursor=pointer]:
+                  - /url: https://www.wayfair.ca/lighting/cat/lighting-c215735.html
+                  - generic [ref=e107]: Lighting
+                - button "Open Lighting Menu Dropdown" [ref=e109] [cursor=pointer]:
+                  - generic: Open Lighting Menu Dropdown
+              - listitem [ref=e110]:
+                - link "Organization" [ref=e111] [cursor=pointer]:
+                  - /url: https://www.wayfair.ca/storage-organization/cat/storage-organization-c215875.html
+                  - generic [ref=e112]: Organization
+                - button "Open Organization Menu Dropdown" [ref=e114] [cursor=pointer]:
+                  - generic: Open Organization Menu Dropdown
+              - listitem [ref=e115]:
+                - link "Kitchen" [ref=e116] [cursor=pointer]:
+                  - /url: https://www.wayfair.ca/dining/cat/kitchen-tabletop-c45667.html
+                  - generic [ref=e117]: Kitchen
+                - button "Open Kitchen Menu Dropdown" [ref=e119] [cursor=pointer]:
+                  - generic: Open Kitchen Menu Dropdown
+              - listitem [ref=e120]:
+                - link "Baby & Kids" [ref=e121] [cursor=pointer]:
+                  - /url: https://www.wayfair.ca/baby-kids/cat/baby-kids-c45226.html
+                  - generic [ref=e122]: Baby & Kids
+                - button "Open Baby & Kids Menu Dropdown" [ref=e124] [cursor=pointer]:
+                  - generic: Open Baby & Kids Menu Dropdown
+              - listitem [ref=e125]:
+                - link "Home Improvement" [ref=e126] [cursor=pointer]:
+                  - /url: https://www.wayfair.ca/home-improvement/cat/home-improvement-c45342.html
+                  - generic [ref=e127]: Home Improvement
+                - button "Open Home Improvement Menu Dropdown" [ref=e129] [cursor=pointer]:
+                  - generic: Open Home Improvement Menu Dropdown
+              - listitem [ref=e130]:
+                - link "Appliances" [ref=e131] [cursor=pointer]:
+                  - /url: https://www.wayfair.ca/appliances/cat/appliances-c215602.html
+                  - generic [ref=e132]: Appliances
+                - button "Open Appliances Menu Dropdown" [ref=e134] [cursor=pointer]:
+                  - generic: Open Appliances Menu Dropdown
+              - listitem [ref=e135]:
+                - link "Pet" [ref=e136] [cursor=pointer]:
+                  - /url: https://www.wayfair.ca/pet/cat/pet-c504273.html
+                  - generic [ref=e137]: Pet
+                - button "Open Pet Menu Dropdown" [ref=e139] [cursor=pointer]:
+                  - generic: Open Pet Menu Dropdown
+              - listitem [ref=e140]:
+                - link "Holiday" [ref=e141] [cursor=pointer]:
+                  - /url: https://www.wayfair.ca/holiday-decor/cat/holiday-decor-c1859601.html
+                  - generic [ref=e142]: Holiday
+                - button "Open Holiday Menu Dropdown" [ref=e144] [cursor=pointer]:
+                  - generic: Open Holiday Menu Dropdown
+              - listitem [ref=e145]:
+                - link "Shop by Room" [ref=e146] [cursor=pointer]:
+                  - /url: https://www.wayfair.ca/shop-by-room/cat/shop-by-room-c1876502.html
+                  - generic [ref=e147]: Shop by Room
+                - button "Open Shop by Room Menu Dropdown" [ref=e149] [cursor=pointer]:
+                  - generic: Open Shop by Room Menu Dropdown
+              - listitem [ref=e150]:
+                - link "Verified" [ref=e151] [cursor=pointer]:
+                  - /url: https://www.wayfair.ca/m/wayfair_verified
+                  - generic [ref=e152]: Verified
+                - button "Open Verified Menu Dropdown" [ref=e156] [cursor=pointer]:
+                  - generic: Open Verified Menu Dropdown
+              - listitem [ref=e157]:
+                - link "Sale" [ref=e158] [cursor=pointer]:
+                  - /url: https://www.wayfair.ca/daily-sales
+                  - generic [ref=e159]: Sale
+                - button "Open Sale Menu Dropdown" [ref=e161] [cursor=pointer]:
+                  - generic: Open Sale Menu Dropdown
+      - button "Close Menu" [ref=e162] [cursor=pointer]
+      - navigation:
+        - generic [ref=e163]:
+          - link [ref=e164] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/furniture/cat/furniture-c45974.html
+            - text: Furniture
+          - link [ref=e165] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/furniture/cat/furniture-sale-c541538.html
+            - text: Furniture Sale
+          - link [ref=e166] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/furniture/cat/living-room-furniture-c45982.html
+            - text: Living Room Furniture
+          - link [ref=e167] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/furniture/sb0/sofas-c413892.html
+            - text: Sofas
+          - link [ref=e168] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/furniture/sb0/sectionals-c413893.html
+            - text: Sectionals
+          - link [ref=e169] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/furniture/sb0/all-tv-stands-entertainment-centres-c1868409.html
+            - text: TV Stands & Entertainment Centres
+          - link [ref=e170] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/furniture/sb0/all-coffee-tables-c414602.html
+            - text: Coffee Tables
+          - link [ref=e171] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/furniture/sb0/end-side-tables-c414604.html
+            - text: End & Side Tables
+          - link [ref=e172] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/furniture/sb0/accent-chairs-c416225.html
+            - text: Accent Chairs
+          - link [ref=e173] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/furniture/sb0/living-room-sets-c46145.html
+            - text: Living Room Sets
+          - link [ref=e174] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/furniture/cat/living-room-furniture-sale-c1851580.html
+            - text: Living Room Furniture Sale
+          - link [ref=e175] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/furniture/cat/office-furniture-c332627.html
+            - text: Office Furniture
+          - link [ref=e176] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/furniture/sb0/desks-c1780384.html
+            - text: Desks
+          - link [ref=e177] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/furniture/sb0/bookcases-c1780385.html
+            - text: Bookcases
+          - link [ref=e178] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/furniture/sb0/office-chairs-c478390.html
+            - text: Office Chairs
+          - link [ref=e179] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/furniture/sb0/filing-cabinets-c251655.html
+            - text: Filing Cabinets
+          - link [ref=e180] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/furniture/sb0/home-office-furniture-sets-c251662.html
+            - text: Office Sets
+          - link [ref=e181] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/furniture/cat/office-furniture-sale-c1851583.html
+            - text: Office Furniture Sale
+          - link [ref=e182] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/furniture/cat/bedroom-furniture-c45984.html
+            - text: Bedroom Furniture
+          - link [ref=e183] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/furniture/sb0/beds-c46122.html
+            - text: Beds
+          - link [ref=e184] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/furniture/sb0/dressers-c46091.html
+            - text: Dressers & Chests
+          - link [ref=e185] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/furniture/sb0/nightstands-c46062.html
+            - text: Nightstands
+          - link [ref=e186] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/furniture/sb0/armoires-wardrobes-c45981.html
+            - text: Armoires & Wardrobes
+          - link [ref=e187] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/bed-bath/cat/mattresses-foundations-c414871.html
+            - text: Mattresses & Foundations
+          - link [ref=e188] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/furniture/sb0/bedroom-sets-c46123.html
+            - text: Bedroom Sets
+          - link [ref=e189] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/furniture/cat/bedroom-furniture-sale-c1851578.html
+            - text: Bedroom Furniture Sale
+          - link [ref=e190] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/furniture/cat/entry-mudroom-furniture-c215147.html
+            - text: Entry & Mudroom Furniture
+          - link [ref=e191] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/furniture/sb0/all-console-tables-c414605.html
+            - text: Console Tables
+          - link [ref=e192] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/furniture/sb0/cabinets-chests-c504731.html
+            - text: Cabinets & Chests
+          - link [ref=e193] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/storage-organization/sb0/all-shoe-storage-c504342.html
+            - text: Shoe Storage
+          - link [ref=e194] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/storage-organization/sb0/shoe-racks-cubbies-c1869017.html
+            - text: Shoe Racks & Cubbies
+          - link [ref=e195] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/furniture/sb0/hall-trees-c415937.html
+            - text: Hall Trees
+          - link [ref=e196] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/furniture/cat/entry-mudroom-furniture-sale-c1851584.html
+            - text: Entry & Mudroom Furniture Sale
+          - link [ref=e197] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/furniture/cat/kitchen-dining-furniture-c214999.html
+            - text: Kitchen & Dining Furniture
+          - link [ref=e198] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/furniture/cat/dining-tables-seating-c1873843.html
+            - text: Dining Tables & Seating
+          - link [ref=e199] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/furniture/sb0/sideboards-buffets-c215003.html
+            - text: Sideboards & Buffets
+          - link [ref=e200] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/furniture/sb0/kitchen-islands-carts-c415182.html
+            - text: Kitchen Islands & Carts
+          - link [ref=e201] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/furniture/sb0/display-china-cabinets-c415179.html
+            - text: Display & China Cabinets
+          - link [ref=e202] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/furniture/cat/bar-stools-counter-stools-c46134.html
+            - text: Bar Stools & Counter Stools
+          - link [ref=e203] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/furniture/cat/bar-furniture-c531616.html
+            - text: Bar Furniture
+          - link [ref=e204] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/furniture/sb0/kitchen-dining-room-sets-c46025.html
+            - text: Kitchen & Dining Room Sets
+          - link [ref=e205] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/furniture/cat/kitchen-dining-furniture-sale-c1851579.html
+            - text: Kitchen & Dining Furniture Sale
+          - link [ref=e206] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/furniture/cat/game-room-furniture-c215192.html
+            - text: Game Room Furniture
+          - link [ref=e207] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/furniture/sb0/gaming-chairs-c410369.html
+            - text: Gaming Chairs
+          - link [ref=e208] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/furniture/sb0/gaming-desks-c1874819.html
+            - text: Gaming Desks
+          - link [ref=e209] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/furniture/cat/games-game-tables-c1875941.html
+            - text: Games & Game Tables
+          - link [ref=e210] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/furniture/sb0/bean-bag-chairs-c415622.html
+            - text: Bean Bag Chairs
+          - link [ref=e211] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/furniture/cat/game-room-furniture-sale-c1851588.html
+            - text: Game Room Furniture Sale
+          - link [ref=e212] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/pet/cat/pet-c504273.html
+            - text: Pet
+          - link [ref=e213] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/daily-sales/ds/wayfair-verified:-furniture-se79203.html?fromNEM=true&unifiedeventid=467516
+            - text: Wayfair Verified™ Furniture
+          - link [ref=e214] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/brand/bnd/mercury-row-b33808.html
+            - text: Mercury Row
+          - link [ref=e215] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/m/living-room
+            - text: Hang-Out Must Haves
+          - link [ref=e216] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/daily-sales/modern-dining-tables-&-sets~e303452.html?fromNEM=true&unifiedeventid=456148
+            - text: Modern Dining Sets
+          - link [ref=e217] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/daily-sales/ds/top-rated-motion-upholstery-se77111.html?fromNEM=true&unifiedeventid=453758
+            - text: Motion Furniture
+          - link [ref=e218] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/outdoor/cat/outdoor-c32334.html
+            - text: Outdoor
+          - link [ref=e219] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/outdoor/cat/outdoor-sale-c541543.html
+            - text: Outdoor Sale
+          - link [ref=e220] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/outdoor/cat/outdoor-patio-furniture-c33338.html
+            - text: Outdoor & Patio Furniture
+          - link [ref=e221] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/outdoor/cat/patio-furniture-sets-c1873219.html
+            - text: Patio Furniture Sets
+          - link [ref=e222] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/outdoor/cat/outdoor-seating-patio-chairs-c215135.html
+            - text: Outdoor Seating & Patio Chairs
+          - link [ref=e223] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/outdoor/cat/outdoor-tables-c416211.html
+            - text: Outdoor Tables
+          - link [ref=e224] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/outdoor/cat/patio-bar-furniture-c35207.html
+            - text: Patio Bar Furniture
+          - link [ref=e225] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/outdoor/cat/outdoor-patio-furniture-sale-c1851581.html
+            - text: Outdoor & Patio Furniture Sale
+          - link [ref=e226] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/outdoor/cat/backyard-play-c216137.html
+            - text: Backyard Play
+          - link [ref=e227] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/outdoor/cat/outdoor-shades-c1860512.html
+            - text: Outdoor Shades
+          - link [ref=e228] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/outdoor/sb0/gazebos-c1838685.html
+            - text: Gazebos
+          - link [ref=e229] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/outdoor/sb0/pergolas-c1828022.html
+            - text: Pergolas
+          - link [ref=e230] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/outdoor/sb0/outdoor-canopies-c1784940.html
+            - text: Outdoor Canopies
+          - link [ref=e231] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/outdoor/sb0/awnings-c1784941.html
+            - text: Awnings
+          - link [ref=e232] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/outdoor/cat/outdoor-umbrellas-c417302.html
+            - text: Outdoor Umbrellas
+          - link [ref=e233] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/outdoor/cat/outdoor-shades-sale-c1863246.html
+            - text: Outdoor Shades Sale
+          - link [ref=e234] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/outdoor/cat/outdoor-heating-c215961.html
+            - text: Outdoor Heating
+          - link [ref=e235] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/outdoor/cat/outdoor-decor-c215436.html
+            - text: Outdoor Décor
+          - link [ref=e236] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/rugs/sb0/outdoor-rugs-c478542.html
+            - text: Outdoor Rugs
+          - link [ref=e237] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/outdoor/sb0/statues-sculptures-c417320.html
+            - text: Statues & Sculptures
+          - link [ref=e238] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/outdoor/cat/outdoor-pillows-cushions-c417299.html
+            - text: Outdoor Pillows & Cushions
+          - link [ref=e239] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/outdoor/sb0/outdoor-fountains-c215440.html
+            - text: Fountains
+          - link [ref=e240] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/decor-pillows/sb0/wreaths-c477258.html
+            - text: Wreaths
+          - link [ref=e241] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/outdoor/sb0/outdoor-door-mats-c417295.html
+            - text: Outdoor Doormats
+          - link [ref=e242] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/outdoor/cat/outdoor-decor-sale-c1851747.html
+            - text: Outdoor Décor Sale
+          - link [ref=e243] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/lighting/cat/outdoor-lighting-c45346.html
+            - text: Outdoor Lighting
+          - link [ref=e244] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/outdoor/cat/garden-c489047.html
+            - text: Garden
+          - link [ref=e245] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/outdoor/sb0/planters-c1825332.html
+            - text: Planters
+          - link [ref=e246] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/outdoor/sb0/greenhouses-c216027.html
+            - text: Greenhouses
+          - link [ref=e247] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/outdoor/sb0/trellises-c417298.html
+            - text: Trellises
+          - link [ref=e248] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/outdoor/sb0/arbours-c1854898.html
+            - text: Arbours
+          - link [ref=e249] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/outdoor/cat/garden-sale-c1866607.html
+            - text: Garden Sale
+          - link [ref=e250] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/outdoor/cat/front-door-decor-curb-appeal-c1873200.html
+            - text: Front Door Décor & Curb Appeal
+          - link [ref=e251] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/storage-organization/cat/garage-outdoor-storage-organization-c421299.html
+            - text: Garage & Outdoor Storage
+          - link [ref=e252] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/storage-organization/sb0/garage-storage-cabinets-c421471.html
+            - text: Garage Storage Cabinets
+          - link [ref=e253] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/storage-organization/sb0/bike-sport-racks-c421473.html
+            - text: Bike & Sport Racks
+          - link [ref=e254] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/storage-organization/cat/tool-storage-c1874110.html
+            - text: Tool Storage
+          - link [ref=e255] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/storage-organization/sb0/sheds-c89567.html
+            - text: Sheds
+          - link [ref=e256] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/storage-organization/sb0/deck-boxes-patio-storage-c216025.html
+            - text: Deck Boxes
+          - link [ref=e257] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/storage-organization/sb0/storage-racks-shelving-units-c323389.html
+            - text: Storage Racks & Shelving Units
+          - link [ref=e258] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/storage-organization/cat/garage-outdoor-organization-sale-c1851654.html
+            - text: Outdoor Storage Sale
+          - link [ref=e259] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/outdoor/cat/outdoor-fencing-flooring-c489189.html
+            - text: Outdoor Fencing & Flooring
+          - link [ref=e260] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/outdoor/cat/hot-tubs-saunas-pools-c435141.html
+            - text: Hot Tubs, Saunas & Pools
+          - link [ref=e261] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/outdoor/cat/grills-outdoor-cooking-c1845912.html
+            - text: Grills & Outdoor Cooking
+          - link [ref=e262] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/outdoor/cat/grills-outdoor-cooking-c215946.html
+            - text: Grills & Outdoor Cooking
+          - link [ref=e263] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/outdoor/cat/outdoor-kitchens-c1834518.html
+            - text: Outdoor Kitchens
+          - link [ref=e264] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/outdoor/cat/outdoor-serving-tableware-c1873212.html
+            - text: Outdoor Serving & Tableware
+          - link [ref=e265] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/outdoor/cat/grills-outdoor-cooking-sale-c1851751.html
+            - text: Grills & Outdoor Cooking Sale
+          - link [ref=e266] [cursor=pointer]:
+            - /url: https://wayfair.ca/daily-sales/ds/outdoor-se79135.html?fromNEM=true&unifiedeventid=466085
+            - text: Wayfair Verified™ Outdoor
+          - link [ref=e267] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/brand/bnd/sunbrella-b38162.html
+            - text: Sunbrella
+          - link [ref=e268] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/brand/bnd/polywood-b121.html
+            - text: POLYWOOD®
+          - link [ref=e269] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/brand/bnd/blackstone-b30477.html
+            - text: Blackstone
+          - link [ref=e270] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/brand/bnd/suncast-b725.html
+            - text: Suncast
+          - link [ref=e271] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/brand/bnd/backyard-discovery-b10637.html
+            - text: Backyard Discovery
+          - link [ref=e272] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/daily-sales/get-the-garden-ready~e309380.html?fromNEM=true&unifiedeventid=460028
+            - text: Get the Garden Ready
+          - link [ref=e273] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/daily-sales/ds/pergolas-and-gazebos-from-usd150-se73498.html
+            - text: Pergolas & Gazebos
+          - link [ref=e274] [cursor=pointer]:
+            - /url: https://wayfair.ca/daily-sales/ds/adirondack-chair-under-%2475-se81597.html?fromNEM=true&unifiedeventid=600107
+            - text: Adirondack Chairs
+          - link [ref=e275] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/bed-bath/cat/bed-bath-c215329.html
+            - text: Bedding & Bath
+          - link [ref=e276] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/bed-bath/cat/bed-bath-sale-c541542.html
+            - text: Bed & Bath Sale
+          - link [ref=e277] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/bed-bath/cat/bedding-c215330.html
+            - text: Bedding
+          - link [ref=e278] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/bed-bath/sb0/bedding-sets-c481592.html
+            - text: Bedding & Bedding Sets
+          - link [ref=e279] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/decor-pillows/sb0/throw-pillows-c417136.html
+            - text: Throw Pillows
+          - link [ref=e280] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/decor-pillows/sb0/blankets-throws-c415002.html
+            - text: Throw Blankets
+          - link [ref=e281] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/bed-bath/sb0/sheets-pillowcases-c431080.html
+            - text: Sheets & Pillowcases
+          - link [ref=e282] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/bed-bath/cat/bedding-sale-c1851675.html
+            - text: Bedding Sale
+          - link [ref=e283] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/bed-bath/cat/bedding-essentials-c1801989.html
+            - text: Bedding Essentials
+          - link [ref=e284] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/bed-bath/sb0/bed-pillows-c215337.html
+            - text: Bed Pillows
+          - link [ref=e285] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/bed-bath/sb0/mattress-pads-toppers-c414923.html
+            - text: Mattress Pads & Toppers
+          - link [ref=e286] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/bed-bath/sb0/down-comforters-duvet-inserts-c414919.html
+            - text: Down Comforters & Duvet Inserts
+          - link [ref=e287] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/bed-bath/sb0/mattress-covers-protectors-c1788836.html
+            - text: Mattress Covers & Protectors
+          - link [ref=e288] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/bed-bath/sb0/bed-skirts-c431081.html
+            - text: Bed Skirts
+          - link [ref=e289] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/bed-bath/cat/bedding-basics-sale-c1851676.html
+            - text: Bedding Basics Sale
+          - link [ref=e290] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/bed-bath/cat/mattresses-foundations-c414871.html
+            - text: Mattresses & Foundations
+          - link [ref=e291] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/bed-bath/sb0/all-mattresses-c544552.html
+            - text: All Mattresses
+          - link [ref=e292] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/bed-bath/sb0/king-mattresses-c544518.html
+            - text: King Mattresses
+          - link [ref=e293] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/bed-bath/sb0/queen-mattresses-c544517.html
+            - text: Queen Mattresses
+          - link [ref=e294] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/bed-bath/sb0/full-mattresses-c544516.html
+            - text: Full Mattresses
+          - link [ref=e295] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/bed-bath/sb0/twin-mattresses-c544515.html
+            - text: Twin Mattresses
+          - link [ref=e296] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/bed-bath/sb0/box-springs-foundations-c1817495.html
+            - text: Box Springs & Foundations
+          - link [ref=e297] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/bed-bath/sb0/adjustable-beds-c1869533.html
+            - text: Adjustable Beds
+          - link [ref=e298] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/furniture/sb0/bed-frames-c296865.html
+            - text: Bed Frames
+          - link [ref=e299] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/bed-bath/cat/mattresses-foundations-sale-c1863268.html
+            - text: Mattresses & Foundations Sale
+          - link [ref=e300] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/home-improvement/cat/bathroom-remodel-bathroom-fixtures-c215774.html
+            - text: Bathroom Remodel & Fixtures
+          - link [ref=e301] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/home-improvement/cat/bathroom-vanities-c215780.html
+            - text: Bathroom Vanities
+          - link [ref=e302] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/home-improvement/sb0/bathroom-sink-faucets-c215775.html
+            - text: Bathroom Sink Faucets
+          - link [ref=e303] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/home-improvement/cat/bathroom-mirrors-c215789.html
+            - text: Bathroom Mirrors
+          - link [ref=e304] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/home-improvement/cat/bathroom-remodel-bathroom-fixtures-sale-c1851679.html
+            - text: Bathroom Remodel Sale
+          - link [ref=e305] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/bed-bath/cat/bath-rugs-towels-c1801992.html
+            - text: Bath Rugs & Towels
+          - link [ref=e306] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/bed-bath/sb0/all-bath-towels-c481941.html
+            - text: Bath Towels & Sets
+          - link [ref=e307] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/bed-bath/sb0/bath-rugs-mats-c531249.html
+            - text: Bath Rugs & Mats
+          - link [ref=e308] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/bed-bath/cat/bath-rugs-towels-sale-c1851677.html
+            - text: Bath Rugs & Towels Sale
+          - link [ref=e309] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/bed-bath/cat/bathroom-accessories-organization-c424811.html
+            - text: Bathroom Organization
+          - link [ref=e310] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/bed-bath/sb0/countertop-bath-accessories-c215360.html
+            - text: Countertop Bath Accessories
+          - link [ref=e311] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/home-improvement/sb0/shower-bathtub-accessories-c1854555.html
+            - text: Shower & Bathtub Accessories
+          - link [ref=e312] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/home-improvement/cat/towel-storage-c1873748.html
+            - text: Towel Storage
+          - link [ref=e313] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/bed-bath/cat/bathroom-accessories-organization-sale-c1851678.html
+            - text: Bathroom Organization Sale
+          - link [ref=e314] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/bed-bath/cat/shower-curtains-accessories-c424833.html
+            - text: Shower Curtains & Accessories
+          - link [ref=e315] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/bed-bath/sb0/shower-curtains-shower-liners-c215358.html
+            - text: Shower Curtains & Shower Liners
+          - link [ref=e316] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/bed-bath/sb0/shower-curtain-rods-c415769.html
+            - text: Shower Curtain Rods
+          - link [ref=e317] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/bed-bath/cat/shower-curtains-accessories-sale-c1863217.html
+            - text: Shower Curtains & Accessories Sale
+          - link [ref=e318] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/daily-sales/ds/bedroom-se79140.html?fromNEM=true&unifiedeventid=466090
+            - text: Wayfair Verified™ Bedroom
+          - link [ref=e319] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/daily-sales/ds/bedding-sets-just-for-you-se19538.html
+            - text: "Just for You: Bedding Sets"
+          - link [ref=e320] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/brand/bnd/refine-b92434.html
+            - text: RE/FINE™
+          - link [ref=e321] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/brand/bnd/laura-ashley-b2312.html
+            - text: Laura Ashley
+          - link [ref=e322] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/brand/bnd/sealy-b790.html
+            - text: Sealy
+          - link [ref=e323] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/brand/bnd/wayfair-sleep-b39393.html
+            - text: Wayfair Sleep
+          - link [ref=e324] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/filters/brand/bnd/wayfair-basics-b36446-masterClID~1208-masterClID~1221-masterClID~1224-masterClID~1226-masterClID~1227-masterClID~2244.html
+            - text: Wayfair Basics
+          - link [ref=e325] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/daily-sales/extra-cozy-bedding~e333204.html?fromNEM=true&unifiedeventid=473811
+            - text: Extra Cozy Bedding
+          - link [ref=e326] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/daily-sales/guest-bath-must-haves~e333208.html?fromNEM=true&unifiedeventid=473813
+            - text: Guest Bath Must Haves
+          - link [ref=e327] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/rugs/cat/rugs-c215385.html
+            - text: Rugs
+          - link [ref=e328] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/rugs/cat/rugs-sale-c1851636.html
+            - text: Rugs Sale
+          - link [ref=e329] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/rugs/cat/rugs-c215385.html
+            - text: Rugs
+          - link [ref=e330] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/rugs/sb0/area-rugs-c215386.html
+            - text: Area Rugs
+          - link [ref=e331] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/rugs/sb0/outdoor-rugs-c478542.html
+            - text: Outdoor Rugs
+          - link [ref=e332] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/rugs/sb0/hallway-runners-c416168.html
+            - text: Hallway Runners
+          - link [ref=e333] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/bed-bath/sb0/bath-rugs-mats-c531249.html
+            - text: Bath Rugs & Mats
+          - link [ref=e334] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/rugs/sb0/washable-rugs-c1876598.html
+            - text: Washable Rugs
+          - link [ref=e335] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/rugs/sb0/kitchen-mats-c1869859.html
+            - text: Kitchen Mats
+          - link [ref=e336] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/rugs/sb0/doormats-c416566.html
+            - text: Doormats
+          - link [ref=e337] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/rugs/sb0/one-of-a-kind-rugs-c1869740.html
+            - text: One-of-a-Kind Rugs
+          - link [ref=e338] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/rugs/sb0/baby-kids-rugs-c1834363.html
+            - text: Baby & Kids Rugs
+          - link [ref=e339] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/rugs/sb0/rug-pads-c215397.html
+            - text: Rug Pads
+          - link [ref=e340] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/rugs/sb0/stair-tread-rugs-c215396.html
+            - text: Stair Tread Rugs
+          - link [ref=e341] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/home-improvement/sb0/carpet-tiles-c444243.html
+            - text: Carpet Tiles
+          - link [ref=e342] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/rugs/cat/popular-rug-sizes-c1874130.html
+            - text: Popular Rug Sizes
+          - link [ref=e343] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/rugs/sb0/3-x-5-rugs-c1874131.html
+            - text: 3' x 5' Rugs
+          - link [ref=e344] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/rugs/sb0/5-x-8-rugs-c1874132.html
+            - text: 5' x 8' Rugs
+          - link [ref=e345] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/rugs/sb0/7-x-9-rugs-c1874133.html
+            - text: 7' x 9' Rugs
+          - link [ref=e346] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/rugs/sb0/8-x-10-rugs-c1874134.html
+            - text: 8' x 10' Rugs
+          - link [ref=e347] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/rugs/sb0/9-x-12-rugs-c1874135.html
+            - text: 9' x 12' Rugs
+          - link [ref=e348] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/rugs/sb0/10-x-14-rugs-c1874136.html
+            - text: 10' x 14' Rugs
+          - link [ref=e349] [cursor=pointer]:
+            - /url: https://wayfair.ca/daily-sales/ds/rugs-se79134.html?fromNEM=true&unifiedeventid=466084
+            - text: Wayfair Verified™ Rugs
+          - link [ref=e350] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/daily-sales/ds/quick-ship-rugs-se70696.html
+            - text: Quick Ship Faves
+          - link [ref=e351] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/brand/bnd/magnolia-home-by-joanna-gaines-x-loloi-b83809.html
+            - text: Magnolia Home by Joanna Gaines x Loloi
+          - link [ref=e352] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/brand/bnd/rifle-paper-co-b76975.html
+            - text: Rifle Paper Co. x Loloi
+          - link [ref=e353] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/brand/bnd/lauren-ralph-lauren-b44721-masterClID~167.html
+            - text: Lauren Ralph Lauren
+          - link [ref=e354] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/brand/bnd/galey-alix-x-livabliss-b104024-masterClID~167.html
+            - text: Galey Alix x Livabliss
+          - link [ref=e355] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/daily-sales/ds/top-rated-machine-washable-rugs-se66711.html
+            - text: Machine Washable Rugs
+          - link [ref=e356] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/daily-sales/ds/jute-and-sisal-area-rugs-se70737.html
+            - text: Jute & Sisal Rugs
+          - link [ref=e357] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/daily-sales/checkered-&-striped-rugs~e303416.html?fromNEM=true&unifiedeventid=456127
+            - text: Check & Striped Rugs
+          - link [ref=e358] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/daily-sales/ds/high-pile-rugs-se65014.html?fromNEM=true&unifiedeventid=395984
+            - text: High-Pile Rugs
+          - link [ref=e359] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/decor-pillows/cat/decor-pillows-c45752.html
+            - text: Decor & Pillows
+          - link [ref=e360] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/decor-pillows/cat/decor-pillows-sale-c541539.html
+            - text: Decor & Pillows Sale
+          - link [ref=e361] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/decor-pillows/cat/wall-decor-c1801918.html
+            - text: Wall Décor
+          - link [ref=e362] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/storage-organization/sb0/wall-display-shelves-c45770.html
+            - text: Wall & Display Shelves
+          - link [ref=e363] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/decor-pillows/sb0/wall-accents-c1820508.html
+            - text: Wall Accents
+          - link [ref=e364] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/decor-pillows/sb0/wallpaper-c1861000.html
+            - text: Wallpaper
+          - link [ref=e365] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/decor-pillows/sb0/peel-stick-wallpaper-c1869004.html
+            - text: Peel & Stick Wallpaper
+          - link [ref=e366] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/decor-pillows/sb0/tapestries-c215381.html
+            - text: Tapestries
+          - link [ref=e367] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/decor-pillows/sb0/wall-decals-c504340.html
+            - text: Wall Decals
+          - link [ref=e368] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/decor-pillows/cat/wall-decor-sale-c1851641.html
+            - text: Wall Décor Sale
+          - link [ref=e369] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/decor-pillows/cat/art-c215362.html
+            - text: Art
+          - link [ref=e370] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/decor-pillows/sb0/all-wall-art-c215363.html
+            - text: All Wall Art
+          - link [ref=e371] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/decor-pillows/cat/wall-art-by-subject-c1873626.html
+            - text: Art by Subject
+          - link [ref=e372] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/decor-pillows/cat/wall-art-by-type-c1873627.html
+            - text: Art by Type
+          - link [ref=e373] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/decor-pillows/cat/wall-art-by-room-c1873628.html
+            - text: Art by Room
+          - link [ref=e374] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/decor-pillows/sb0/wall-art-sale-c1860031.html
+            - text: Wall Art Sale
+          - link [ref=e375] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/decor-pillows/cat/mirrors-c416700.html
+            - text: Mirrors
+          - link [ref=e376] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/decor-pillows/sb0/all-mirrors-c416716.html
+            - text: All Mirrors
+          - link [ref=e377] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/decor-pillows/sb0/wall-mirrors-c416718.html
+            - text: Wall Mirrors
+          - link [ref=e378] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/home-improvement/sb0/vanity-dresser-mirrors-c433039.html
+            - text: Vanity & Dresser Mirrors
+          - link [ref=e379] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/decor-pillows/sb0/full-length-mirrors-c1860918.html
+            - text: Full Length Mirrors
+          - link [ref=e380] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/decor-pillows/cat/mirrors-sale-c1851637.html
+            - text: Mirrors Sale
+          - link [ref=e381] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/decor-pillows/cat/decorative-accents-c215457.html
+            - text: Decorative Accents
+          - link [ref=e382] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/decor-pillows/sb0/vases-urns-jars-bottles-c215459.html
+            - text: Vases, Urns, Jars & Bottles
+          - link [ref=e383] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/decor-pillows/sb0/decorative-objects-c215465.html
+            - text: Decorative Objects
+          - link [ref=e384] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/decor-pillows/sb0/decorative-trays-c547730.html
+            - text: Decorative Trays
+          - link [ref=e385] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/decor-pillows/sb0/globes-c215461.html
+            - text: Globes
+          - link [ref=e386] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/decor-pillows/sb0/decorative-boxes-c417063.html
+            - text: Decorative Boxes
+          - link [ref=e387] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/decor-pillows/cat/decorative-accents-sale-c1851638.html
+            - text: Decorative Accents Sale
+          - link [ref=e388] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/decor-pillows/cat/candles-candle-holders-c1801729.html
+            - text: Candles
+          - link [ref=e389] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/decor-pillows/cat/picture-frames-albums-c1870400.html
+            - text: Picture Frames
+          - link [ref=e390] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/decor-pillows/cat/flowers-plants-c477256.html
+            - text: Flowers & Plants
+          - link [ref=e391] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/decor-pillows/sb0/faux-plants-c477259.html
+            - text: Faux Plants
+          - link [ref=e392] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/decor-pillows/sb0/faux-trees-c477260.html
+            - text: Faux Trees
+          - link [ref=e393] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/decor-pillows/sb0/faux-flowers-c549917.html
+            - text: Faux Flowers
+          - link [ref=e394] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/decor-pillows/sb0/indoor-planters-c1871008.html
+            - text: Indoor Planters
+          - link [ref=e395] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/decor-pillows/cat/flowers-plants-sale-c1863215.html
+            - text: Flowers & Plants Sale
+          - link [ref=e396] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/decor-pillows/cat/window-treatments-c416567.html
+            - text: Window Treatments
+          - link [ref=e397] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/decor-pillows/sb0/curtains-drapes-c481844.html
+            - text: Curtains & Drapes
+          - link [ref=e398] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/decor-pillows/sb0/blinds-shades-c481847.html
+            - text: Blinds & Shades
+          - link [ref=e399] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/decor-pillows/cat/window-treatments-sale-c1851642.html
+            - text: Window Treatments Sale
+          - link [ref=e400] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/decor-pillows/cat/decorative-pillows-blankets-c416575.html
+            - text: Decorative Pillows & Blankets
+          - link [ref=e401] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/decor-pillows/sb0/throw-pillows-c417136.html
+            - text: Throw Pillows
+          - link [ref=e402] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/decor-pillows/sb0/blankets-throws-c415002.html
+            - text: Throw Blankets
+          - link [ref=e403] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/decor-pillows/cat/decorative-pillows-blankets-sale-c1872093.html
+            - text: Decorative Pillows & Blankets Sale
+          - link [ref=e404] [cursor=pointer]:
+            - /url: https://wayfair.ca/daily-sales/ds/decor-se79139.html?fromNEM=true&unifiedeventid=466089
+            - text: Wayfair Verified™ Décor
+          - link [ref=e405] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/daily-sales/ds/quick-ship-mirrors-and-decor-se70389.html
+            - text: Quick-Ship Mirrors & Decor
+          - link [ref=e406] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/daily-sales/ds/top-rated-home-accessories-se55814.html
+            - text: Top-Rated Home Accessories
+          - link [ref=e407] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/daily-sales/new-arrivals:-decor~e309432.html?fromNEM=true&unifiedeventid=460111
+            - text: Fresh Finds
+          - link [ref=e408] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/filters/brand/bnd/refine-b92434-masterClID~41-masterClID~1227-masterClID~2239.html
+            - text: RE/FINE™
+          - link [ref=e409] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/filters/brand/bnd/wayfair-basics-b36446-masterClID~641-masterClID~646-masterClID~1227-masterClID~6260.html
+            - text: Wayfair Basics
+          - link [ref=e410] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/daily-sales/ds/small-decor,-major-style-se79640.html?fromNEM=true&unifiedeventid=470766
+            - text: Small Decor, Major Style
+          - link [ref=e411] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/daily-sales/spring-blankets-&-pillows~e303418.html?fromNEM=true&unifiedeventid=456128
+            - text: Spring Blankets & Pillows
+          - link [ref=e412] [cursor=pointer]:
+            - /url: https://wayfair.ca/daily-sales/decor-from-%2415~e338094.html?fromNEM=true&unifiedeventid=476911
+            - text: Decor from $15
+          - link [ref=e413] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/lighting/cat/lighting-c215735.html
+            - text: Lighting
+          - link [ref=e414] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/lighting/cat/lighting-sale-c553229.html
+            - text: Lighting Sale
+          - link [ref=e415] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/lighting/cat/ceiling-lights-c215416.html
+            - text: Ceiling Lights
+          - link [ref=e416] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/lighting/sb0/all-ceiling-lights-c1873711.html
+            - text: All Ceiling Lights
+          - link [ref=e417] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/lighting/sb0/chandeliers-c215419.html
+            - text: Chandeliers
+          - link [ref=e418] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/lighting/sb0/pendant-lighting-c215420.html
+            - text: Pendant Lighting
+          - link [ref=e419] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/lighting/sb0/flush-mount-lighting-c215417.html
+            - text: Flush Mount Lighting
+          - link [ref=e420] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/lighting/cat/recessed-lighting-c416494.html
+            - text: Recessed Lighting
+          - link [ref=e421] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/lighting/cat/ceiling-lights-sale-c1851600.html
+            - text: Ceiling Lights Sale
+          - link [ref=e422] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/lighting/cat/table-floor-lamps-c215429.html
+            - text: Table & Floor Lamps
+          - link [ref=e423] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/lighting/sb0/table-lamps-c416503.html
+            - text: Table Lamps
+          - link [ref=e424] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/lighting/sb0/floor-lamps-c416504.html
+            - text: Floor Lamps
+          - link [ref=e425] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/lighting/sb0/lamp-sets-c416506.html
+            - text: Lamp Sets
+          - link [ref=e426] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/lighting/sb0/lamp-shades-c1801922.html
+            - text: Lamp Shades
+          - link [ref=e427] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/lighting/sb0/desk-lamps-c416505.html
+            - text: Desk Lamps
+          - link [ref=e428] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/lighting/cat/table-floor-lamps-sale-c1851602.html
+            - text: Table & Floor Lamps Sale
+          - link [ref=e429] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/lighting/cat/outdoor-lighting-c45346.html
+            - text: Outdoor Lighting
+          - link [ref=e430] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/lighting/sb0/all-outdoor-lights-c416527.html
+            - text: All Outdoor Lights
+          - link [ref=e431] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/lighting/sb0/outdoor-wall-lighting-c416512.html
+            - text: Outdoor Wall Lighting
+          - link [ref=e432] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/lighting/sb0/all-outdoor-ceiling-lights-c1873924.html
+            - text: Outdoor Ceiling Lights
+          - link [ref=e433] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/lighting/sb0/outdoor-lanterns-lamps-c1868218.html
+            - text: Outdoor Lanterns & Lamps
+          - link [ref=e434] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/lighting/sb0/string-lights-c1862961.html
+            - text: String Lights
+          - link [ref=e435] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/lighting/sb0/led-outdoor-lights-c1871610.html
+            - text: LED Outdoor Lights
+          - link [ref=e436] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/lighting/cat/outdoor-lighting-sale-c1851603.html
+            - text: Outdoor Lighting Sale
+          - link [ref=e437] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/lighting/cat/wall-lights-c215424.html
+            - text: Wall Lights
+          - link [ref=e438] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/lighting/sb0/bathroom-vanity-lighting-c416507.html
+            - text: Bathroom Vanity Lighting
+          - link [ref=e439] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/lighting/sb0/wall-sconces-c416508.html
+            - text: Wall Sconces
+          - link [ref=e440] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/lighting/sb0/swing-arm-wall-sconces-c416509.html
+            - text: Swing Arm Wall Sconces
+          - link [ref=e441] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/lighting/sb0/under-cabinet-lighting-c215427.html
+            - text: Under Cabinet Lighting
+          - link [ref=e442] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/lighting/sb0/picture-lights-c435200.html
+            - text: Picture Lights
+          - link [ref=e443] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/lighting/cat/wall-lights-sale-c1851601.html
+            - text: Wall Lights Sale
+          - link [ref=e444] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/lighting/cat/ceiling-fans-c215430.html
+            - text: Ceiling Fans
+          - link [ref=e445] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/lighting/sb0/all-ceiling-fans-c1786439.html
+            - text: All Ceiling Fans
+          - link [ref=e446] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/lighting/sb0/ceiling-fans-with-lights-c1870036.html
+            - text: Ceiling Fans With Lights
+          - link [ref=e447] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/lighting/sb0/indoor-ceiling-fans-c416549.html
+            - text: Indoor Ceiling Fans
+          - link [ref=e448] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/lighting/sb0/outdoor-ceiling-fans-c416551.html
+            - text: Outdoor Ceiling Fans
+          - link [ref=e449] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/lighting/cat/ceiling-fans-sale-c1851606.html
+            - text: Ceiling Fans Sale
+          - link [ref=e450] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/lighting/cat/bulbs-shades-components-c416394.html
+            - text: Bulbs, shades & components
+          - link [ref=e451] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/lighting/sb0/light-bulbs-c1871564.html
+            - text: Light Bulbs
+          - link [ref=e452] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/lighting/sb0/switch-plates-c1870901.html
+            - text: Switch Plates
+          - link [ref=e453] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/lighting/sb0/light-shades-c416546.html
+            - text: Light Shades
+          - link [ref=e454] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/lighting/sb0/switches-dimmers-outlets-c503998.html
+            - text: Switches, Dimmers & Outlets
+          - link [ref=e455] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/lighting/sb0/lighting-components-c416547.html
+            - text: Lighting Components
+          - link [ref=e456] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/lighting/cat/light-bulbs-hardware-sale-c1851605.html
+            - text: Light Bulbs & Hardware Sale
+          - link [ref=e457] [cursor=pointer]:
+            - /url: https://wayfair.ca/daily-sales/ds/lighting-se79137.html?fromNEM=true&unifiedeventid=466087
+            - text: Wayfair Verified™ Lighting
+          - link [ref=e458] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/daily-sales/ds/outdoor-lighting-by-mercury-row-se67985.html
+            - text: Outdoor Lighting by Mercury Row
+          - link [ref=e459] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/daily-sales/ds/top-rated-table-lamps-se46632.html
+            - text: Top-Rated Table Lamps
+          - link [ref=e460] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/daily-sales/ds/quick-ship-table-lamps-se16573.html
+            - text: Quick Ship Table Lamps
+          - link [ref=e461] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/brand/bnd/breegan-jane-b98302.html
+            - text: Breegan Jane x Savoy House
+          - link [ref=e462] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/brand/bnd/kuzco-lighting-b70262.html
+            - text: Kuzco Lighting
+          - link [ref=e463] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/daily-sales/ds/top-rated-vanity-lighting-se15870.html
+            - text: "Guest Bathroom Refresh: Lighting"
+          - link [ref=e464] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/daily-sales/ds/modern-and-industrial-lighting-se48361.html
+            - text: Modern & Industrial Lighting
+          - link [ref=e465] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/storage-organization/cat/storage-organization-c215875.html
+            - text: Organization
+          - link [ref=e466] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/storage-organization/cat/storage-organization-sale-c1851577.html
+            - text: Organization Sale
+          - link [ref=e467] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/storage-organization/cat/storage-containers-drawers-c1831551.html
+            - text: Storage Containers & Drawers
+          - link [ref=e468] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/storage-organization/sb0/all-storage-containers-c1801912.html
+            - text: All Storage Containers
+          - link [ref=e469] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/storage-organization/sb0/woven-baskets-c1860059.html
+            - text: Woven Baskets
+          - link [ref=e470] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/storage-organization/sb0/decorative-storage-c1877116.html
+            - text: Decorative Storage
+          - link [ref=e471] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/storage-organization/sb0/cube-storage-c1877118.html
+            - text: Cube Storage
+          - link [ref=e472] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/storage-organization/sb0/storage-tubs-totes-c323390.html
+            - text: Storage Tubs & Totes
+          - link [ref=e473] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/storage-organization/sb0/storage-drawers-c1850968.html
+            - text: Storage Drawers
+          - link [ref=e474] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/organization-storage/sb0/utility-carts-c323399.html
+            - text: Utility Carts
+          - link [ref=e475] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/storage-organization/cat/storage-containers-drawers-sale-c1851659.html
+            - text: Storage Containers & Drawers Sale
+          - link [ref=e476] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/storage-organization/cat/storage-furniture-c1871997.html
+            - text: Storage Furniture
+          - link [ref=e477] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/furniture/sb0/bookcases-c1780385.html
+            - text: Bookcases
+          - link [ref=e478] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/furniture/sb0/cabinets-chests-c504731.html
+            - text: Cabinets & Chests
+          - link [ref=e479] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/storage-organization/sb0/storage-benches-c415938.html
+            - text: Storage Benches
+          - link [ref=e480] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/storage-organization/sb0/storage-ottomans-c46573.html
+            - text: Storage Ottomans
+          - link [ref=e481] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/storage-organization/cat/storage-furniture-sale-c1871998.html
+            - text: Storage Furniture Sale
+          - link [ref=e482] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/storage-organization/cat/wall-shelving-organization-c1842704.html
+            - text: Wall Shelving & Organization
+          - link [ref=e483] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/storage-organization/sb0/wall-display-shelves-c45770.html
+            - text: Wall & Display Shelves
+          - link [ref=e484] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/furniture/sb0/wall-hooks-c1803343.html
+            - text: Wall Hooks
+          - link [ref=e485] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/storage-organization/cat/wall-shelving-organization-sale-c1863293.html
+            - text: Wall Shelving & Organization Sale
+          - link [ref=e486] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/storage-organization/cat/closet-storage-organization-c435884.html
+            - text: Closet Organization
+          - link [ref=e487] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/storage-organization/sb0/all-closet-systems-c1833181.html
+            - text: All Closet Systems
+          - link [ref=e488] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/storage-organization/sb0/clothing-racks-c1833564.html
+            - text: Clothes & Garment Racks
+          - link [ref=e489] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/storage-organization/sb0/all-shoe-storage-c504342.html
+            - text: Shoe Storage
+          - link [ref=e490] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/storage-organization/sb0/all-closet-accessories-c1874175.html
+            - text: All Closet Accessories
+          - link [ref=e491] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/storage-organization/sb0/storage-trunks-c530811.html
+            - text: Storage Trunks
+          - link [ref=e492] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/storage-organization/cat/closet-organization-sale-c1851651.html
+            - text: Closet Organization Sale
+          - link [ref=e493] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/storage-organization/cat/garage-outdoor-storage-organization-c421299.html
+            - text: Garage & Outdoor Storage
+          - link [ref=e494] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/storage-organization/sb0/garage-storage-cabinets-c421471.html
+            - text: Garage Storage Cabinets
+          - link [ref=e495] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/storage-organization/sb0/bike-sport-racks-c421473.html
+            - text: Bike & Sport Racks
+          - link [ref=e496] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/storage-organization/cat/tool-storage-c1874110.html
+            - text: Tool Storage
+          - link [ref=e497] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/storage-organization/sb0/sheds-c89567.html
+            - text: Sheds
+          - link [ref=e498] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/storage-organization/sb0/deck-boxes-patio-storage-c216025.html
+            - text: Deck Boxes
+          - link [ref=e499] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/storage-organization/sb0/storage-racks-shelving-units-c323389.html
+            - text: Storage Racks & Shelving Units
+          - link [ref=e500] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/storage-organization/cat/garage-outdoor-organization-sale-c1851654.html
+            - text: Outdoor Storage Sale
+          - link [ref=e501] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/storage-organization/cat/office-organization-c1874101.html
+            - text: Office Organization
+          - link [ref=e502] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/storage-organization/sb0/desktop-organization-c251687.html
+            - text: Desktop Organization
+          - link [ref=e503] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/storage-organization/sb0/file-boxes-c1874197.html
+            - text: File Boxes
+          - link [ref=e504] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/furniture/sb0/filing-cabinets-c251655.html
+            - text: Filing Cabinets
+          - link [ref=e505] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/storage-organization/cat/office-organization-c1874101.html
+            - text: Office Organization
+          - link [ref=e506] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/storage-organization/cat/bathroom-storage-organization-c215892.html
+            - text: Bathroom Organization
+          - link [ref=e507] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/storage-organization/sb0/bathroom-cabinets-shelving-c1826530.html
+            - text: Bathroom Cabinets & Shelving
+          - link [ref=e508] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/bed-bath/sb0/countertop-bath-accessories-c215360.html
+            - text: Countertop Bath Accessories
+          - link [ref=e509] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/home-improvement/sb0/shower-bathtub-accessories-c1854555.html
+            - text: Shower & Bathtub Accessories
+          - link [ref=e510] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/bed-bath/sb0/bathroom-trash-cans-c1862825.html
+            - text: Bathroom Trash Cans
+          - link [ref=e511] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/storage-organization/cat/bathroom-organization-sale-c1851653.html
+            - text: Bathroom Organization Sale
+          - link [ref=e512] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/dining/cat/kitchen-organization-c246761.html
+            - text: Kitchen Organization
+          - link [ref=e513] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/dining/sb0/food-pantries-c246777.html
+            - text: Food Pantries
+          - link [ref=e514] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/dining/sb0/food-storage-containers-c246762.html
+            - text: Food Storage Containers
+          - link [ref=e515] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/dining/sb0/kitchen-shelving-c246775.html
+            - text: Kitchen Shelving
+          - link [ref=e516] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/dining/sb0/all-cabinet-organization-c246778.html
+            - text: Cabinet Organization
+          - link [ref=e517] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/dining/sb0/pot-racks-c415184.html
+            - text: Pot Racks
+          - link [ref=e518] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/dining/sb0/spice-jars-spice-racks-c246764.html
+            - text: Spice Jars & Spice Racks
+          - link [ref=e519] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/dining/cat/kitchen-organization-sale-c1851652.html
+            - text: Kitchen Organization Sale
+          - link [ref=e520] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/storage-organization/cat/cleaning-laundry-organization-c1802036.html
+            - text: Cleaning & Laundry Organization
+          - link [ref=e521] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/appliances/sb0/all-vacuums-c419317.html
+            - text: Vacuums & Deep Cleaners
+          - link [ref=e522] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/storage-organization/sb0/hampers-laundry-baskets-c215044.html
+            - text: Hampers & Laundry Baskets
+          - link [ref=e523] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/storage-organization/sb0/trash-cans-recycling-c1776019.html
+            - text: Trash Cans & Recycling
+          - link [ref=e524] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/storage-organization/cat/cleaning-laundry-organization-sale-c1852484.html
+            - text: Laundry Organization Sale
+          - link [ref=e525] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/brand/bnd/wayfair-basics-b36446.html
+            - text: Wayfair Basics
+          - link [ref=e526] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/brand/bnd/dotted-line-b52372.html
+            - text: Dotted Line
+          - link [ref=e527] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/brand/bnd/closetmaid-b36069.html
+            - text: ClosetMaid
+          - link [ref=e528] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/brand/bnd/brabantia-b642.html
+            - text: Brabantia
+          - link [ref=e529] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/m/storage
+            - text: Organize Every Space
+          - link [ref=e530] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/daily-sales/ds/must-have-closet-storage-se77252.html?fromNEM=true&unifiedeventid=454995
+            - text: Closet Organization Essentials
+          - link [ref=e531] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/daily-sales/ds/underbed-storage-from-$25-se78353.html?fromNEM=true&unifiedeventid=460069
+            - text: Under-bed Storage
+          - link [ref=e532] [cursor=pointer]:
+            - /url: https://wayfair.ca/daily-sales/ds/the-best-storage-containers-se81105.html?fromNEM=true&unifiedeventid=478266
+            - text: The Best Storage Containers
+          - link [ref=e533] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/dining/cat/kitchen-tabletop-c45667.html
+            - text: Kitchen
+          - link [ref=e534] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/dining/cat/kitchen-dining-sale-c541540.html
+            - text: Kitchen & Dining Sale
+          - link [ref=e535] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/dining/cat/tableware-drinkware-c418940.html
+            - text: Tableware & Drinkware
+          - link [ref=e536] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/dining/cat/dinnerware-c418943.html
+            - text: Dinnerware
+          - link [ref=e537] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/dining/cat/table-accents-c418947.html
+            - text: Table Accents
+          - link [ref=e538] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/dining/cat/drinkware-c418944.html
+            - text: Drinkware
+          - link [ref=e539] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/dining/cat/table-kitchen-linens-c490975.html
+            - text: Table & Kitchen Linens
+          - link [ref=e540] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/dining/cat/flatware-silverware-c418945.html
+            - text: Flatware & Silverware
+          - link [ref=e541] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/dining/cat/barware-c419672.html
+            - text: Barware
+          - link [ref=e542] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/dining/cat/tableware-drinkware-sale-c1851666.html
+            - text: Tableware & Drinkware Sale
+          - link [ref=e543] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/furniture/cat/kitchen-dining-furniture-c214999.html
+            - text: Kitchen & Dining Furniture
+          - link [ref=e544] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/outdoor/cat/grills-outdoor-cooking-c1845912.html
+            - text: Grills & Outdoor Cooking
+          - link [ref=e545] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/outdoor/cat/grills-outdoor-cooking-c215946.html
+            - text: Grills & Outdoor Cooking
+          - link [ref=e546] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/outdoor/cat/outdoor-kitchens-c1834518.html
+            - text: Outdoor Kitchens
+          - link [ref=e547] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/outdoor/cat/outdoor-serving-tableware-c1873212.html
+            - text: Outdoor Serving & Tableware
+          - link [ref=e548] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/outdoor/cat/grills-outdoor-cooking-sale-c1851751.html
+            - text: Grills & Outdoor Cooking Sale
+          - link [ref=e549] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/dining/cat/cookware-bakeware-c417494.html
+            - text: Cookware & Bakeware
+          - link [ref=e550] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/dining/sb0/all-cookware-c1873044.html
+            - text: Cookware
+          - link [ref=e551] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/dining/sb0/all-bakeware-c1873045.html
+            - text: Bakeware
+          - link [ref=e552] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/dining/cat/pots-pans-skillets-c1871723.html
+            - text: Pots, Pans & Skillets
+          - link [ref=e553] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/dining/cat/knives-accessories-c419531.html
+            - text: Knives & Accessories
+          - link [ref=e554] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/dining/cat/cooking-utensils-c417516.html
+            - text: Cooking Utensils
+          - link [ref=e555] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/dining/cat/kitchen-utensils-tools-c419560.html
+            - text: Kitchen Utensils & Tools
+          - link [ref=e556] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/dining/cat/cookware-bakeware-sale-c1851665.html
+            - text: Cookware & Bakeware Sale
+          - link [ref=e557] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/home-improvement/cat/kitchen-remodel-kitchen-fixtures-c215762.html
+            - text: Kitchen Remodel & Fixtures
+          - link [ref=e558] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/dining/cat/kitchen-organization-c246761.html
+            - text: Kitchen Organization
+          - link [ref=e559] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/dining/sb0/food-pantries-c246777.html
+            - text: Food Pantries
+          - link [ref=e560] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/dining/sb0/kitchen-shelving-c246775.html
+            - text: Kitchen Shelving
+          - link [ref=e561] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/dining/cat/cabinet-pantry-organization-c1868161.html
+            - text: Cabinet & Pantry Organization
+          - link [ref=e562] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/dining/cat/countertop-sink-organization-c1874116.html
+            - text: Countertop Organization
+          - link [ref=e563] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/dining/cat/kitchen-organization-sale-c1851652.html
+            - text: Kitchen Organization Sale
+          - link [ref=e564] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/dining/cat/small-kitchen-appliances-c419242.html
+            - text: Small Kitchen Appliances
+          - link [ref=e565] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/shop-product-type/sb0/air-fryers-c419275.html
+            - text: Air Fryers
+          - link [ref=e566] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/dining/sb0/mixers-attachments-c419244.html
+            - text: Mixers & Attachments
+          - link [ref=e567] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/dining/cat/coffee-espresso-tea-c419256.html
+            - text: Coffee, Espresso, & Tea
+          - link [ref=e568] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/appliances/sb0/ice-makers-c420525.html
+            - text: Ice Makers
+          - link [ref=e569] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/dining/sb0/blenders-c419247.html
+            - text: Blenders
+          - link [ref=e570] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/dining/sb0/toaster-ovens-c419267.html
+            - text: Toaster Ovens
+          - link [ref=e571] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/dining/cat/small-kitchen-appliances-sale-c1851667.html
+            - text: Small Kitchen Appliances Sale
+          - link [ref=e572] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/appliances/cat/kitchen-appliances-c530817.html
+            - text: Kitchen Appliances
+          - link [ref=e573] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/brand/bnd/cuisinart-b2358.html
+            - text: Cuisinart
+          - link [ref=e574] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/brand/bnd/calphalon-b1287.html
+            - text: Calphalon
+          - link [ref=e575] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/brand/bnd/henckels-b51499.html
+            - text: HENCKELS
+          - link [ref=e576] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/daily-sales/ds/best-sellers:-cocktails-in-style-se79042.html?fromNEM=true&unifiedeventid=465564
+            - text: Cocktails in Style
+          - link [ref=e577] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/daily-sales/ds/the-perfect-cup-se77403.html?unifiedeventid=456132
+            - text: The Perfect Cup
+          - link [ref=e578] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/baby-kids/cat/baby-kids-c45226.html
+            - text: Baby & Kids
+          - link [ref=e579] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/baby-kids/cat/baby-kid-teen-furniture-decor-sale-c541544.html
+            - text: Baby & Kids Sale
+          - link [ref=e580] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/baby-kids/cat/nursery-furniture-c90450.html
+            - text: Nursery Furniture
+          - link [ref=e581] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/baby-kids/sb0/cribs-c1838963.html
+            - text: Cribs
+          - link [ref=e582] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/baby-kids/sb0/crib-mattresses-c421025.html
+            - text: Crib Mattresses
+          - link [ref=e583] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/baby-kids/sb0/nursery-gliders-rockers-recliners-c216072.html
+            - text: Gliders, Rockers, & Recliners
+          - link [ref=e584] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/baby-kids/sb0/changing-tables-c216069.html
+            - text: Changing Tables
+          - link [ref=e585] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/baby-kids/sb0/cradles-bassinets-c90466.html
+            - text: Cradles & Bassinets
+          - link [ref=e586] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/baby-kids/sb0/nursery-furniture-sets-c421024.html
+            - text: Nursery Furniture Sets
+          - link [ref=e587] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/baby-kids/cat/nursery-furniture-sale-c1837428.html
+            - text: Nursery Furniture Sale
+          - link [ref=e588] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/baby-kids/cat/nursery-bedding-c1874825.html
+            - text: Nursery Bedding
+          - link [ref=e589] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/baby-kids/sb0/crib-bedding-sets-c421102.html
+            - text: Crib Bedding Sets
+          - link [ref=e590] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/baby-kids/sb0/crib-sheets-c421110.html
+            - text: Crib Sheets
+          - link [ref=e591] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/baby-kids/sb0/baby-blankets-quilts-c421105.html
+            - text: Baby Blankets & Quilts
+          - link [ref=e592] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/baby-kids/cat/nursery-bedding-sale-c1851773.html
+            - text: Nursery Bedding Sale
+          - link [ref=e593] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/baby-kids/cat/toddler-kids-playroom-c545073.html
+            - text: Toddler & Kids Playroom
+          - link [ref=e594] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/baby-kids/sb0/toddler-kids-table-chair-sets-c415618.html
+            - text: Toddler & Kids Table & Chair Sets
+          - link [ref=e595] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/baby-kids/sb0/play-kitchen-sets-accessories-c232200.html
+            - text: Play Kitchen Sets & Accessories
+          - link [ref=e596] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/baby-kids/cat/indoor-play-c1874827.html
+            - text: Indoor Play
+          - link [ref=e597] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/baby-kids/cat/toddler-kids-playroom-sale-c1851153.html
+            - text: Toddler & Kids Playroom Sale
+          - link [ref=e598] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/baby-kids/cat/toddler-kids-bedroom-furniture-c215056.html
+            - text: Toddler & Kids Bedroom Furniture
+          - link [ref=e599] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/baby-kids/sb0/kids-beds-c90480.html
+            - text: Kids Beds
+          - link [ref=e600] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/baby-kids/sb0/bunk-beds-c414869.html
+            - text: Bunk Beds
+          - link [ref=e601] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/baby-kids/sb0/toddler-beds-c421082.html
+            - text: Toddler Beds
+          - link [ref=e602] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/baby-kids/sb0/baby-kids-dressers-c216070.html
+            - text: Baby & Kids Dressers
+          - link [ref=e603] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/baby-kids/sb0/kids-desks-c415621.html
+            - text: Kids Desks
+          - link [ref=e604] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/baby-kids/sb0/kids-bedroom-sets-c116106.html
+            - text: Kids Bedroom Sets
+          - link [ref=e605] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/baby-kids/cat/toddler-kids-bedroom-furniture-sale-c1838210.html
+            - text: Toddler & Kids Bedroom Furniture Sale
+          - link [ref=e606] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/baby-kids/cat/baby-kids-storage-c1834815.html
+            - text: Baby & Kids Storage
+          - link [ref=e607] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/baby-kids/cat/toddler-kids-bedding-bath-c486089.html
+            - text: Toddler & Kids Bedding & Bath
+          - link [ref=e608] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/baby-kids/cat/baby-kids-rugs-decor-lighting-c492177.html
+            - text: Baby & Kids Rugs, Décor & Lighting
+          - link [ref=e609] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/outdoor/cat/backyard-play-c216137.html
+            - text: Backyard Play
+          - link [ref=e610] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/outdoor/sb0/swing-sets-c1846976.html
+            - text: Swing Sets
+          - link [ref=e611] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/outdoor/sb0/bounce-houses-inflatable-slides-c430679.html
+            - text: Bounce Houses & Inflatable Slides
+          - link [ref=e612] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/outdoor/sb0/climbing-toys-slides-c530462.html
+            - text: Climbing Toys & Slides
+          - link [ref=e613] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/outdoor/sb0/outdoor-playhouses-c430313.html
+            - text: Outdoor Playhouses
+          - link [ref=e614] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/outdoor/cat/backyard-play-sale-c1851106.html
+            - text: Backyard Play Sale
+          - link [ref=e615] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/baby-kids/cat/teen-bedding-c486090.html
+            - text: Teen Bedding
+          - link [ref=e616] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/baby-kids/cat/teen-decor-lighting-c1872171.html
+            - text: Teen Decor & Lighting
+          - link [ref=e617] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/baby-kids/cat/teen-bedroom-furniture-c1872134.html
+            - text: Teen Bedroom Furniture
+          - link [ref=e618] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/baby-kids/sb0/teen-bunk-loft-beds-c1872136.html
+            - text: Teen Bunk & Loft Beds
+          - link [ref=e619] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/baby-kids/sb0/teen-lounge-furniture-c1872147.html
+            - text: Teen Lounge Furniture
+          - link [ref=e620] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/baby-kids/sb0/teen-beds-c1872135.html
+            - text: Teen Beds
+          - link [ref=e621] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/baby-kids/cat/teen-bedroom-furniture-sale-c1874824.html
+            - text: Teen Bedroom Furniture Sale
+          - link [ref=e622] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/daily-sales/ds/wayfair-verified:-baby-&-kids-se79202.html?fromNEM=true&unifiedeventid=467514
+            - text: Wayfair Verified™ Kids Furniture
+          - link [ref=e623] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/daily-sales/ds/new-mom-essentials-se78809.html?fromNEM=true&unifiedeventid=464233
+            - text: New Parent Essentials
+          - link [ref=e624] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/daily-sales/ds/just-for-the-kids-se54360.html
+            - text: "Customer Picks: Kids Furniture"
+          - link [ref=e625] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/brand/bnd/graco-b85.html
+            - text: Graco
+          - link [ref=e626] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/brand/bnd/storkcraft-b530.html
+            - text: Storkcraft
+          - link [ref=e627] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/brand/bnd/delta-children-b815.html
+            - text: Delta Children
+          - link [ref=e628] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/daily-sales/ds/family-friendly-rugs-se74029.html
+            - text: Must-Have Kids Rugs
+          - link [ref=e629] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/daily-sales/filters/kids%27-play-tables-they%27ll-love-se73924.html?unifiedeventid=441827
+            - text: Play Tables
+          - link [ref=e630] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/daily-sales/playroom-game-changers~e338258.html?fromNEM=true&unifiedeventid=477009
+            - text: Playroom Game-Changers
+          - link [ref=e631] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/home-improvement/cat/home-improvement-c45342.html
+            - text: Home Improvement
+          - link [ref=e632] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/home-improvement/cat/home-improvement-sale-c541546.html
+            - text: Home Improvement Sale
+          - link [ref=e633] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/home-improvement/cat/bathroom-remodel-bathroom-fixtures-c215774.html
+            - text: Bathroom Remodel & Fixtures
+          - link [ref=e634] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/home-improvement/sb0/all-bathroom-vanities-c527058.html
+            - text: Bathroom Vanities
+          - link [ref=e635] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/home-improvement/sb0/bathroom-sink-faucets-c215775.html
+            - text: Bathroom Sink Faucets
+          - link [ref=e636] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/home-improvement/cat/bathroom-mirrors-c215789.html
+            - text: Bathroom Mirrors
+          - link [ref=e637] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/home-improvement/sb0/bathroom-sinks-c524400.html
+            - text: Bathroom Sinks
+          - link [ref=e638] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/home-improvement/cat/showers-bathtubs-c1802033.html
+            - text: Showers & Bathtubs
+          - link [ref=e639] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/home-improvement/cat/toilets-bidets-c218166.html
+            - text: Toilets & Bidets
+          - link [ref=e640] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/home-improvement/cat/bathroom-remodel-bathroom-fixtures-sale-c1851679.html
+            - text: Bathroom Remodel Sale
+          - link [ref=e641] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/home-improvement/cat/kitchen-remodel-kitchen-fixtures-c215762.html
+            - text: Kitchen Remodel & Fixtures
+          - link [ref=e642] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/home-improvement/sb0/kitchen-faucets-c215764.html
+            - text: Kitchen Faucets
+          - link [ref=e643] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/home-improvement/sb0/kitchen-sinks-c215763.html
+            - text: Kitchen Sinks
+          - link [ref=e644] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/home-improvement/cat/cabinets-cabinet-hardware-c1873746.html
+            - text: Cabinets & Cabinet Hardware
+          - link [ref=e645] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/home-improvement/cat/kitchen-remodel-kitchen-fixtures-sale-c1851673.html
+            - text: Kitchen Remodel & Fixtures Sale
+          - link [ref=e646] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/decor-pillows/cat/window-treatments-c416567.html
+            - text: Window Treatments
+          - link [ref=e647] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/decor-pillows/sb0/curtains-drapes-c481844.html
+            - text: Curtains & Drapes
+          - link [ref=e648] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/decor-pillows/sb0/blinds-shades-c481847.html
+            - text: Blinds & Shades
+          - link [ref=e649] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/decor-pillows/cat/window-treatments-sale-c1851642.html
+            - text: Window Treatments Sale
+          - link [ref=e650] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/home-improvement/cat/flooring-walls-ceiling-c1873745.html
+            - text: Flooring & Walls
+          - link [ref=e651] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/home-improvement/sb0/floor-tiles-wall-tiles-c1824087.html
+            - text: Floor Tiles & Wall Tiles
+          - link [ref=e652] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/home-improvement/sb0/wood-panelling-c1864446.html
+            - text: Wood Panelling
+          - link [ref=e653] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/home-improvement/sb0/vinyl-flooring-c431626.html
+            - text: Vinyl Flooring
+          - link [ref=e654] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/home-improvement/cat/flooring-walls-ceiling-sale-c1873750.html
+            - text: Flooring & Walls Sale
+          - link [ref=e655] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/home-improvement/cat/doors-door-hardware-c1869777.html
+            - text: Doors & Door Hardware
+          - link [ref=e656] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/home-improvement/sb0/all-interior-doors-c1834988.html
+            - text: Interior Doors
+          - link [ref=e657] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/home-improvement/sb0/all-exterior-doors-c1869662.html
+            - text: Exterior Doors
+          - link [ref=e658] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/home-improvement/cat/door-hardware-accessories-c1870876.html
+            - text: Door Hardware & Accessories
+          - link [ref=e659] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/home-improvement/cat/doors-door-hardware-sale-c1873754.html
+            - text: Doors & Door Hardware Sale
+          - link [ref=e660] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/home-improvement/cat/hardware-c434266.html
+            - text: Hardware
+          - link [ref=e661] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/home-improvement/cat/cabinet-hardware-c1857714.html
+            - text: Cabinet Hardware
+          - link [ref=e662] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/home-improvement/cat/door-hardware-accessories-c1870876.html
+            - text: Door Hardware & Accessories
+          - link [ref=e663] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/home-improvement/cat/bathroom-hardware-c215791.html
+            - text: Bathroom Hardware
+          - link [ref=e664] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/home-improvement/cat/hardware-sale-c1851810.html
+            - text: Hardware Sale
+          - link [ref=e665] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/home-improvement/cat/outdoor-remodel-c1873743.html
+            - text: Outdoor Remodel
+          - link [ref=e666] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/home-improvement/cat/heating-cooling-air-quality-c509116.html
+            - text: Heating, Cooling & Air Quality
+          - link [ref=e667] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/home-improvement/cat/fireplaces-stoves-c215398.html
+            - text: Fireplaces & Stoves
+          - link [ref=e668] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/home-improvement/sb0/air-conditioners-c420527.html
+            - text: Air Conditioners
+          - link [ref=e669] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/home-improvement/cat/heating-cooling-air-quality-sale-c1851803.html
+            - text: Heating, Cooling & Air Quality Sale
+          - link [ref=e670] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/brand/bnd/moen-b820.html
+            - text: Moen
+          - link [ref=e671] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/brand/bnd/shaw-floors-b2923.html
+            - text: Shaw
+          - link [ref=e672] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/brand/bnd/ackland-b17924.html
+            - text: Ackland
+          - link [ref=e673] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/daily-sales/filters/must-have-backsplash-tile-se74249.html?unifiedeventid=444581
+            - text: Patterned Floor & Wall Tile
+          - link [ref=e674] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/daily-sales/ds/sinkside-style-se74055.html
+            - text: Sinkside Style
+          - link [ref=e675] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/appliances/cat/appliances-c215602.html
+            - text: Appliances
+          - link [ref=e676] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/appliances/cat/appliances-sale-c1851811.html
+            - text: Appliances Sale
+          - link [ref=e677] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/appliances/cat/kitchen-appliances-c530817.html
+            - text: Kitchen Appliances
+          - link [ref=e678] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/appliances/cat/refrigerators-freezers-c1862562.html
+            - text: Refrigerators & Freezers
+          - link [ref=e679] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/appliances/sb0/all-range-hoods-c432668.html
+            - text: Range Hoods
+          - link [ref=e680] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/appliances/sb0/all-microwaves-c419246.html
+            - text: Microwaves
+          - link [ref=e681] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/appliances/sb0/all-ranges-c420515.html
+            - text: Ranges
+          - link [ref=e682] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/appliances/sb0/all-dishwashers-c420518.html
+            - text: Dishwashers
+          - link [ref=e683] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/appliances/cat/wine-beverage-coolers-c1874306.html
+            - text: Wine & Beverage Coolers
+          - link [ref=e684] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/appliances/sb0/all-wall-ovens-c420517.html
+            - text: Wall Ovens
+          - link [ref=e685] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/appliances/sb0/all-cooktops-c420516.html
+            - text: Cooktops
+          - link [ref=e686] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/appliances/sb0/kitchen-appliance-packages-c1873078.html
+            - text: Kitchen Appliance Packages
+          - link [ref=e687] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/appliances/cat/kitchen-appliances-sale-c1863357.html
+            - text: Kitchen Appliances Sale
+          - link [ref=e688] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/dining/cat/small-kitchen-appliances-c419242.html
+            - text: Small Kitchen Appliances
+          - link [ref=e689] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/shop-product-type/sb0/air-fryers-c419275.html
+            - text: Air Fryers
+          - link [ref=e690] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/dining/sb0/mixers-attachments-c419244.html
+            - text: Mixers & Attachments
+          - link [ref=e691] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/dining/cat/coffee-espresso-tea-c419256.html
+            - text: Coffee, Espresso, & Tea
+          - link [ref=e692] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/appliances/sb0/ice-makers-c420525.html
+            - text: Ice Makers
+          - link [ref=e693] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/dining/sb0/blenders-c419247.html
+            - text: Blenders
+          - link [ref=e694] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/dining/sb0/toaster-ovens-c419267.html
+            - text: Toaster Ovens
+          - link [ref=e695] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/dining/cat/small-kitchen-appliances-sale-c1851667.html
+            - text: Small Kitchen Appliances Sale
+          - link [ref=e696] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/appliances/cat/vacuums-deep-cleaners-c1862812.html
+            - text: Vacuums & Deep Cleaners
+          - link [ref=e697] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/appliances/sb0/all-vacuums-c419317.html
+            - text: All Vacuums
+          - link [ref=e698] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/appliances/sb0/stick-vacuums-c1867729.html
+            - text: Stick Vacuums
+          - link [ref=e699] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/appliances/sb0/upright-vacuums-c1869034.html
+            - text: Upright Vacuums
+          - link [ref=e700] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/appliances/sb0/canister-vacuums-c1867728.html
+            - text: Canister Vacuums
+          - link [ref=e701] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/appliances/cat/vacuums-deep-cleaners-sale-c1869050.html
+            - text: Vacuums & Deep Cleaners Sale
+          - link [ref=e702] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/appliances/cat/washers-dryers-c1862560.html
+            - text: Washers & Dryers
+          - link [ref=e703] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/appliances/sb0/all-washing-machines-c420520.html
+            - text: Washing Machines
+          - link [ref=e704] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/appliances/cat/dryers-c1874347.html
+            - text: Dryers
+          - link [ref=e705] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/appliances/sb0/washer-dryer-sets-c1873041.html
+            - text: Washer & Dryer Sets
+          - link [ref=e706] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/appliances/cat/washers-dryers-sale-c1874341.html
+            - text: Washers & Dryers Sale
+          - link [ref=e707] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/home-improvement/cat/heating-cooling-air-quality-c509116.html
+            - text: Heating, Cooling & Air Quality
+          - link [ref=e708] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/home-improvement/sb0/air-conditioners-c420527.html
+            - text: Air Conditioners
+          - link [ref=e709] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/home-improvement/sb0/air-purifiers-c420529.html
+            - text: Air Purifiers
+          - link [ref=e710] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/home-improvement/sb0/dehumidifiers-c420531.html
+            - text: Dehumidifiers
+          - link [ref=e711] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/home-improvement/sb0/space-heaters-c1769395.html
+            - text: Space Heaters
+          - link [ref=e712] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/home-improvement/cat/heating-cooling-air-quality-sale-c1851803.html
+            - text: Heating, Cooling & Air Quality Sale
+          - link [ref=e713] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/brand/bnd/geappliances-b97809.html
+            - text: GE Appliances
+          - link [ref=e714] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/brand/bnd/frigidaire-b1989.html
+            - text: Frigidaire
+          - link [ref=e715] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/brand/bnd/lg-b1920.html
+            - text: LG
+          - link [ref=e716] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/daily-sales/ds/brands-we-love-appliances-se54584.html
+            - text: "Brands We Love: Appliances"
+          - link [ref=e717] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/daily-sales/filters/coffee-makers-%26-blenders-se70597.html?unifiedeventid=424073
+            - text: Morning Countertop Essentials
+          - link [ref=e718] [cursor=pointer]:
+            - /url: https://wayfair.ca/daily-sales/retro-revival-appliances~e329948.html?fromNEM=true&unifiedeventid=471779
+            - text: Retro Revival Appliances
+          - link [ref=e719] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/pet/cat/pet-c504273.html
+            - text: Pet
+          - link [ref=e720] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/pet/cat/pet-furniture-sale-c541545.html
+            - text: Pet Furniture Sale
+          - link [ref=e721] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/pet/cat/dog-c409473.html
+            - text: Dog
+          - link [ref=e722] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/pet/sb0/dog-crates-c1824047.html
+            - text: Dog Crates & Kennels
+          - link [ref=e723] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/pet/cat/dog-beds-c409475.html
+            - text: Dog Beds
+          - link [ref=e724] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/pet/sb0/dog-houses-c409478.html
+            - text: Dog Houses
+          - link [ref=e725] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/pet/sb0/dog-carriers-c1808244.html
+            - text: Dog Carriers
+          - link [ref=e726] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/pet/sb0/dog-ramps-stairs-c1804268.html
+            - text: Dog Ramps & Stairs
+          - link [ref=e727] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/pet/sb0/dog-strollers-c480980.html
+            - text: Dog Strollers
+          - link [ref=e728] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/pet/sb0/dog-food-storage-treat-jars-c1873657.html
+            - text: Dog Food Storage & Treat Jars
+          - link [ref=e729] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/pet/cat/dog-furniture-sale-c1863267.html
+            - text: Dog Furniture Sale
+          - link [ref=e730] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/pet/sb0/furniture-style-crates-c504278.html
+            - text: Furniture Style Crates
+          - link [ref=e731] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/pet/sb0/litter-box-enclosure-c1871969.html
+            - text: Litter Box Enclosures
+          - link [ref=e732] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/pet/cat/cat-c409563.html
+            - text: Cat
+          - link [ref=e733] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/pet/cat/litter-boxes-c1871967.html
+            - text: Litter Boxes
+          - link [ref=e734] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/pet/sb0/cat-beds-c409567.html
+            - text: Cat Beds
+          - link [ref=e735] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/pet/sb0/cat-cages-catios-c409570.html
+            - text: Cat Cages & Catios
+          - link [ref=e736] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/pet/cat/cat-trees-perches-scratchers-c1874142.html
+            - text: Cat Trees, Perches & Scratchers
+          - link [ref=e737] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/pet/cat/cat-furniture-sale-c1863263.html
+            - text: Cat Furniture Sale
+          - link [ref=e738] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/pet/sb0/pet-bowls-feeders-c409481.html
+            - text: Pet Bowls & Feeders
+          - link [ref=e739] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/pet/cat/pet-gates-fences-doors-c1874141.html
+            - text: Pet Gates & Doors
+          - link [ref=e740] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/pet/sb0/pet-friendly-slipcovers-c1846869.html
+            - text: Pet-Friendly Slipcovers
+          - link [ref=e741] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/pet/cat/chicken-c517135.html
+            - text: Chicken
+          - link [ref=e742] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/pet/sb0/chicken-coops-c517137.html
+            - text: Chicken Coops
+          - link [ref=e743] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/pet/sb0/chicken-runs-c1841522.html
+            - text: Chicken Runs
+          - link [ref=e744] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/pet/sb0/chicken-coop-accessories-c517138.html
+            - text: Chicken Coop Accessories
+          - link [ref=e745] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/pet/cat/bird-c409582.html
+            - text: Bird
+          - link [ref=e746] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/pet/sb0/fish-c409588.html
+            - text: Fish
+          - link [ref=e747] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/pet/sb0/reptile-c1873145.html
+            - text: Reptile
+          - link [ref=e748] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/pet/sb0/small-animal-c409596.html
+            - text: Small Animal
+          - link [ref=e749] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/brand/bnd/furhaven-b8426.html
+            - text: FurHaven
+          - link [ref=e750] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/brand/bnd/zylina-b74010.html
+            - text: Zylina
+          - link [ref=e751] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/brand/bnd/petsafe-b2998.html
+            - text: PetSafe
+          - link [ref=e752] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/brand/bnd/the-refined-feline-b1800.html
+            - text: The Refined Feline
+          - link [ref=e753] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/brand/bnd/aivituvin-b55412.html
+            - text: Aivituvin
+          - link [ref=e754] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/daily-sales/ds/furniture-style-pet-crates-se70130.html
+            - text: Furniture Style Pet Crates
+          - link [ref=e755] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/daily-sales/ds/top-rated-dog-beds-se37530.html
+            - text: Cozy Dog Beds
+          - link [ref=e756] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/holiday-decor/cat/holiday-decor-c1859601.html
+            - text: Holiday
+          - link [ref=e757] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/shop-by-room/cat/shop-by-room-c1876502.html
+            - text: Shop by Room
+          - link [ref=e758] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/m/wayfair_verified
+            - text: Verified
+          - link [ref=e759] [cursor=pointer]:
+            - /url: https://www.wayfair.ca/daily-sales
+            - text: Sale
+    - generic [ref=e761]:
+      - navigation "Breadcrumbs" [ref=e766]:
+        - list [ref=e767]:
+          - listitem [ref=e768]:
+            - link "Furniture" [ref=e769] [cursor=pointer]:
+              - /url: https://www.wayfair.ca/furniture/cat/furniture-c45974.html
+            - text: /
+          - listitem [ref=e770]:
+            - link "Bedroom Furniture" [ref=e771] [cursor=pointer]:
+              - /url: https://www.wayfair.ca/furniture/cat/bedroom-furniture-c45984.html
+            - text: /
+          - listitem [ref=e772]:
+            - link "Beds & Headboards" [ref=e773] [cursor=pointer]:
+              - /url: https://www.wayfair.ca/furniture/cat/beds-headboards-c1874019.html
+            - text: /
+          - listitem [ref=e774]:
+            - link "Beds" [ref=e775] [cursor=pointer]:
+              - /url: https://www.wayfair.ca/furniture/sb0/beds-c46122.html
+            - text: /
+          - listitem [ref=e776]: "SKU: C004936862"
+      - generic [ref=e778]:
+        - generic [ref=e784]:
+          - generic [ref=e786]:
+            - button "Classic Iron Platform Bed with High Headboard and Footboard, Queen, Black Way Day Deal Wayfair Verified" [ref=e787] [cursor=pointer]:
+              - generic [ref=e788]:
+                - img "Classic Iron Platform Bed with High Headboard and Footboard, Queen, Black" [ref=e790]
+                - generic [ref=e792]: Way Day Deal
+                - generic:
+                  - generic:
+                    - img "Wayfair Verified"
+            - button "Save" [ref=e793]:
+              - button "Save item to board" [ref=e794] [cursor=pointer]:
+                - generic:
+                  - generic:
+                    - img
+          - generic [ref=e795]:
+            - button "Classic Iron Platform Bed with High Headboard and Footboard, Queen, Black" [ref=e802] [cursor=pointer]:
+              - img "Classic Iron Platform Bed with High Headboard and Footboard, Queen, Black" [ref=e805]
+            - generic [ref=e808]:
+              - button "Open full product image, Classic Iron Platform Bed with High Headboard and Footboard-901025119-848028358, 1 of 8" [ref=e809] [cursor=pointer]:
+                - img "Classic Iron Platform Bed with High Headboard and Footboard-901025119-848028358" [ref=e810]
+              - button "Open full product image, Classic Iron Platform Bed with High Headboard and Footboard-901025119-848028358, 2 of 8" [ref=e811] [cursor=pointer]:
+                - img "Classic Iron Platform Bed with High Headboard and Footboard-901025119-848028358" [ref=e812]
+              - button "Open full product image, Classic Iron Platform Bed with High Headboard and Footboard-901025119-848028358, 3 of 8" [ref=e813] [cursor=pointer]:
+                - img "Classic Iron Platform Bed with High Headboard and Footboard-901025119-848028358" [ref=e814]
+              - button "Open full product image, Classic Iron Platform Bed with High Headboard and Footboard-901025119-848028358, 4 of 8" [ref=e815] [cursor=pointer]:
+                - img "Classic Iron Platform Bed with High Headboard and Footboard-901025119-848028358" [ref=e816]
+              - button "Open full product image, Classic Iron Platform Bed with High Headboard and Footboard-901025119-848028358, 5 of 8" [ref=e817] [cursor=pointer]:
+                - img "Classic Iron Platform Bed with High Headboard and Footboard-901025119-848028358" [ref=e818]
+              - button "Open full product image, Classic Iron Platform Bed with High Headboard and Footboard-901025119-848028358, 6 of 8" [ref=e819] [cursor=pointer]:
+                - img "Classic Iron Platform Bed with High Headboard and Footboard-901025119-848028358" [ref=e820]
+              - button "Open full product image, Classic Iron Platform Bed with High Headboard and Footboard-901025119-848028358, 7 of 8" [ref=e821] [cursor=pointer]:
+                - img "Classic Iron Platform Bed with High Headboard and Footboard-901025119-848028358" [ref=e822]
+              - button "Open additional media items in gallery" [ref=e823] [cursor=pointer]:
+                - img "Classic Iron Platform Bed with High Headboard and Footboard-901025119-848028358" [ref=e826]
+                - generic [ref=e827]: +1 more
+        - generic [ref=e828]:
+          - generic [ref=e832]:
+            - heading "Classic Iron Platform Bed with High Headboard and Footboard" [level=1] [ref=e835]
+            - generic [ref=e838]:
+              - generic [ref=e839]: By
+              - link "August Grove" [ref=e840] [cursor=pointer]:
+                - /url: https://www.wayfair.ca/brand/bnd/august-grove-b37306.html
+            - generic [ref=e842]:
+              - button "Rated 4.6 out of 5 stars. 3,097 Reviews" [ref=e843] [cursor=pointer]:
+                - paragraph [ref=e846]: "4.6"
+                - paragraph [ref=e850]: Rated 4.6 out of 5 stars.
+                - generic [ref=e851]: 3,097 Reviews
+              - button "This item is Wayfair Verified. Click to learn more about it." [ref=e854] [cursor=pointer]:
+                - img [ref=e855]
+                - generic [ref=e859]: This item is Wayfair Verified
+          - generic [ref=e865]:
+            - generic [ref=e867]:
+              - generic [ref=e870]: $155.99
+              - generic [ref=e873]:
+                - generic [ref=e874]: was
+                - text: $244.59
+            - generic [ref=e876]: 36% Off
+          - generic [ref=e884]:
+            - img "An Open Box" [ref=e886] [cursor=pointer]
+            - generic [ref=e887]:
+              - generic [ref=e888]:
+                - generic [ref=e889] [cursor=pointer]: Open Box Available
+                - button [ref=e890] [cursor=pointer]:
+                  - img [ref=e891]
+              - link "Buy From $90.39" [ref=e894] [cursor=pointer]:
+                - /url: https://www.wayfair.ca/furniture/pdp/august-grove-classic-iron-platform-bed-with-high-headboard-and-footboard-c004936862.html?piid=901025119%2C848028358&clearance=true
+          - generic [ref=e898]:
+            - generic [ref=e899]:
+              - generic [ref=e900]:
+                - paragraph [ref=e901]: "Size:"
+                - paragraph [ref=e902]: Queen
+              - generic [ref=e903]:
+                - button "Twin" [ref=e906] [cursor=pointer]:
+                  - paragraph [ref=e910]: Twin
+                - button "Twin XL" [ref=e913] [cursor=pointer]:
+                  - paragraph [ref=e917]: Twin XL
+                - button "Full/Double" [ref=e920] [cursor=pointer]:
+                  - paragraph [ref=e924]: Full/Double
+                - button "Queen selected" [ref=e927] [cursor=pointer]:
+                  - paragraph [ref=e931]: Queen
+                - button "King" [ref=e934] [cursor=pointer]:
+                  - paragraph [ref=e938]: King
+                - button "California King" [ref=e941] [cursor=pointer]:
+                  - paragraph [ref=e945]: California King
+            - generic [ref=e946]:
+              - generic [ref=e947]:
+                - paragraph [ref=e948]: "Colour:"
+                - paragraph [ref=e949]: Black
+              - generic [ref=e950]:
+                - button "Antique Gold" [ref=e953] [cursor=pointer]:
+                  - img "Antique Gold" [ref=e955]
+                - button "Black selected" [ref=e958] [cursor=pointer]:
+                  - img "Black selected" [ref=e960]
+                - button "Bronze" [ref=e963] [cursor=pointer]:
+                  - img "Bronze" [ref=e965]
+                - button "Pink is unavailable" [ref=e969] [cursor=pointer]:
+                  - img "Pink is unavailable" [ref=e972]
+                - button "White" [ref=e975] [cursor=pointer]:
+                  - img "White" [ref=e977]
+          - button "FREE 3-Day Delivery Get it by Tue, Apr 28 to Postal Code M4C 1B5 Everything ships FREE*" [ref=e980] [cursor=pointer]:
+            - generic [ref=e981]:
+              - generic [ref=e984]:
+                - generic [ref=e987]: FREE 3-Day Delivery
+                - generic [ref=e989]:
+                  - paragraph [ref=e990]: Get it by Tue, Apr 28
+                  - paragraph [ref=e991]: to
+                  - paragraph [ref=e992]: M4C 1B5
+                - paragraph [ref=e993]: Everything ships FREE*
+              - img [ref=e995]
+          - generic [ref=e999]:
+            - generic [ref=e1003]:
+              - button "Decrement" [ref=e1004] [cursor=pointer]:
+                - generic:
+                  - img
+              - textbox "Input desired quantity" [ref=e1005]: "1"
+              - button "Increment" [ref=e1006] [cursor=pointer]:
+                - generic:
+                  - img
+            - button "Add to Cart" [ref=e1010] [cursor=pointer]:
+              - generic:
+                - generic:
+                  - generic: Add to Cart
+          - generic [ref=e1015]:
+            - generic [ref=e1016] [cursor=pointer]:
+              - img "credit card" [ref=e1018]
+              - generic [ref=e1019]:
+                - paragraph [ref=e1020]:
+                  - generic [ref=e1021]: Get $25 off $150 with the Wayfair Credit Card
+                  - text: Get $25 off $150 with the Wayfair Credit Card
+                  - superscript [ref=e1022]: "1"
+                - link "Learn More" [ref=e1024]:
+                  - /url: https://www.wayfair.ca/wayfaircard
+            - generic [ref=e1025] [cursor=pointer]:
+              - img "Wayfair Rewards" [ref=e1027]
+              - generic [ref=e1028]:
+                - paragraph [ref=e1029]:
+                  - generic [ref=e1030]: "Earn {RICH_TEXT_POTENTIAL_REWARDS} in rewards, with 5% back¹, plus more exclusive perks"
+                  - text: Earn $7.80 in rewards, with 5% back¹, plus more exclusive perks
+                - button "Learn more" [ref=e1032]:
+                  - generic: Learn more
+          - generic [ref=e1033]:
+            - heading "Services" [level=2] [ref=e1034]
+            - generic [ref=e1035]:
+              - generic [ref=e1039]:
+                - generic [ref=e1040] [cursor=pointer]:
+                  - generic [ref=e1041]:
+                    - checkbox "Professional Assembly - $111.99" [ref=e1042]
+                    - img [ref=e1044]
+                  - generic [ref=e1047]:
+                    - img [ref=e1050]
+                    - generic [ref=e1056]:
+                      - paragraph [ref=e1057]: Professional Assembly -
+                      - paragraph [ref=e1059]: $111.99
+                - button "See Details" [ref=e1061] [cursor=pointer]:
+                  - generic:
+                    - generic: See Details
+              - generic [ref=e1065]:
+                - generic [ref=e1066] [cursor=pointer]:
+                  - generic [ref=e1067]:
+                    - checkbox "5 Year Protection Plan - $27.99 ($5.60/year)" [ref=e1068]
+                    - img [ref=e1070]
+                  - generic [ref=e1073]:
+                    - img [ref=e1076]
+                    - generic [ref=e1079]:
+                      - paragraph [ref=e1080]: 5 Year Protection Plan -
+                      - paragraph [ref=e1082]:
+                        - text: $27.99
+                        - generic [ref=e1083]: ($5.60/year)
+                - button "See Details" [ref=e1085] [cursor=pointer]:
+                  - generic:
+                    - generic: See Details
+          - generic [ref=e1089]:
+            - heading "Get Everything You Need" [level=2] [ref=e1095]
+            - region [ref=e1097]:
+              - group "Items Scroller" [ref=e1098]:
+                - group "1 of 4" [ref=e1099]:
+                  - generic [ref=e1102]:
+                    - generic [ref=e1103]:
+                      - link "Wayfair Sleep Easy Assembly Metal Box Spring - Multiple Sizes" [ref=e1104] [cursor=pointer]:
+                        - /url: https://www.wayfair.ca/bed-bath/pdp/wayfair-sleep-easy-assembly-metal-box-spring-multiple-sizes-c010073301.html?piid=1520626415%2C1520545588
+                        - generic [ref=e1106]:
+                          - generic:
+                            - generic:
+                              - img "Wayfair Verified"
+                          - img "Wayfair Sleep Easy Assembly Metal Box Spring - Multiple Sizes" [ref=e1108]
+                      - link "Wayfair Sleep Easy Assembly Metal Box Spring - Multiple Sizes" [ref=e1109] [cursor=pointer]:
+                        - /url: https://www.wayfair.ca/bed-bath/pdp/wayfair-sleep-easy-assembly-metal-box-spring-multiple-sizes-c010073301.html?piid=1520626415%2C1520545588
+                        - heading "Wayfair Sleep Easy Assembly Metal Box Spring - Multiple Sizes" [level=2] [ref=e1111]
+                    - button "Add to Cart" [ref=e1114] [cursor=pointer]:
+                      - generic:
+                        - generic:
+                          - generic: Add to Cart
+                - group "2 of 4" [ref=e1115]:
+                  - generic [ref=e1118]:
+                    - generic [ref=e1119]:
+                      - link "Wayfair Sleep™ Easy Assembly Traditional Bamboo Box Spring - Multiple Sizes" [ref=e1120] [cursor=pointer]:
+                        - /url: https://www.wayfair.ca/bed-bath/pdp/wayfair-sleep-easy-assembly-traditional-bamboo-box-spring-multiple-sizes-c100643225.html?piid=2059415785%2C2053819069
+                        - generic [ref=e1122]:
+                          - generic:
+                            - generic:
+                              - img "Wayfair Verified"
+                          - img "Wayfair Sleep™ Easy Assembly Traditional Bamboo Box Spring - Multiple Sizes" [ref=e1124]
+                      - link "Wayfair Sleep™ Easy Assembly Traditional Bamboo Box Spring - Multiple Sizes" [ref=e1125] [cursor=pointer]:
+                        - /url: https://www.wayfair.ca/bed-bath/pdp/wayfair-sleep-easy-assembly-traditional-bamboo-box-spring-multiple-sizes-c100643225.html?piid=2059415785%2C2053819069
+                        - heading "Wayfair Sleep™ Easy Assembly Traditional Bamboo Box Spring - Multiple Sizes" [level=2] [ref=e1127]
+                    - button "Add to Cart" [ref=e1130] [cursor=pointer]:
+                      - generic:
+                        - generic:
+                          - generic: Add to Cart
+                - group "3 of 4" [ref=e1131]:
+                  - generic [ref=e1134]:
+                    - generic [ref=e1135]:
+                      - link "Wayfair Basics® 1800 Series Soft Microfiber Sheet Set" [ref=e1136] [cursor=pointer]:
+                        - /url: https://www.wayfair.ca/bed-bath/pdp/wayfair-basics-1800-series-soft-microfiber-sheet-set-wfbs1741.html?piid=98458529%2C21244568
+                        - generic [ref=e1138]:
+                          - generic [ref=e1140]: Way Day Deal
+                          - generic:
+                            - generic:
+                              - img "Wayfair Verified"
+                          - img "Wayfair Basics® 1800 Series Soft Microfiber Sheet Set" [ref=e1142]
+                      - link "Wayfair Basics® 1800 Series Soft Microfiber Sheet Set" [ref=e1143] [cursor=pointer]:
+                        - /url: https://www.wayfair.ca/bed-bath/pdp/wayfair-basics-1800-series-soft-microfiber-sheet-set-wfbs1741.html?piid=98458529%2C21244568
+                        - heading "Wayfair Basics® 1800 Series Soft Microfiber Sheet Set" [level=2] [ref=e1145]
+                    - button "Add to Cart" [ref=e1148] [cursor=pointer]:
+                      - generic:
+                        - generic:
+                          - generic: Add to Cart
+                - group "4 of 4" [ref=e1149]:
+                  - generic [ref=e1152]:
+                    - generic [ref=e1153]:
+                      - link "Wayfair Basics® 1800 Series All Season Polyester Down Alternative Comforter" [ref=e1154] [cursor=pointer]:
+                        - /url: https://www.wayfair.ca/bed-bath/pdp/wayfair-basics-1800-series-all-season-polyester-down-alternative-comforter-c001362587.html?piid=1390687564%2C1378667834
+                        - generic [ref=e1156]:
+                          - generic [ref=e1158]: Bundle and Save
+                          - generic:
+                            - generic:
+                              - img "Wayfair Verified"
+                          - img "Wayfair Basics® 1800 Series All Season Polyester Down Alternative Comforter" [ref=e1160]
+                      - link "Wayfair Basics® 1800 Series All Season Polyester Down Alternative Comforter" [ref=e1161] [cursor=pointer]:
+                        - /url: https://www.wayfair.ca/bed-bath/pdp/wayfair-basics-1800-series-all-season-polyester-down-alternative-comforter-c001362587.html?piid=1390687564%2C1378667834
+                        - heading "Wayfair Basics® 1800 Series All Season Polyester Down Alternative Comforter" [level=2] [ref=e1163]
+                    - button "Add to Cart" [ref=e1166] [cursor=pointer]:
+                      - generic:
+                        - generic:
+                          - generic: Add to Cart
+              - generic:
+                - generic:
+                  - button "Previous Slide" [disabled]:
+                    - generic:
+                      - img "Previous Slide"
+              - button "Next Slide" [ref=e1168] [cursor=pointer]:
+                - generic:
+                  - img "Next Slide"
+          - generic [ref=e1171]:
+            - heading "At a Glance" [level=2] [ref=e1172]
+            - generic [ref=e1173]:
+              - list [ref=e1174]:
+                - generic [ref=e1175]:
+                  - listitem [ref=e1177]:
+                    - paragraph [ref=e1179]: "Weight Capacity: 800 lb."
+                  - listitem [ref=e1181]:
+                    - paragraph [ref=e1183]: "Underbed Clearance: 12.6 ''"
+                  - listitem [ref=e1185]:
+                    - paragraph [ref=e1187]: Wayfair Verified
+                  - listitem [ref=e1189]:
+                    - paragraph [ref=e1191]: Assembly Required
+              - button "See More" [ref=e1193] [cursor=pointer]:
+                - generic: See More
+          - generic [ref=e1196]:
+            - heading "Wayfair Verified" [level=2] [ref=e1197]:
+              - button "Wayfair Verified" [expanded] [ref=e1198] [cursor=pointer]:
+                - generic [ref=e1200]:
+                  - paragraph [ref=e1201]: Wayfair Verified
+                  - img [ref=e1202]
+                - img [ref=e1207]
+            - region "Wayfair Verified" [ref=e1209]:
+              - generic [ref=e1212]:
+                - paragraph [ref=e1214]:
+                  - text: Hand-vetted for quality using our 10-point inspection.
+                  - link "Learn more" [ref=e1215] [cursor=pointer]:
+                    - /url: https://www.wayfair.ca/sca/ideas-and-advice/guides/everything-to-know-about-wayfair-verified-T24016
+                  - text: .
+                - generic [ref=e1216]:
+                  - generic [ref=e1217]:
+                    - img "User Image" [ref=e1218]
+                    - generic [ref=e1219]:
+                      - generic [ref=e1220]: Meet Your Product Specialist, Ashley P.
+                      - generic [ref=e1221]: Our product specialist has inspected hundreds of beds, assessing everything from frame construction to slat and support design.
+                  - generic [ref=e1222]:
+                    - generic [ref=e1223]:
+                      - generic [ref=e1224]: Materials & Construction
+                      - generic [ref=e1225]:
+                        - generic [ref=e1232]: Entry Level
+                        - generic [ref=e1233]:
+                          - img [ref=e1238]
+                          - generic [ref=e1242]: Standard
+                        - generic [ref=e1250]: Upgraded
+                        - generic [ref=e1257]: Premium
+                    - generic [ref=e1258]:
+                      - generic [ref=e1259]: Level of Assembly
+                      - generic [ref=e1260]:
+                        - generic [ref=e1267]: Under 30 min
+                        - generic [ref=e1275]: 30 - 60 min
+                        - generic [ref=e1276]:
+                          - img [ref=e1281]
+                          - generic [ref=e1285]: 1 - 1.5 hrs
+                        - generic [ref=e1292]: Over 1.5 hrs
+                  - generic [ref=e1293]:
+                    - generic [ref=e1294]: Why We Love It
+                    - list [ref=e1295]:
+                      - listitem [ref=e1296]:
+                        - paragraph [ref=e1297]: The iron frame has a smooth, even finish that feels durable and resists wear
+                    - list [ref=e1298]:
+                      - listitem [ref=e1299]:
+                        - paragraph [ref=e1300]: This structure stays rigid under pressure, giving a grounded and sturdy feel overall
+                    - list [ref=e1301]:
+                      - listitem [ref=e1302]:
+                        - paragraph [ref=e1303]: These metal slats and center legs distribute weight evenly to prevent sagging over time
+          - separator [ref=e1306]
+          - generic [ref=e1309]:
+            - generic [ref=e1311]:
+              - heading "Description" [level=2] [ref=e1312]:
+                - button "Description" [expanded] [ref=e1313] [cursor=pointer]:
+                  - paragraph [ref=e1315]: Description
+                  - img [ref=e1317]
+              - region "Description" [ref=e1319]:
+                - generic [ref=e1321]:
+                  - generic [ref=e1324]:
+                    - paragraph [ref=e1326]: About This Product
+                    - generic [ref=e1327]: This iron platform bed delivers a classic, industrial-inspired look to your space with its streamlined metal construction. The headboard and footboard showcase vertical spindles with rounded finials, creating a balanced design that feels both airy and grounded. Since it's designed with a built-in slat kit, you can place your mattress directly on the frame without needing a box spring. The open design allows for plenty of under-bed storage to keep extra bedding or bins neatly tucked away. Plus, the centre support legs provide added stability for a restful night's sleep.
+                  - generic [ref=e1330]:
+                    - paragraph [ref=e1331]: Features
+                    - list [ref=e1332]:
+                      - listitem [ref=e1333]: Iron frame features a smooth powder-coated finish for longevity
+                      - listitem [ref=e1334]: Integrated metal slats provide reliable support for your chosen mattress
+                      - listitem [ref=e1335]: High headboard design creates a prominent focal point in rooms
+                      - listitem [ref=e1336]: Low profile footboard maintains an open feel in small spaces
+                      - listitem [ref=e1337]: Under-bed clearance offers functional room for extra storage bins
+                - button [ref=e1339] [cursor=pointer]:
+                  - generic: Show More
+            - heading "Specifications" [level=2] [ref=e1342]:
+              - button "Specifications" [ref=e1343] [cursor=pointer]:
+                - paragraph [ref=e1345]: Specifications
+                - img [ref=e1347]
+            - heading "Return Policy" [level=2] [ref=e1351]:
+              - button "Return Policy" [ref=e1352] [cursor=pointer]:
+                - paragraph [ref=e1354]: Return Policy
+                - img [ref=e1356]
+  - alert [ref=e1359]

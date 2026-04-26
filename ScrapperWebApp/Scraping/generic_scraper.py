@@ -157,6 +157,8 @@ class GenericScraper(BaseScraper):
             # Extract product data BEFORE any heavy interaction
             print("📊 Starting product data extraction from HTML...")
             product = self._extract_from_soup(soup)
+            if product:
+                product = self._fill_missing_with_llm(product, initial_html)
             if not product:
                 return ScrapingResult(success=False, error="Failed to extract product data")
             
