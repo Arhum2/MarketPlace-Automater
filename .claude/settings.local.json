@@ -5,7 +5,10 @@
       "mcp__plugin_playwright_playwright__browser_evaluate",
       "Bash(ls D:/CODE/Manifest-Scrapper/*.md)",
       "Bash(ls D:/CODE/Manifest-Scrapper/ScrapperWebApp/*.md)",
-      "Bash(git -C D:/CODE/Manifest-Scrapper log --oneline -20)"
+      "Bash(git -C D:/CODE/Manifest-Scrapper log --oneline -20)",
+      "Bash(python3 -c ' *)",
+      "Bash(python *)",
+      "Bash(sort -k5 -rn)"
     ]
   }
 }

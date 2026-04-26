@@ -8,6 +8,8 @@ function ProductCard({ product, onUpdate, onDelete }) {
   const [isManagingImages, setIsManagingImages] = useState(false)
   const [isPosting, setIsPosting] = useState(false)
   const [postingStatus, setPostingStatus] = useState('')
+  const [isPostingKijiji, setIsPostingKijiji] = useState(false)
+  const [kijijiStatus, setKijijiStatus] = useState('')
   const [isUploading, setIsUploading] = useState(false)
 
   const missingFields = product.missing_fields || []
@@ -39,6 +41,33 @@ function ProductCard({ product, onUpdate, onDelete }) {
       setIsPosting(false)
       // Clear status after 5 seconds
       setTimeout(() => setPostingStatus(''), 5000)
+    }
+  }
+
+  const handlePostKijiji = async () => {
+    if (!confirm('Post this product to Kijiji?')) return
+
+    setIsPostingKijiji(true)
+    setKijijiStatus('Opening browser and posting...')
+
+    try {
+      const response = await fetch(`/api/products/${product.id}/post-kijiji`, {
+        method: 'POST'
+      })
+
+      if (response.ok) {
+        setKijijiStatus('Posted to Kijiji!')
+        if (onUpdate) onUpdate({ ...product, status: 'posted' })
+      } else {
+        const error = await response.json()
+        setKijijiStatus(`Failed: ${error.detail}`)
+      }
+    } catch (err) {
+      console.error('Kijiji posting failed:', err)
+      setKijijiStatus('Failed to post')
+    } finally {
+      setIsPostingKijiji(false)
+      setTimeout(() => setKijijiStatus(''), 5000)
     }
   }
 
@@ -344,10 +373,15 @@ function ProductCard({ product, onUpdate, onDelete }) {
             </a>
           </div>
 
-          {/* Posting Status Message */}
+          {/* Posting Status Messages */}
           {postingStatus && (
-            <div className={`mb-3 px-4 py-2 rounded-lg ${postingStatus.includes('Failed') ? 'bg-red-50 text-red-700' : 'bg-green-50 text-green-700'}`}>
+            <div className={`mb-2 px-4 py-2 rounded-lg ${postingStatus.includes('Failed') ? 'bg-red-50 text-red-700' : 'bg-green-50 text-green-700'}`}>
               {postingStatus}
+            </div>
+          )}
+          {kijijiStatus && (
+            <div className={`mb-2 px-4 py-2 rounded-lg ${kijijiStatus.includes('Failed') ? 'bg-red-50 text-red-700' : 'bg-green-50 text-green-700'}`}>
+              {kijijiStatus}
             </div>
           )}
 
@@ -385,6 +419,13 @@ function ProductCard({ product, onUpdate, onDelete }) {
                   disabled={missingFields.length > 0 || isPosting || product.status == 'failed'}
                 >
                   {isPosting ? 'Posting...' : 'Post to Facebook'}
+                </button>
+                <button
+                  onClick={handlePostKijiji}
+                  className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:bg-gray-400 cursor-pointer disabled:cursor-not-allowed"
+                  disabled={missingFields.length > 0 || isPostingKijiji || product.status == 'failed'}
+                >
+                  {isPostingKijiji ? 'Posting...' : 'Post to Kijiji'}
                 </button>
                 {onDelete && (
                   <button

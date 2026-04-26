@@ -6,6 +6,7 @@ from models import CreateProductRequest, UpdateProductRequest
 from scrapper_service import scrape_url
 from database import get_db
 from facebook_poster import post_to_facebook
+from kijiji_poster import post_to_kijiji
 from typing import List
 
 app = FastAPI()
@@ -83,6 +84,13 @@ def scrape_and_update(job_id: str, product_id: str, url: str):
 @app.post("/api/scrape")
 async def root(url: str, background_tasks: BackgroundTasks):
     db = get_db()
+
+    existing = db.get_product_by_url(url)
+    if existing:
+        return JSONResponse(
+            content={"duplicate": True, "existing_product_id": existing["id"]},
+            status_code=409
+        )
 
     # 1. Create product first
     product = db.create_product(url=url, status="pending")
@@ -267,6 +275,29 @@ async def post_product_to_facebook(product_id: str):
 
     # Post to Facebook (this will open browser and run automation)
     result = post_to_facebook(product_id)
+
+    if result.get('success'):
+        return {"message": result.get('message', 'Posted successfully')}
+    else:
+        raise HTTPException(status_code=500, detail=result.get('error', 'Posting failed'))
+
+
+@app.post("/api/products/{product_id}/post-kijiji")
+async def post_product_to_kijiji(product_id: str):
+    """Post a product to Kijiji."""
+    db = get_db()
+    product = db.get_product(product_id)
+    if not product:
+        raise HTTPException(status_code=404, detail="Product not found")
+
+    if not product.get('title') or not product.get('price'):
+        raise HTTPException(status_code=400, detail="Product missing title or price")
+
+    images = db.get_product_images(product_id)
+    if not images:
+        raise HTTPException(status_code=400, detail="Product has no images")
+
+    result = post_to_kijiji(product_id)
 
     if result.get('success'):
         return {"message": result.get('message', 'Posted successfully')}

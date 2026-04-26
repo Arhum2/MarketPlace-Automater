@@ -5,8 +5,10 @@ Posts products to Facebook Marketplace using Selenium and PyAutoGUI.
 """
 
 import os
+import re
 import shutil
 import requests
+import subprocess
 from time import sleep
 from datetime import datetime
 from typing import List, Dict, Any, Optional
@@ -90,12 +92,26 @@ def cleanup_temp_images(product_id: str) -> bool:
         return False
 
 
+def get_chrome_version() -> int | None:
+    try:
+        result = subprocess.run(
+            ['reg', 'query', r'HKCU\Software\Google\Chrome\BLBeacon', '/v', 'version'],
+            capture_output=True, text=True
+        )
+        match = re.search(r'(\d+)\.', result.stdout)
+        version = int(match.group(1)) if match else None
+        print(f"[Facebook] Detected Chrome version: {version}")
+        return version
+    except Exception as e:
+        print(f"[Facebook] Could not detect Chrome version: {e} — letting uc pick automatically")
+        return None
+
+
 def setup_browser() -> webdriver.Chrome:
-    """
-    Set up Chrome browser with persistent profile for Facebook login.
-    Uses undetected-chromedriver to avoid detection issues.
-    """
+    """Set up Chrome browser with persistent profile for Facebook login."""
     import undetected_chromedriver as uc
+
+    chrome_version = get_chrome_version()
 
     opts = uc.ChromeOptions()
     opts.add_argument("--disable-gpu")
@@ -104,7 +120,7 @@ def setup_browser() -> webdriver.Chrome:
     opts.add_argument("--disable-extensions")
     opts.add_argument(f"--user-data-dir={CHROME_PROFILE}")
 
-    browser = uc.Chrome(options=opts, use_subprocess=True)
+    browser = uc.Chrome(options=opts, use_subprocess=True, version_main=chrome_version)
     return browser
 
 
