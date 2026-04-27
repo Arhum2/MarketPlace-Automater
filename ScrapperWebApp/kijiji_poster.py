@@ -103,6 +103,7 @@ def setup_browser():
     chrome_version = get_chrome_version()
 
     opts = uc.ChromeOptions()
+    opts.add_argument("--headless=new")
     opts.add_argument("--disable-gpu")
     opts.add_argument("--disable-blink-features=AutomationControlled")
     opts.add_argument("--disable-infobars")
