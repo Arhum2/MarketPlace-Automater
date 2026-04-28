@@ -11,6 +11,7 @@ function ProductCard({ product, onUpdate, onDelete }) {
   const [isPostingKijiji, setIsPostingKijiji] = useState(false)
   const [kijijiStatus, setKijijiStatus] = useState('')
   const [isUploading, setIsUploading] = useState(false)
+  const [showFullDescription, setShowFullDescription] = useState(false)
 
   const missingFields = product.missing_fields || []
 
@@ -347,14 +348,25 @@ function ProductCard({ product, onUpdate, onDelete }) {
                 className="w-full px-3 py-2 border rounded-lg"
               />
             ) : (
-              <p className={`text-gray-700 ${!product.description ? 'text-red-500 italic' : ''}`}>
-                {product.description ?
-                  (product.description.length > 200
-                    ? product.description.substring(0, 200) + '...'
-                    : product.description)
-                  : 'Missing description'
-                }
-              </p>
+              <div>
+                <p className={`text-gray-700 whitespace-pre-wrap ${!product.description ? 'text-red-500 italic' : ''}`}>
+                  {product.description ?
+                    (product.description.length > 200 && !showFullDescription
+                      ? product.description.substring(0, 200) + '...'
+                      : product.description)
+                    : 'Missing description'
+                  }
+                </p>
+                {product.description && product.description.length > 200 && (
+                  <button
+                    type="button"
+                    onClick={() => setShowFullDescription(v => !v)}
+                    className="mt-1 text-sm text-blue-600 hover:text-blue-800 hover:underline"
+                  >
+                    {showFullDescription ? 'Show less' : 'Show more'}
+                  </button>
+                )}
+              </div>
             )}
           </div>
 
